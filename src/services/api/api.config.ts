@@ -10,7 +10,7 @@ export const API_CONFIG = {
     USE_REST_API: false,
 
     // Base URL for API calls when USE_REST_API is true
-    BASE_URL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
+    BASE_URL: (import.meta as unknown as { env: Record<string, string> }).env?.VITE_API_URL || "http://localhost:3000/api",
 
     // API version
     API_VERSION: "v1",
