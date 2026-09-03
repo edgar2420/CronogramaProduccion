@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import type { Staff, StaffRol } from "../types";
 
 type Props = {
@@ -52,7 +52,7 @@ const StaffForm: React.FC<Props> = ({ initial, areasDisponibles, onSubmit, onCan
           id="staff-nombre"
           value={nombre}
           onChange={e => setNombre(e.target.value)}
-          className="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           placeholder="Ej. Juan Pérez"
         />
       </div>
@@ -65,7 +65,7 @@ const StaffForm: React.FC<Props> = ({ initial, areasDisponibles, onSubmit, onCan
             id="staff-rol"
             value={rolBase}
             onChange={e => setRolBase(e.target.value as StaffRol)}
-            className="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            className="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           >
             {ROLES.map(r => (
               <option key={r} value={r}>{r}</option>
@@ -78,7 +78,7 @@ const StaffForm: React.FC<Props> = ({ initial, areasDisponibles, onSubmit, onCan
             type="checkbox"
             checked={activo}
             onChange={e => setActivo(e.target.checked)}
-            className="h-4 w-4 text-indigo-600 rounded"
+            className="h-4 w-4 text-blue-600 rounded"
           />
           Personal activo
         </label>
@@ -93,7 +93,7 @@ const StaffForm: React.FC<Props> = ({ initial, areasDisponibles, onSubmit, onCan
               key={a.id}
               className={`cursor-pointer px-3 py-1 rounded-lg border text-sm transition 
                 ${areas.includes(a.id)
-                  ? "bg-indigo-100 border-indigo-300 text-indigo-800"
+                  ? "bg-blue-100 border-blue-300 text-blue-800"
                   : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"
                 }`}
             >
@@ -101,7 +101,7 @@ const StaffForm: React.FC<Props> = ({ initial, areasDisponibles, onSubmit, onCan
                 type="checkbox"
                 checked={areas.includes(a.id)}
                 onChange={() => toggleArea(a.id)}
-                className="mr-2 accent-indigo-600"
+                className="mr-2 accent-blue-600"
               />
               {a.label}
             </label>
@@ -121,7 +121,7 @@ const StaffForm: React.FC<Props> = ({ initial, areasDisponibles, onSubmit, onCan
 
         <button
           type="submit"
-          className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
         >
           {initial ? "Guardar cambios" : "Crear personal"}
         </button>

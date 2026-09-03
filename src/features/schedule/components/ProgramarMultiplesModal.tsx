@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+﻿import React, { useEffect, useMemo, useState } from "react";
 import type { Turno } from "@/features/schedule/types";
 
 type OutRow = {
@@ -223,7 +223,7 @@ const ProgramarMultiplesModal: React.FC<Props> = ({
           <div className="flex items-center justify-end gap-2">
             <button className="btn" onClick={onClose} type="button">Cancelar</button>
             <button
-              className={`btn ${canSave ? "bg-purple-900 hover:bg-purple-800 text-white" : "bg-gray-200 text-gray-500 cursor-not-allowed"}`}
+              className={`btn ${canSave ? "bg-sky-900 hover:bg-sky-800 text-white" : "bg-gray-200 text-gray-500 cursor-not-allowed"}`}
               disabled={!canSave}
               onClick={handleSave}
               type="button"

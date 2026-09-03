@@ -1,21 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+﻿import React, { useEffect, useMemo, useState } from "react";
 import StaffTable from "../components/StaffTable";
 import StaffForm from "../components/StaffForm";
 import type { Staff } from "../types";
-import {
-  loadStaff,
-  seedStaffIfNeeded,
-  createStaff,
-  updateStaff,
-  removeStaff,
-  resetAndLoadAllStaff,
-} from "../../../services/storage/staff.store";
-import {
-  downloadStaffAsTxt,
-  importStaffFromTxt,
-  getStaffSummary
-} from "../../../services/storage/staffFile.service";
-import { Plus, ShieldCheck, AlertTriangle, GraduationCap, Filter, Download, Upload, FileText, Users, RefreshCw } from "lucide-react";
+import * as staffApi from "@/services/api/staff.api";
+import { Plus, ShieldCheck, AlertTriangle, GraduationCap, Filter, Users } from "lucide-react";
 
 /* ──────────────────────────────────────────────────────────────────────────
    ÁREAS (catálogo completo)
@@ -313,7 +301,7 @@ function NivelBadge({ nivel }: { nivel: Nivel | undefined }) {
     x: "bg-gradient-to-r from-emerald-100 to-emerald-50 text-emerald-700 border border-emerald-200",
     reforzar: "bg-gradient-to-r from-amber-100 to-amber-50 text-amber-800 border border-amber-200",
     capacitar: "bg-gradient-to-r from-sky-100 to-sky-50 text-sky-700 border border-sky-200",
-    revisar: "bg-gradient-to-r from-purple-100 to-purple-50 text-purple-700 border border-purple-200",
+    revisar: "bg-gradient-to-r from-blue-100 to-blue-50 text-blue-800 border border-blue-200",
   };
   const label: Record<Nivel, string> = {
     x: "✓ Capacitado",
@@ -329,6 +317,8 @@ function NivelBadge({ nivel }: { nivel: Nivel | undefined }) {
    ────────────────────────────────────────────────────────────────────────── */
 const AdminStaffPage: React.FC = () => {
   const [items, setItems] = useState<Staff[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [editing, setEditing] = useState<Staff | null>(null);
   const [showForm, setShowForm] = useState(false);
 
@@ -337,12 +327,19 @@ const AdminStaffPage: React.FC = () => {
   const [rolFiltro, setRolFiltro] = useState<Rol>("Operador PPV Vidrio");
 
   useEffect(() => {
-    seedStaffIfNeeded();
-    setItems(loadStaff());
+    refresh();
   }, []);
 
-  function refresh() {
-    setItems(loadStaff());
+  async function refresh() {
+    setLoading(true);
+    setLoadError(null);
+    try {
+      setItems(await staffApi.getStaff());
+    } catch (err) {
+      setLoadError(err instanceof Error ? err.message : "No se pudo cargar el personal");
+    } finally {
+      setLoading(false);
+    }
   }
 
   function onCreate() {
@@ -353,18 +350,38 @@ const AdminStaffPage: React.FC = () => {
     setEditing(it);
     setShowForm(true);
   }
-  function onDelete(id: string) {
+  async function onDelete(id: string) {
     if (!confirm("¿Eliminar este registro?")) return;
-    removeStaff(id);
-    refresh();
+    try {
+      // Contra el backend real esto es una baja lógica (nunca DELETE de fila),
+      // ver DeactivateStaffUseCase en server/.
+      await staffApi.deactivateStaff(id, "Baja desde panel de personal");
+      await refresh();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "No se pudo eliminar el registro");
+    }
   }
 
-  function handleSubmit(data: Omit<Staff, "id">) {
-    if (editing) updateStaff(editing.id, data);
-    else createStaff(data);
-    setShowForm(false);
-    setEditing(null);
-    refresh();
+  async function handleSubmit(data: Omit<Staff, "id">) {
+    try {
+      if (editing) {
+        await staffApi.updateStaff(editing.id, {
+          nombre: data.nombre,
+          rolBase: data.rolBase,
+          areaIds: data.areas,
+          // TODO(Fase 3+): pedir el motivo en StaffForm en vez de un texto fijo,
+          // para que la trazabilidad del cambio sea real y no genérica.
+          changeReason: "Actualización desde panel de personal",
+        });
+      } else {
+        await staffApi.createStaff({ nombre: data.nombre, rolBase: data.rolBase, areaIds: data.areas });
+      }
+      setShowForm(false);
+      setEditing(null);
+      await refresh();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "No se pudo guardar el personal");
+    }
   }
 
   // Filtrado rápido del mapa
@@ -390,25 +407,13 @@ const AdminStaffPage: React.FC = () => {
     [filasFiltradas, rolFiltro]
   );
 
-  // Resumen del personal guardado
-  const staffSummary = useMemo(() => getStaffSummary(), [items]);
-
-  // Handler para exportar TXT
-  const handleExportTxt = () => {
-    downloadStaffAsTxt();
-    refresh();
-  };
-
-  // Handler para importar TXT
-  const handleImportTxt = async () => {
-    try {
-      const result = await importStaffFromTxt();
-      alert(`✅ Importación completada:\n\n📥 ${result.imported} nuevos registros importados\n📊 ${result.total} registros encontrados en el archivo`);
-      refresh();
-    } catch (error) {
-      alert(`❌ Error al importar: ${error instanceof Error ? error.message : "Error desconocido"}`);
-    }
-  };
+  // Resumen del personal guardado (calculado sobre `items`, que ya viene de
+  // staffApi.getStaff() — así funciona igual en modo local y contra el backend real)
+  const staffSummary = useMemo(() => {
+    const porRol: Record<string, number> = {};
+    for (const persona of items) porRol[persona.rolBase] = (porRol[persona.rolBase] || 0) + 1;
+    return { total: items.length, activos: items.filter((s) => s.activo).length, porRol };
+  }, [items]);
 
   return (
     <div className="space-y-6 p-6 bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
@@ -419,42 +424,9 @@ const AdminStaffPage: React.FC = () => {
           <p className="text-sm text-slate-500">Administra tu equipo y consulta el mapa de capacitación</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          {/* Botón Guardar como TXT */}
-          <button
-            className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-200 shadow-lg shadow-emerald-200 hover:shadow-xl font-medium text-sm"
-            onClick={handleExportTxt}
-            title="Descargar lista como archivo .txt"
-          >
-            <Download size={16} />
-            Guardar como TXT
-          </button>
-          {/* Botón Importar desde TXT */}
-          <button
-            className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl hover:from-cyan-600 hover:to-blue-600 transition-all duration-200 shadow-lg shadow-cyan-200 hover:shadow-xl font-medium text-sm"
-            onClick={handleImportTxt}
-            title="Cargar personal desde archivo .txt"
-          >
-            <Upload size={16} />
-            Importar TXT
-          </button>
-          {/* Botón Recargar Todo el Personal */}
-          <button
-            className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-lg shadow-purple-200 hover:shadow-xl font-medium text-sm"
-            onClick={() => {
-              if (confirm("¿Recargar todo el personal del mapa de capacitación?\n\nEsto agregará TODOS los empleados del sistema.")) {
-                const result = resetAndLoadAllStaff();
-                alert(`✅ Personal recargado!\n\n👥 ${result.total} personas cargadas\n(Solo Operadores y Supervisores)`);
-                refresh();
-              }
-            }}
-            title="Recargar todo el personal del mapa de capacitación"
-          >
-            <RefreshCw size={16} />
-            Recargar Todo
-          </button>
           {/* Botón Nuevo Personal */}
           <button
-            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-xl hover:from-indigo-700 hover:to-blue-700 transition-all duration-200 shadow-lg shadow-indigo-200 hover:shadow-xl hover:shadow-indigo-300 font-medium"
+            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-600 text-white rounded-xl hover:from-blue-700 hover:to-blue-700 transition-all duration-200 shadow-lg shadow-blue-200 hover:shadow-xl hover:shadow-blue-300 font-medium"
             onClick={onCreate}
           >
             <Plus size={18} />
@@ -463,14 +435,14 @@ const AdminStaffPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Resumen del Personal Guardado Localmente */}
-      <div className="rounded-2xl border border-slate-200 bg-gradient-to-r from-indigo-50 via-white to-blue-50 shadow-lg p-5">
+      {/* Resumen del Personal */}
+      <div className="rounded-2xl border border-slate-200 bg-gradient-to-r from-blue-50 via-white to-blue-50 shadow-lg p-5">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
-            <FileText size={20} className="text-white" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-sky-500 flex items-center justify-center">
+            <Users size={20} className="text-white" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-slate-800">Personal Guardado Localmente</h2>
+            <h2 className="text-lg font-bold text-slate-800">Personal registrado</h2>
             <p className="text-xs text-slate-500">Este es el personal disponible para asignación en los cronogramas</p>
           </div>
         </div>
@@ -479,10 +451,10 @@ const AdminStaffPage: React.FC = () => {
           {/* Total */}
           <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
             <div className="flex items-center gap-2 mb-1">
-              <Users size={16} className="text-indigo-500" />
+              <Users size={16} className="text-blue-500" />
               <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Total</span>
             </div>
-            <p className="text-2xl font-bold text-indigo-600">{staffSummary.total}</p>
+            <p className="text-2xl font-bold text-blue-600">{staffSummary.total}</p>
           </div>
 
           {/* Activos */}
@@ -513,25 +485,25 @@ const AdminStaffPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Mensaje informativo */}
-        <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-          <p className="text-xs text-blue-700 flex items-center gap-2">
-            <FileText size={14} />
-            <span>
-              <strong>Nota:</strong> El personal se guarda en tu navegador (localStorage).
-              Usa "Guardar como TXT" para tener una copia en tu carpeta de <strong>Descargas</strong>.
-            </span>
-          </p>
-        </div>
       </div>
 
       {/* Tu tabla de edición usual */}
-      {!showForm && <StaffTable data={items} onEdit={onEdit} onDelete={onDelete} />}
+      {!showForm && loading && (
+        <div className="card p-10 flex items-center justify-center">
+          <div className="loading-spinner w-8 h-8" />
+        </div>
+      )}
+      {!showForm && !loading && loadError && (
+        <div className="card p-6 text-sm text-red-700 bg-red-50 border border-red-200">{loadError}</div>
+      )}
+      {!showForm && !loading && !loadError && (
+        <StaffTable data={items} onEdit={onEdit} onDelete={onDelete} />
+      )}
 
       {showForm && (
         <div className="rounded-2xl border border-slate-200 bg-white shadow-xl p-8 backdrop-blur-sm">
           <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center">
               <Plus size={20} className="text-white" />
             </div>
             <div>
@@ -568,7 +540,7 @@ const AdminStaffPage: React.FC = () => {
       <div className="rounded-2xl border border-slate-200 bg-white shadow-xl p-6 backdrop-blur-sm">
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6 pb-4 border-b border-slate-100">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center">
               <Filter size={20} className="text-white" />
             </div>
             <div>
@@ -579,7 +551,7 @@ const AdminStaffPage: React.FC = () => {
           <div className="ml-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <div className="relative">
               <select
-                className="appearance-none pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all cursor-pointer"
+                className="appearance-none pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-pointer"
                 value={areaFiltro}
                 onChange={(e) => setAreaFiltro(e.target.value)}
               >
@@ -598,7 +570,7 @@ const AdminStaffPage: React.FC = () => {
             </div>
             <div className="relative">
               <select
-                className="appearance-none pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all cursor-pointer"
+                className="appearance-none pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-pointer"
                 value={rolFiltro}
                 onChange={(e) => setRolFiltro(e.target.value as Rol)}
               >

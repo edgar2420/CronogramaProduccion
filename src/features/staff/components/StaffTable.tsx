@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+﻿import React, { useMemo, useState } from "react";
 import type { Staff } from "@/features/staff/types";
 import { Pencil, Trash2, Search } from "lucide-react";
 
@@ -21,7 +21,7 @@ const StaffTable: React.FC<Props> = ({ data, onEdit, onDelete }) => {
       {/* Buscador */}
       <div className="relative mb-5">
         <input
-          className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           placeholder="Buscar personal por nombre..."
           value={q}
           onChange={e=>setQ(e.target.value)}
@@ -46,7 +46,7 @@ const StaffTable: React.FC<Props> = ({ data, onEdit, onDelete }) => {
             {filtered.map((s, i) => (
               <tr 
                 key={s.id} 
-                className={`border-b transition hover:bg-indigo-50/40 ${
+                className={`border-b transition hover:bg-blue-50/40 ${
                   i % 2 === 0 ? "bg-white" : "bg-gray-50/40"
                 }`}
               >
@@ -58,7 +58,7 @@ const StaffTable: React.FC<Props> = ({ data, onEdit, onDelete }) => {
                     {s.areas.map(a => (
                       <span
                         key={a}
-                        className="px-2 py-0.5 rounded-full text-xs bg-indigo-100 text-indigo-700 font-medium"
+                        className="px-2 py-0.5 rounded-full text-xs bg-blue-100 text-blue-700 font-medium"
                       >
                         {a}
                       </span>

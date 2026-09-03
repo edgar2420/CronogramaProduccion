@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+﻿import React, { useEffect, useRef, useState } from "react";
 import type { Turno } from "@/features/schedule/types";
 import type { ItemCatalogo } from "@/features/schedule/catalogoProductos";
 import {
@@ -13,7 +13,7 @@ type Props = {
   fecha: string;
   turno: Turno;
   catalogo: ItemCatalogo[];
-  onSave: (data: { fecha: string; turno: Turno; productoNombre: string; planificado: number }) => void;
+  onSave: (data: { fecha: string; turno: Turno; productoId: string; productoNombre: string; planificado: number }) => void;
 };
 
 const TURNOS: Turno[] = ["mañana", "tarde", "noche"];
@@ -21,19 +21,19 @@ const TURNOS: Turno[] = ["mañana", "tarde", "noche"];
 // Turno configuration
 const TURNO_CONFIG: Record<Turno, { gradient: string; icon: React.ReactNode; label: string; color: string }> = {
   mañana: {
-    gradient: "from-amber-500 via-amber-600 to-yellow-600",
+    gradient: "from-sky-400 via-sky-500 to-cyan-600",
     icon: <Sun size={16} />,
     label: "Mañana",
     color: "amber"
   },
   tarde: {
-    gradient: "from-orange-500 via-orange-600 to-red-500",
+    gradient: "from-blue-500 via-blue-600 to-blue-700",
     icon: <SunMedium size={16} />,
     label: "Tarde",
     color: "orange"
   },
   noche: {
-    gradient: "from-purple-600 via-purple-700 to-indigo-700",
+    gradient: "from-blue-800 via-blue-900 to-slate-900",
     icon: <Moon size={16} />,
     label: "Noche",
     color: "purple"
@@ -93,7 +93,13 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
 
   const guardar = () => {
     if (!canSave) return;
-    onSave({ fecha: selectedDate, turno: selectedTurno, productoNombre: producto!.nombre, planificado: Number(planificadoStr) });
+    onSave({
+      fecha: selectedDate,
+      turno: selectedTurno,
+      productoId: producto!.id,
+      productoNombre: producto!.nombre,
+      planificado: Number(planificadoStr),
+    });
     onClose();
   };
 
@@ -140,7 +146,7 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
           {/* Turno Section */}
           <div className="space-y-2">
             <label className="flex items-center gap-2 font-semibold text-gray-700 text-sm">
-              <Clock size={16} className="text-indigo-600" />
+              <Clock size={16} className="text-blue-600" />
               Seleccione el Turno
             </label>
             <div className="grid grid-cols-3 gap-3 mt-1">
@@ -167,7 +173,7 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
           {/* Producto Section */}
           <div className="space-y-2" ref={dropdownRef}>
             <label className="flex items-center gap-2 font-semibold text-gray-700 text-sm">
-              <Pill size={16} className="text-indigo-600" />
+              <Pill size={16} className="text-blue-600" />
               Producto
             </label>
 
@@ -185,7 +191,7 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
                 }}
                 onFocus={() => setShowDropdown(true)}
                 placeholder="Buscar producto..."
-                className="w-full border-2 border-gray-200 rounded-xl pl-11 pr-10 py-3 mt-1 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all bg-white"
+                className="w-full border-2 border-gray-200 rounded-xl pl-11 pr-10 py-3 mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
               />
               <ChevronDown
                 className={`absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 transition-transform ${showDropdown ? 'rotate-180' : ''}`}
@@ -204,13 +210,13 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
                         setSearchQuery(p.nombre);
                         setShowDropdown(false);
                       }}
-                      className="w-full text-left px-4 py-3 hover:bg-indigo-50 transition-colors border-b border-gray-100 last:border-b-0 flex items-center gap-3 group"
+                      className="w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0 flex items-center gap-3 group"
                     >
-                      <div className="p-2 bg-indigo-100 rounded-lg group-hover:bg-indigo-200 transition-colors">
-                        <Pill size={16} className="text-indigo-600" />
+                      <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                        <Pill size={16} className="text-blue-600" />
                       </div>
                       <div className="flex-1">
-                        <p className="font-semibold text-gray-800 group-hover:text-indigo-700">{p.nombre}</p>
+                        <p className="font-semibold text-gray-800 group-hover:text-blue-700">{p.nombre}</p>
                         <div className="flex gap-2 mt-1">
                           {p.vol && <span className="text-xs text-gray-500">Vol: {p.vol}</span>}
                           {p.envase && <span className="text-xs text-gray-500">• Envase: {p.envase}</span>}
@@ -231,7 +237,7 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
 
             {/* Product Info Card */}
             {producto && (
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-4 mt-3 animate-in slide-in-from-top-2 duration-300">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-50 border-2 border-blue-200 rounded-xl p-4 mt-3 animate-in slide-in-from-top-2 duration-300">
                 <div className="flex items-start gap-3">
                   <div className="p-2 bg-blue-500 rounded-lg text-white">
                     <Pill size={20} />
@@ -261,7 +267,7 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
           {/* Planificado Section */}
           <div className="space-y-2">
             <label className="flex items-center gap-2 font-semibold text-gray-700 text-sm">
-              <TrendingUp size={16} className="text-indigo-600" />
+              <TrendingUp size={16} className="text-blue-600" />
               Cantidad Planificada (unidades)
             </label>
             <div className="relative">
@@ -271,7 +277,7 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
                 value={planificadoStr}
                 onChange={e => setPlanificadoStr(e.target.value.replace(/\D/g, ""))}
                 placeholder="Ej. 15000"
-                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 mt-1 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-lg font-semibold"
+                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-lg font-semibold"
               />
               {planificadoStr && (
                 <div className="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600">

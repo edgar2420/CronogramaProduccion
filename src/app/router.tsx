@@ -10,6 +10,7 @@ import AdminUsersPage from "@/features/users/pages/AdminUsersPage";
 import AdminStaffPage from "@/features/staff/pages/AdminStaffPage";
 import AreasPage from "@/features/areas/pages/AreasPage";
 import CapacitacionPage from "@/features/capacitacion/pages/CapacitacionPage";
+import AdminProductsPage from "@/features/products/pages/AdminProductsPage";
 
 export function AppRoutes() {
   return useRoutes([
@@ -34,6 +35,14 @@ export function AppRoutes() {
           )
         },
         { path: "admin/staff", element: <AdminStaffPage /> },
+        {
+          path: "admin/products",
+          element: (
+            <RoleGuard allow={["admin", "superadmin"]}>
+              <AdminProductsPage />
+            </RoleGuard>
+          ),
+        },
         { path: "admin/areas", element: <AreasPage /> },
         { path: "admin/capacitacion", element: <CapacitacionPage /> },
       ],

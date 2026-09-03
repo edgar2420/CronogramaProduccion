@@ -5,7 +5,7 @@ interface StatsCardProps {
     title: string;
     value: string | number;
     icon: LucideIcon;
-    color?: "primary" | "success" | "warning" | "error" | "gray";
+    color?: "primary" | "accent" | "success" | "warning" | "error" | "gray";
     trend?: {
         value: number;
         label: string;
@@ -22,6 +22,7 @@ const StatsCard: React.FC<StatsCardProps> = ({
 }) => {
     const colorClasses = {
         primary: "bg-primary-100 text-primary-600",
+        accent: "bg-accent-100 text-accent-600",
         success: "bg-green-100 text-green-600",
         warning: "bg-yellow-100 text-yellow-600",
         error: "bg-red-100 text-red-600",

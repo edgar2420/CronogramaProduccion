@@ -13,6 +13,7 @@ import {
     Layers,
     GraduationCap,
     Heart,
+    Package,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -46,6 +47,12 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false, onToggle }) => {
             label: "Personal",
             icon: UserCog,
             path: "/admin/staff",
+            roles: ["superadmin", "admin"],
+        },
+        {
+            label: "Productos",
+            icon: Package,
+            path: "/admin/products",
             roles: ["superadmin", "admin"],
         },
         {

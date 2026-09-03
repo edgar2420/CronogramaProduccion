@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { AlertTriangle, Send, X, CheckCircle2, Calendar } from "lucide-react";
 
 type Props = {
@@ -31,7 +31,7 @@ const ConfirmPublishModal: React.FC<Props> = ({
             {/* Modal */}
             <div className="relative bg-white rounded-3xl shadow-2xl max-w-md w-full mx-4 overflow-hidden animate-in fade-in zoom-in duration-200">
                 {/* Header with gradient */}
-                <div className="bg-gradient-to-r from-emerald-500 to-teal-600 p-6 text-white">
+                <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 p-6 text-white">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <div className="bg-white/20 p-2 rounded-xl">
@@ -96,7 +96,7 @@ const ConfirmPublishModal: React.FC<Props> = ({
                         </button>
                         <button
                             onClick={onConfirm}
-                            className="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                            className="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                         >
                             <Send size={18} />
                             Publicar Todo

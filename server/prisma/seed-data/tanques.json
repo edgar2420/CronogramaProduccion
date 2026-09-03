@@ -1,0 +1,1077 @@
+{
+  "tanques": [
+    {
+      "code": "TK-1400",
+      "areaCode": "BFS_PGV_305"
+    },
+    {
+      "code": "TK-1500",
+      "areaCode": "BFS_PGV_305"
+    },
+    {
+      "code": "TK-1600",
+      "areaCode": "HEMODIALISIS"
+    },
+    {
+      "code": "TK-1700",
+      "areaCode": "HEMODIALISIS"
+    },
+    {
+      "code": "TK-1800",
+      "areaCode": "BFS_PPV_312"
+    },
+    {
+      "code": "TK-25",
+      "areaCode": "VIDRIO"
+    },
+    {
+      "code": "TK-60",
+      "areaCode": "VIDRIO"
+    },
+    {
+      "code": "TK-700",
+      "areaCode": "BFS_PGV_321"
+    },
+    {
+      "code": "TK-800",
+      "areaCode": "BFS_PGV_321"
+    }
+  ],
+  "capacidades": [
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "01",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "01",
+      "tanqueCode": "TK-800",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "02",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "02",
+      "tanqueCode": "TK-800",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "03",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "03",
+      "tanqueCode": "TK-800",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "04",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "04",
+      "tanqueCode": "TK-800",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "05",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 10000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "05",
+      "tanqueCode": "TK-800",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 10000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "06",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "06",
+      "tanqueCode": "TK-800",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "07",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 10000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "07",
+      "tanqueCode": "TK-800",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 10000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "08",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "08",
+      "tanqueCode": "TK-800",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "09",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 10000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "09",
+      "tanqueCode": "TK-800",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 10000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "10",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 100.0,
+      "volumenAValidarL": 3000.0,
+      "lotesProgramadosDia": 3000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "11",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 100.0,
+      "volumenAValidarL": 3000.0,
+      "lotesProgramadosDia": 3000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "12",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 100.0,
+      "volumenAValidarL": 3000.0,
+      "lotesProgramadosDia": 3000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "13",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 100.0,
+      "volumenAValidarL": 3000.0,
+      "lotesProgramadosDia": 3000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "14",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 150.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 33333.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "15",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "15",
+      "tanqueCode": "TK-800",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "16",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "16",
+      "tanqueCode": "TK-800",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_321",
+      "productoCodigo": "17",
+      "tanqueCode": "TK-700",
+      "volumenUnitarioMl": 100.0,
+      "volumenAValidarL": 3000.0,
+      "lotesProgramadosDia": 3000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "02",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 2.0,
+      "volumenAValidarL": 46400.0,
+      "lotesProgramadosDia": 46400.0,
+      "cantidadTeoricaDia": 42000.0,
+      "horasEnvasado": 2736.0,
+      "horasAnalisis": 13680.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "03",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 20.0,
+      "volumenAValidarL": 56288.0,
+      "lotesProgramadosDia": 56288.0,
+      "cantidadTeoricaDia": 13680.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "04",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 2.0,
+      "volumenAValidarL": 46400.0,
+      "lotesProgramadosDia": 46400.0,
+      "cantidadTeoricaDia": 42000.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "05",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 20.0,
+      "volumenAValidarL": 56288.0,
+      "lotesProgramadosDia": 56288.0,
+      "cantidadTeoricaDia": 8208.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "08",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 1.0,
+      "volumenAValidarL": 25400.0,
+      "lotesProgramadosDia": 25400.0,
+      "cantidadTeoricaDia": 42000.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "09",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 5.0,
+      "volumenAValidarL": 54578.0,
+      "lotesProgramadosDia": 54578.0,
+      "cantidadTeoricaDia": 20520.0,
+      "horasEnvasado": 10260.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "10",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 1.0,
+      "volumenAValidarL": 25400.0,
+      "lotesProgramadosDia": 25400.0,
+      "cantidadTeoricaDia": 42000.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "11",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 56501.0,
+      "lotesProgramadosDia": 56501.0,
+      "cantidadTeoricaDia": 16143.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "14",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 1.0,
+      "volumenAValidarL": 25400.0,
+      "lotesProgramadosDia": 25400.0,
+      "cantidadTeoricaDia": 21000.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "15",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 1.0,
+      "volumenAValidarL": 25400.0,
+      "lotesProgramadosDia": 25400.0,
+      "cantidadTeoricaDia": 21000.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "16",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 4.0,
+      "volumenAValidarL": 43292.0,
+      "lotesProgramadosDia": 43292.0,
+      "cantidadTeoricaDia": 10260.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "17",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 2.0,
+      "volumenAValidarL": 46400.0,
+      "lotesProgramadosDia": 46400.0,
+      "cantidadTeoricaDia": 21000.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "21",
+      "tanqueCode": "TK-25",
+      "volumenUnitarioMl": 1.0,
+      "volumenAValidarL": 24140.0,
+      "lotesProgramadosDia": 24140.0,
+      "cantidadTeoricaDia": 19950.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "22",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 4.0,
+      "volumenAValidarL": 43292.0,
+      "lotesProgramadosDia": 43292.0,
+      "cantidadTeoricaDia": 20520.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "23",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 5.0,
+      "volumenAValidarL": 25400.0,
+      "lotesProgramadosDia": 25400.0,
+      "cantidadTeoricaDia": 10260.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "24",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 56501.0,
+      "lotesProgramadosDia": 56501.0,
+      "cantidadTeoricaDia": 10724.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "26",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 2.0,
+      "volumenAValidarL": 46400.0,
+      "lotesProgramadosDia": 46400.0,
+      "cantidadTeoricaDia": 21000.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "28",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 1.0,
+      "volumenAValidarL": 25400.0,
+      "lotesProgramadosDia": 25400.0,
+      "cantidadTeoricaDia": 21000.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "29",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 1.0,
+      "volumenAValidarL": 25400.0,
+      "lotesProgramadosDia": 25400.0,
+      "cantidadTeoricaDia": 21000.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "32",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 2.0,
+      "volumenAValidarL": 46400.0,
+      "lotesProgramadosDia": 46400.0,
+      "cantidadTeoricaDia": 42000.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "33",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 3.0,
+      "volumenAValidarL": 55496.0,
+      "lotesProgramadosDia": 55496.0,
+      "cantidadTeoricaDia": 17280.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "34",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 1.0,
+      "volumenAValidarL": 25400.0,
+      "lotesProgramadosDia": 25400.0,
+      "cantidadTeoricaDia": 21000.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "35",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 1.0,
+      "volumenAValidarL": 25400.0,
+      "lotesProgramadosDia": 25400.0,
+      "cantidadTeoricaDia": 42000.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "36",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 5.0,
+      "volumenAValidarL": 54578.0,
+      "lotesProgramadosDia": 54578.0,
+      "cantidadTeoricaDia": 10260.0
+    },
+    {
+      "areaCode": "VIDRIO",
+      "productoCodigo": "37",
+      "tanqueCode": "TK-60",
+      "volumenUnitarioMl": 1.0,
+      "volumenAValidarL": 50400.0,
+      "lotesProgramadosDia": 50400.0,
+      "cantidadTeoricaDia": 42000.0
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "01",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 5.0,
+      "volumenAValidarL": 250.0,
+      "lotesProgramadosDia": 250.0,
+      "cantidadTeoricaDia": 94340.0,
+      "horasEnvasado": 29.03,
+      "observaciones": "horas análisis: 20 MIN | REALIZAR LIMPIEZA ENTRE LOTES ENJUAGUE CON AGUA CALIENTE"
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "02",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 250.0,
+      "lotesProgramadosDia": 250.0,
+      "cantidadTeoricaDia": 71429.0,
+      "horasEnvasado": 21.98,
+      "observaciones": "horas análisis: 20 MIN"
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "03",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 250.0,
+      "lotesProgramadosDia": 250.0,
+      "cantidadTeoricaDia": 71429.0,
+      "horasEnvasado": 21.98
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "04",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 250.0,
+      "lotesProgramadosDia": 250.0,
+      "cantidadTeoricaDia": 71429.0,
+      "horasEnvasado": 21.98
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "05",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 250.0,
+      "lotesProgramadosDia": 250.0,
+      "cantidadTeoricaDia": 71429.0,
+      "horasEnvasado": 21.98,
+      "observaciones": "45 MIN"
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "07",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 2.0,
+      "volumenAValidarL": 55.0,
+      "lotesProgramadosDia": 55.0,
+      "cantidadTeoricaDia": 25000.0,
+      "horasEnvasado": 7.69,
+      "observaciones": "horas análisis: 9% | 1 HORA /LOTE"
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "08",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 3.0,
+      "volumenAValidarL": 55.0,
+      "lotesProgramadosDia": 55.0,
+      "cantidadTeoricaDia": 17188.0,
+      "horasEnvasado": 5.29,
+      "observaciones": "horas análisis: 9% | 3 HORAS / LOTE"
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "09",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 250.0,
+      "lotesProgramadosDia": 250.0,
+      "cantidadTeoricaDia": 71429.0,
+      "horasEnvasado": 21.98
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "10",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 5.0,
+      "volumenAValidarL": 250.0,
+      "lotesProgramadosDia": 250.0,
+      "cantidadTeoricaDia": 47170.0,
+      "horasEnvasado": 14.51
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "11",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 2.0,
+      "volumenAValidarL": 45.0,
+      "lotesProgramadosDia": 45.0,
+      "cantidadTeoricaDia": 20455.0,
+      "horasEnvasado": 6.29,
+      "observaciones": "REVISAR CON COM PROD LIC."
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "12",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 2.0,
+      "volumenAValidarL": 110.0,
+      "lotesProgramadosDia": 110.0,
+      "cantidadTeoricaDia": 50000.0,
+      "horasEnvasado": 15.38
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "17",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 250.0,
+      "lotesProgramadosDia": 250.0,
+      "cantidadTeoricaDia": 71429.0,
+      "horasEnvasado": 21.98,
+      "observaciones": "horas análisis: 1 HORA DE ANALISIS/lote | 1"
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "18",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 55.0,
+      "lotesProgramadosDia": 55.0,
+      "cantidadTeoricaDia": 5238.0,
+      "horasEnvasado": 1.61,
+      "observaciones": "horas análisis: 2 HORAS DE ANALISIS"
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "19",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 4.0,
+      "volumenAValidarL": 55.0,
+      "lotesProgramadosDia": 55.0,
+      "cantidadTeoricaDia": 13095.0,
+      "horasEnvasado": 4.03,
+      "observaciones": "REVISAR CON COM"
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "24",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 5.0,
+      "volumenAValidarL": 110.0,
+      "lotesProgramadosDia": 110.0,
+      "cantidadTeoricaDia": 20755.0,
+      "horasEnvasado": 6.39,
+      "observaciones": "horas análisis: 45 min"
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "25",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 250.0,
+      "lotesProgramadosDia": 250.0,
+      "cantidadTeoricaDia": 23810.0,
+      "horasEnvasado": 14.65,
+      "horasAnalisis": 1.0,
+      "observaciones": "1 HORA/LOTE"
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "26",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 4.0,
+      "volumenAValidarL": 250.0,
+      "lotesProgramadosDia": 110.0,
+      "cantidadTeoricaDia": 78571.0,
+      "horasEnvasado": 24.18,
+      "observaciones": "1 HORA/LOTE"
+    },
+    {
+      "areaCode": "BFS_PPV_312",
+      "productoCodigo": "30",
+      "tanqueCode": "TK-1800",
+      "volumenUnitarioMl": 2.0,
+      "volumenAValidarL": 110.0,
+      "lotesProgramadosDia": 110.0,
+      "cantidadTeoricaDia": 50000.0,
+      "horasEnvasado": 15.38,
+      "observaciones": "1 HORA/LOTE"
+    },
+    {
+      "areaCode": "HEMODIALISIS",
+      "productoCodigo": "01",
+      "tanqueCode": "TK-1600",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 7000.0,
+      "lotesProgramadosDia": 7000.0,
+      "cantidadTeoricaDia": 3500.0
+    },
+    {
+      "areaCode": "HEMODIALISIS",
+      "productoCodigo": "01",
+      "tanqueCode": "TK-1700",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 7000.0,
+      "lotesProgramadosDia": 7000.0,
+      "cantidadTeoricaDia": 3500.0
+    },
+    {
+      "areaCode": "HEMODIALISIS",
+      "productoCodigo": "02",
+      "tanqueCode": "TK-1600",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 7000.0,
+      "lotesProgramadosDia": 7000.0,
+      "cantidadTeoricaDia": 3500.0
+    },
+    {
+      "areaCode": "HEMODIALISIS",
+      "productoCodigo": "02",
+      "tanqueCode": "TK-1700",
+      "volumenUnitarioMl": 10.0,
+      "volumenAValidarL": 7000.0,
+      "lotesProgramadosDia": 7000.0,
+      "cantidadTeoricaDia": 3500.0
+    },
+    {
+      "areaCode": "HEMODIALISIS",
+      "productoCodigo": "03",
+      "tanqueCode": "TK-1600",
+      "volumenUnitarioMl": 5.0,
+      "volumenAValidarL": 7000.0,
+      "lotesProgramadosDia": 7000.0,
+      "cantidadTeoricaDia": 5600.0
+    },
+    {
+      "areaCode": "HEMODIALISIS",
+      "productoCodigo": "03",
+      "tanqueCode": "TK-1700",
+      "volumenUnitarioMl": 5.0,
+      "volumenAValidarL": 7000.0,
+      "lotesProgramadosDia": 7000.0,
+      "cantidadTeoricaDia": 5600.0
+    },
+    {
+      "areaCode": "HEMODIALISIS",
+      "productoCodigo": "04",
+      "tanqueCode": "TK-1600",
+      "volumenUnitarioMl": 5.0,
+      "volumenAValidarL": 7000.0,
+      "lotesProgramadosDia": 7000.0,
+      "cantidadTeoricaDia": 5600.0
+    },
+    {
+      "areaCode": "HEMODIALISIS",
+      "productoCodigo": "04",
+      "tanqueCode": "TK-1700",
+      "volumenUnitarioMl": 5.0,
+      "volumenAValidarL": 7000.0,
+      "lotesProgramadosDia": 7000.0,
+      "cantidadTeoricaDia": 5600.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "01",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "01",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "02",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "02",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "03",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "05",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "05",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "06",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "06",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "07",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "07",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "13",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "13",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "20",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 250.0,
+      "volumenAValidarL": 2500.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 10000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "21",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 250.0,
+      "volumenAValidarL": 2500.0,
+      "lotesProgramadosDia": 2500.0,
+      "cantidadTeoricaDia": 10000.0,
+      "observaciones": "horas envasado: Se cambio la cantidad de volumen por orden del ING. José Luis"
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "22",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "22",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "23",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "23",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "24",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "25",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 20000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "26",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "26",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "27",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "27",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "28",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "28",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 500.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "29",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "29",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "30",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "30",
+      "tanqueCode": "TK-1500",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 5000.0,
+      "lotesProgramadosDia": 5000.0,
+      "cantidadTeoricaDia": 30000.0
+    },
+    {
+      "areaCode": "BFS_PGV_305",
+      "productoCodigo": "31",
+      "tanqueCode": "TK-1400",
+      "volumenUnitarioMl": 1000.0,
+      "volumenAValidarL": 7000.0,
+      "lotesProgramadosDia": 7000.0,
+      "cantidadTeoricaDia": 30000.0
+    }
+  ]
+}

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "@/auth/useAuth";
-import { seedUsersIfNeeded } from "@/services/storage/users.store";
 import { UserRound, Lock, Eye, EyeOff, LogIn, Loader2 } from "lucide-react";
 import logo from "../assets/logo_abd.jpg";
 import "./login.css";
@@ -12,14 +11,6 @@ const LoginPage: React.FC = () => {
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
-
-  useEffect(() => {
-    try {
-      seedUsersIfNeeded();
-    } catch {
-      //localStorage
-    }
-  }, []);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -36,7 +27,7 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen grid place-items-center bg-gradient-to-br from-blue-900 via-blue-700 to-yellow-500 text-gray-800">
+    <div className="min-h-screen grid place-items-center bg-gradient-to-br from-blue-950 via-blue-700 to-sky-400 text-gray-800">
       <div className="w-full max-w-md bg-white/90 backdrop-blur-lg border border-blue-200 rounded-2xl shadow-2xl p-8">
 
         <div className="text-center mb-6">
@@ -72,7 +63,7 @@ const LoginPage: React.FC = () => {
                 autoComplete="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="admin"
+                placeholder="Tu usuario"
                 disabled={loading}
               />
             </div>
@@ -94,7 +85,7 @@ const LoginPage: React.FC = () => {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="admin123"
+                placeholder="••••••••"
                 disabled={loading}
               />
               <button

@@ -1,16 +1,13 @@
 /**
  * API Configuration
- * 
- * This file contains the configuration for API calls.
- * Currently uses localStorage, but can be easily switched to REST API.
+ *
+ * Toda la app habla siempre con el backend real (server/) — no hay modo
+ * local/localStorage. VITE_API_URL debe apuntar al backend corriendo.
  */
 
 export const API_CONFIG = {
-    // Toggle between localStorage (false) and REST API (true)
-    USE_REST_API: false,
-
-    // Base URL for API calls when USE_REST_API is true
-    BASE_URL: (import.meta as unknown as { env: Record<string, string> }).env?.VITE_API_URL || "http://localhost:3000/api",
+    // Base URL for API calls
+    BASE_URL: (import.meta as unknown as { env: Record<string, string> }).env?.VITE_API_URL || "http://localhost:4000/api",
 
     // API version
     API_VERSION: "v1",

@@ -17,6 +17,7 @@ export interface Orden {
   asignados: string[];
   areaId: string;
   opCode?: string;
+  observaciones?: string;
   createdAt: string;
 }
 

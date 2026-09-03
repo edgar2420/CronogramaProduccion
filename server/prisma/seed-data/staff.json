@@ -1,0 +1,676 @@
+{
+  "staff": [
+    {
+      "nombre": "Celeste Muñoz Vides",
+      "codigoEmpleado": "A-361",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Jennifer Becerra",
+      "codigoEmpleado": "A-485",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Bryan Willy Peña Franco",
+      "codigoEmpleado": "1076",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Luis Alberto Cuellar Vaca",
+      "codigoEmpleado": "B-1109",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Bruno Vaca",
+      "codigoEmpleado": "A-508",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Maria Isabel Mamani Mamani",
+      "codigoEmpleado": "B-1024",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Silvia Maldonado",
+      "codigoEmpleado": "428",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "José Miguel Rojas Galvis",
+      "codigoEmpleado": "A-130",
+      "departamento": "HEMO",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Valeria Quispe Mamani",
+      "codigoEmpleado": "B-1131",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Monica Ponce Correa",
+      "codigoEmpleado": "A-565",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Yeisson Tenorio Torrico",
+      "codigoEmpleado": "A-363",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Yhonatan Victor Campos Mendoza",
+      "codigoEmpleado": "B-366",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Elva Zapata",
+      "codigoEmpleado": "129",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Leny Solares Rivero",
+      "codigoEmpleado": "B-324",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Luis Diego Quinteros Osinaga",
+      "codigoEmpleado": "B-1341",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Romaleth Cordero",
+      "codigoEmpleado": "A-564",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Lisset Molina",
+      "codigoEmpleado": "A-466",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Yesika Carola Mazabi Perez",
+      "codigoEmpleado": "B-189",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Javier Montenegro OP",
+      "codigoEmpleado": "594",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Zasha Aponte Quiroga",
+      "codigoEmpleado": "A-369",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Natali Vargas",
+      "codigoEmpleado": "878",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Eilin Ariane Alvarez Cholima",
+      "codigoEmpleado": "A-262",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Denise Zeballos Herrera",
+      "codigoEmpleado": "B-479",
+      "departamento": "PROD",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Diana Sofia Chavez Aguilera",
+      "codigoEmpleado": "A-554",
+      "departamento": "ETO-HEMO Y FILTROS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Luis Carlos Ojopi Guardia",
+      "codigoEmpleado": "910",
+      "departamento": "CPYMP",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Alber Inestroza Rojas",
+      "codigoEmpleado": "1319",
+      "departamento": "CPYMP",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Elvira Ramos Campos",
+      "codigoEmpleado": "308",
+      "departamento": "BFS-PGV",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Miltón Guzmán Gutiérrez",
+      "codigoEmpleado": "831",
+      "departamento": "BFS-PGV",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Santo Tomás Bravo Ortiz",
+      "codigoEmpleado": "307",
+      "departamento": "BFS-PGV",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Magali Bautista Ibáñez",
+      "codigoEmpleado": "236",
+      "departamento": "BFS-PPV",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Isaias Yucra Chocllo",
+      "codigoEmpleado": "473",
+      "departamento": "BFS-PPV",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "José Joaquín Rapu Cujuy",
+      "codigoEmpleado": "610",
+      "departamento": "BFS-PPV",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Juvenal Mamani Choque",
+      "codigoEmpleado": "799",
+      "departamento": "BFS-PPV",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Vicenta Estrada Aldana",
+      "codigoEmpleado": "22",
+      "departamento": "VIDRIO",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Ladybird Luz Arce Ayoroa",
+      "codigoEmpleado": "52",
+      "departamento": "VIDRIO",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Alejandra Soliz / IVF",
+      "codigoEmpleado": "1101",
+      "departamento": "VIDRIO",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Jaime Maldonado Contreras",
+      "codigoEmpleado": "580",
+      "departamento": "AUT-PGV",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Johan Sebastián Vaca",
+      "codigoEmpleado": "A-528",
+      "departamento": "AUT-PGV",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Lyn Ruiz Ibañez",
+      "codigoEmpleado": "446",
+      "departamento": "AUT-PGV",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Amilcar Castrillo Valdiviezo",
+      "codigoEmpleado": "113",
+      "departamento": "AUT-PGV",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Cuellar Mercado Juan Jesus",
+      "codigoEmpleado": "A-531",
+      "departamento": "AUT-PGV",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Gloria Pessoa / OP, IVF",
+      "codigoEmpleado": "653",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Lisbeth Llanos / IVF",
+      "codigoEmpleado": "438",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Freddy Ludwin Villavicencio / OP",
+      "codigoEmpleado": "1294",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Jorge Andres Perez Arancibia",
+      "codigoEmpleado": "A-513",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Maribel Paredes / OP, IVF",
+      "codigoEmpleado": "169",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Carla Lorena Aguilera Crispin",
+      "codigoEmpleado": "A-551",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Clarita Salces / IVF",
+      "codigoEmpleado": "1333",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Fabiola Brahtwaite Usipales",
+      "codigoEmpleado": "1278",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Mario Quevedo Ribera",
+      "codigoEmpleado": "B-1134",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Andrea Sacu / OP, IVF",
+      "codigoEmpleado": "365",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Sol Maryely Rada Fernandez",
+      "codigoEmpleado": "544",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Maria Luisa Condori Rosales / IV",
+      "codigoEmpleado": "1320",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Gary Rios Paz",
+      "codigoEmpleado": "A-533",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Alejandra García Saucedo / OP, IV",
+      "codigoEmpleado": "1321",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Karen Suárez Paredes / IV",
+      "codigoEmpleado": "1331",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Lidia Colque Ortega / IV",
+      "codigoEmpleado": "1293",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Maria Liseth Zegarra",
+      "codigoEmpleado": "A-563",
+      "departamento": "VIDRIO",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Carla Estefany Roca Aguilera / OP,IV",
+      "codigoEmpleado": "1334",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Santa Mónica Cossio  / IVF",
+      "codigoEmpleado": "515",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Lidia Ramos / IV",
+      "codigoEmpleado": "1112",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Ana Silvia Luna / IV",
+      "codigoEmpleado": "1100",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Yuliana Aguilera Crispin / IV",
+      "codigoEmpleado": "1288",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Janeth Flores / IVF",
+      "codigoEmpleado": "181",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Keddy Calani OP",
+      "codigoEmpleado": "976",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Valentina Roque",
+      "codigoEmpleado": "B-223",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "José Junior Choque Zambrana / OP",
+      "codigoEmpleado": "1329",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Margarita Garcia Gonzales",
+      "codigoEmpleado": "1287",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Alvaro Villañez OP",
+      "codigoEmpleado": "1120",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Mauricio Paz Chavez / OP",
+      "codigoEmpleado": "1279",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Dolly Soliz Romero",
+      "codigoEmpleado": "A-299",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Yuceli Salvatierra Moreno / OP, IV",
+      "codigoEmpleado": "1325",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Fidelia Mancilla Tejerina",
+      "codigoEmpleado": "A-514",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Gabriela Chincha Salvador",
+      "codigoEmpleado": "A-132",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Roque Alonso Cespedes Arteaga",
+      "codigoEmpleado": "A-557",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Antonio Darwin Chavez Vaca",
+      "codigoEmpleado": "A-510",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Julio Saucedo Alpire",
+      "codigoEmpleado": "1292",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Silvana Vaca / OP, IVF",
+      "codigoEmpleado": "516",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Deborah Abigail Borda Romero",
+      "codigoEmpleado": "A-556",
+      "departamento": "PAS",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Deymar Salinas Ferrufino",
+      "codigoEmpleado": "B-940",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Gary Jhasmany Ramos Arias",
+      "codigoEmpleado": "B-889",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Vania Santa Cruz López",
+      "codigoEmpleado": "A-380",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Joan Goitia Herrera",
+      "codigoEmpleado": "B-668",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Victor Hugo Mamani Lopez",
+      "codigoEmpleado": "A-384",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "José Luis Calderón",
+      "codigoEmpleado": "A-395",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Isaias Velasquez Miranda",
+      "codigoEmpleado": "B-1133",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Ximena Flores Torrico",
+      "codigoEmpleado": "B-149",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Luana Michelle Salinas Pantoja",
+      "codigoEmpleado": "A-392",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Ana Maraz Espindola",
+      "codigoEmpleado": "A-529",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Nancy Pinto Torrico",
+      "codigoEmpleado": "A-534",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Tatiana Cecilia Lizarraga Molina",
+      "codigoEmpleado": "A-264",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Johan Mario Paredes",
+      "codigoEmpleado": "A-298",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Rosaura Fernandez Ovando",
+      "codigoEmpleado": "A-526",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Bruno Quinteros Osinaga",
+      "codigoEmpleado": "A-126",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Richard Salvatierra Almanza",
+      "codigoEmpleado": "A-377",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Johan Rivero Jimenez",
+      "codigoEmpleado": "A-394",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Carlos Montenegro Seas",
+      "codigoEmpleado": "A-525",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Erwin Ascui",
+      "codigoEmpleado": "A-353",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Luis Cesar Viera Mandepora",
+      "codigoEmpleado": "A-527",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Valeria Carvalho Bazán",
+      "codigoEmpleado": "A-370",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Betty Alvarez Rodriguez",
+      "codigoEmpleado": "A-128",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Ana Belén Arce Quezada",
+      "codigoEmpleado": "A-310",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Martha Jimenez Segovia",
+      "codigoEmpleado": "A-386",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Aracely Escudero Sanka",
+      "codigoEmpleado": "A-186",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Jimena Cruz Huyahua",
+      "codigoEmpleado": "A-131",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Yanir Yovio Romero",
+      "codigoEmpleado": "A-290",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "José Donald Moreno Nazaro",
+      "codigoEmpleado": "A-375",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Edil Sanchez Fuentes",
+      "codigoEmpleado": "A-069",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "José Pedro Eguez Ortiz",
+      "codigoEmpleado": "A-427",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Diego Galarza Saldias",
+      "codigoEmpleado": "A-292",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Agustin Maciar Gutierrez",
+      "codigoEmpleado": "A-150",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    },
+    {
+      "nombre": "Mariana Escudero Sanka",
+      "codigoEmpleado": "B-1132",
+      "departamento": "BFS-305",
+      "rolBase": "Operador"
+    }
+  ]
+}

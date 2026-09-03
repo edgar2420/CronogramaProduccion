@@ -1,16 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+﻿import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/auth/useAuth";
 
-import {
-  loadWeeks,
-  upsertWeek,
-  removeOrder,
-  genId,
-  publishWeek,
-  countBorradorOrders,
-} from "@/services/storage/schedule.store";
-
-import type { Semana, Orden, Turno, EstadoOrden } from "@/features/schedule/types";
+import type { Semana, Orden, Turno } from "@/features/schedule/types";
+import type { ItemCatalogo } from "@/features/schedule/catalogoProductos";
 
 import OrdersBoard from "@/features/schedule/components/OrdersBoard";
 import RegisterRealModal from "@/features/schedule/components/RegisterRealModal";
@@ -20,7 +12,12 @@ import ProgramarOrdenModal from "@/features/schedule/components/ProgramarOrdenMo
 import StatsCard from "@/features/schedule/components/StatsCard";
 import FloatingCalendar from "@/components/ui/FloatingCalendar";
 import FloatingPublishButton from "@/features/schedule/components/FloatingPublishButton";
-import { getCatalogoPorArea } from "@/features/schedule/catalogoProductos";
+
+import * as productsApi from "@/services/api/products.api";
+import * as areasApi from "@/services/api/areas.api";
+import * as semanasApi from "@/services/api/semanas.api";
+import * as ordenesApi from "@/services/api/ordenes.api";
+import type { Turno as BackendTurno } from "@/services/api/ordenes.api";
 
 import {
   Calendar,
@@ -44,17 +41,31 @@ function weekIdOf(d: Date) {
   const diff = (thur.getTime() - yearStart.getTime()) / 86400000 + 1;
   return `${thur.getFullYear()}-W${String(Math.ceil(diff / 7)).padStart(2, "0")}`;
 }
+
+// TODO: esta lista sigue hardcodeada (no es localStorage, pero tampoco viene
+// del backend todavía). Unificarla con GET /api/v1/areas queda pendiente:
+// requiere coordinar con el módulo de Personal/Staff, que también referencia
+// estos mismos códigos de área por string en varios lugares (AssignStaffModal).
+// Paleta azul/celeste: cada área se distingue por tono e intensidad dentro de
+// la misma familia, en vez de usar colores ajenos a la identidad visual.
 const AREAS = [
-  { id: "BFS_PGV_321", label: "Área BFS PGV 321", color: "bg-blue-100 border-blue-300 hover:border-blue-500" },
-  { id: "VIDRIO", label: "Área Vidrio", color: "bg-purple-100 border-purple-300 hover:border-purple-500" },
-  { id: "PVC_PP", label: "Área PVC/PP", color: "bg-green-100 border-green-300 hover:border-green-500" },
-  { id: "BFS_PPV_312", label: "Área BFS PPV 312", color: "bg-yellow-100 border-yellow-300 hover:border-yellow-500" },
-  { id: "HEMODIALISIS", label: "Hemo-diálisis", color: "bg-red-100 border-red-300 hover:border-red-500" },
-  { id: "BFS_PGV_305", label: "Área BFS PGV 305", color: "bg-indigo-100 border-indigo-300 hover:border-indigo-500" },
-  { id: "DIVISION_PLASTICOS", label: "División Plásticos", color: "bg-pink-100 border-pink-300 hover:border-pink-500" },
+  { id: "BFS_PGV_321", label: "Área BFS PGV 321", color: "bg-blue-100 border-blue-400", dot: "#2563eb" },
+  { id: "VIDRIO", label: "Área Vidrio", color: "bg-sky-100 border-sky-400", dot: "#0ea5e9" },
+  { id: "PVC_PP", label: "Área PVC/PP", color: "bg-cyan-100 border-cyan-400", dot: "#06b6d4" },
+  { id: "BFS_PPV_312", label: "Área BFS PPV 312", color: "bg-blue-50 border-blue-300", dot: "#60a5fa" },
+  { id: "HEMODIALISIS", label: "Hemo-diálisis", color: "bg-sky-200 border-sky-500", dot: "#0284c7" },
+  { id: "BFS_PGV_305", label: "Área BFS PGV 305", color: "bg-blue-200 border-blue-500", dot: "#1d4ed8" },
+  { id: "DIVISION_PLASTICOS", label: "División Plásticos", color: "bg-cyan-50 border-cyan-300", dot: "#22d3ee" },
 ] as const;
 
-const TURNOS: Turno[] = ["mañana", "tarde", "noche"];
+// El backend usa "manana" (sin tilde, restricción de enum); el resto de la
+// app usa "mañana". Única frontera de conversión, igual que en staff.api.ts.
+function turnoToBackend(t: Turno): BackendTurno {
+  return t === "mañana" ? "manana" : t;
+}
+function turnoFromBackend(t: BackendTurno): Turno {
+  return t === "manana" ? "mañana" : t;
+}
 
 const DashboardPage: React.FC = () => {
 
@@ -64,77 +75,163 @@ const DashboardPage: React.FC = () => {
   const [areaId, setAreaId] = useState<string>(AREAS[0].id);
   const [weeks, setWeeks] = useState<Semana[]>([]);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const [products, setProducts] = useState<ItemCatalogo[]>([]);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const monday = startOfWeek(currentDate);
   const weekId = weekIdOf(new Date(monday));
   const days = Array.from({ length: 7 }, (_, i) => addDays(monday, i));
 
-  const catalogoArea = useMemo(() => getCatalogoPorArea(areaId), [areaId]);
+  // id real de la Semana en el backend (UUID) para la semana/área que se ve
+  // ahora mismo. weekId sigue siendo la etiqueta ISO usada como clave local.
+  const semanaBackendIdRef = useRef<string | null>(null);
+  const areaUuidCacheRef = useRef<Map<string, string>>(new Map());
 
+  const resolveAreaUuid = useCallback(async (code: string): Promise<string> => {
+    const cached = areaUuidCacheRef.current.get(code);
+    if (cached) return cached;
+    const areas = await areasApi.getAreas();
+    for (const a of areas) areaUuidCacheRef.current.set(a.code, a.id);
+    const found = areaUuidCacheRef.current.get(code);
+    if (!found) throw new Error(`Área no encontrada en el backend: ${code}`);
+    return found;
+  }, []);
+
+  const refreshWeek = useCallback(async () => {
+    const uuid = await resolveAreaUuid(areaId);
+    const fechaInicio = fmt(monday);
+    const fechaFin = fmt(addDays(monday, 6));
+    const semana = await semanasApi.ensureSemana({ areaId: uuid, fechaInicio, fechaFin });
+    semanaBackendIdRef.current = semana.id;
+
+    const rows = await ordenesApi.getOrdenes(semana.id);
+    const productNameById = new Map(products.map((p) => [p.id, p.nombre]));
+    const ordenes: Orden[] = await Promise.all(
+      rows.map(async (o): Promise<Orden> => {
+        const asigs = await ordenesApi.getAsignaciones(o.id);
+        return {
+          id: o.id,
+          fecha: o.fecha.slice(0, 10),
+          turno: turnoFromBackend(o.turno),
+          productoId: o.productId,
+          productoNombre: productNameById.get(o.productId) ?? "(producto)",
+          planificado: Number(o.planificado),
+          real: o.real ? Number(o.real) : undefined,
+          estado: o.estado,
+          asignados: asigs.map((a) => a.staffId),
+          areaId,
+          opCode: o.opCode ?? undefined,
+          observaciones: o.observaciones ?? undefined,
+          createdAt: new Date().toISOString(),
+        };
+      })
+    );
+
+    setWeeks((prev) => {
+      const others = prev.filter((w) => !(w.id === weekId && w.areaId === areaId));
+      return [
+        ...others,
+        { id: weekId, fechaInicio, fechaFin, areaId, estado: semana.estado, ordenes },
+      ];
+    });
+  }, [areaId, monday, weekId, products, resolveAreaUuid]);
+
+  // Catálogo de productos del área seleccionada.
   useEffect(() => {
-    ensureSeed(areaId, new Date());
-    setWeeks(loadWeeks());
+    let cancelled = false;
+    (async () => {
+      try {
+        const result = await productsApi.getProducts({ areaId, activeOnly: true, pageSize: 500 });
+        if (cancelled) return;
+        setProducts(
+          result.items.map((p) => ({ id: p.id, codigo: p.codigo, nombre: p.nombre, vol: p.vol ?? undefined, envase: p.envase ?? undefined }))
+        );
+      } catch (err) {
+        if (!cancelled) setLoadError(err instanceof Error ? err.message : "No se pudo cargar el catálogo de productos");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [areaId]);
+
+  // Semana + órdenes de la semana/área vista. Espera a tener el catálogo
+  // cargado para poder resolver el nombre del producto de cada orden.
+  useEffect(() => {
+    if (products.length === 0) return;
+    let cancelled = false;
+    setLoading(true);
+    setLoadError(null);
+    refreshWeek()
+      .catch((err) => {
+        if (!cancelled) setLoadError(err instanceof Error ? err.message : "No se pudo cargar la semana");
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [areaId, weekId, products.length]);
 
   const currentWeek = useMemo(() =>
     weeks.find(w => w.id === weekId && w.areaId === areaId) ?? null
     , [weeks, weekId, areaId]);
 
-  function ensureSeed(areaId: string, date: Date) {
-    const monday = startOfWeek(date);
-    const id = weekIdOf(monday);
-    if (loadWeeks().some(w => w.id === id && w.areaId === areaId)) return;
-
-    upsertWeek({
-      id, fechaInicio: fmt(monday), fechaFin: fmt(addDays(monday, 6)), areaId,
-      estado: "borrador", ordenes: []
-    });
+  async function addOrder(fecha: string, turno: Turno, productoId: string, plan: number) {
+    if (!semanaBackendIdRef.current) return;
+    try {
+      await ordenesApi.createOrden({
+        semanaId: semanaBackendIdRef.current,
+        fecha,
+        turno: turnoToBackend(turno),
+        productId: productoId,
+        planificado: plan,
+      });
+      await refreshWeek();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "No se pudo crear la orden");
+    }
   }
 
-  function persist(w: Semana) {
-    upsertWeek(w);
-    setWeeks(loadWeeks());
-  }
-
-  function addOrder(fecha: string, turno: Turno, producto: string, plan: number) {
-    if (!currentWeek) return;
-    persist({
-      ...currentWeek,
-      ordenes: [
-        ...currentWeek.ordenes,
-        {
-          id: genId("ord"), fecha, turno,
-          productoId: "AUTO", productoNombre: producto,
-          planificado: plan, estado: "borrador" as EstadoOrden,
-          asignados: [], areaId,
-          createdAt: new Date().toISOString()
-        }
-      ]
-    });
-  }
-
-  const setReal = (id: string, real: number) => {
-    if (!currentWeek) return;
-    persist({
-      ...currentWeek,
-      ordenes: currentWeek.ordenes.map(o => {
-        if (o.id !== id) return o;
-        // Auto-change state to 'terminada' when real >= planificado
-        const newEstado = real >= o.planificado ? 'terminada' as EstadoOrden : o.estado;
-        return { ...o, real, estado: newEstado };
-      })
-    });
+  const setReal = async (id: string, real: number, observaciones?: string) => {
+    try {
+      await ordenesApi.registerReal(id, real, observaciones);
+      await refreshWeek();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "No se pudo registrar la producción real");
+    }
   };
 
-  const setAssigned = (id: string, ids: string[]) => currentWeek &&
-    persist({
-      ...currentWeek,
-      ordenes: currentWeek.ordenes.map(o => o.id === id ? { ...o, asignados: ids } : o)
-    });
+  const setAssigned = async (id: string, ids: string[]) => {
+    const orden = currentWeek?.ordenes.find((o) => o.id === id);
+    if (!orden) return;
+    const after = new Set(ids);
+    const toAdd = ids.filter((sid) => !new Set(orden.asignados).has(sid));
+    try {
+      const current = await ordenesApi.getAsignaciones(id);
+      const toRemove = current.filter((a) => !after.has(a.staffId));
+      for (const asig of toRemove) {
+        await ordenesApi.revokeAssignment(asig.id);
+      }
+      for (const staffId of toAdd) {
+        await ordenesApi.assignStaff(id, { staffId, rolOperativo: "Operador" });
+      }
+      await refreshWeek();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "No se pudo actualizar la asignación de personal");
+    }
+  };
 
-  const delOrder = (id: string) => {
-    removeOrder(weekId, areaId, id);
-    setWeeks(loadWeeks());
+  const delOrder = async (id: string) => {
+    try {
+      await ordenesApi.deleteOrden(id);
+      await refreshWeek();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "No se pudo eliminar la orden");
+    }
   };
 
   const [quickOpen, setQuickOpen] = useState(false);
@@ -155,9 +252,24 @@ const DashboardPage: React.FC = () => {
     setQuickOpen(true);
   };
 
-  const handlePublish = () => {
-    publishWeek(weekId, areaId);
-    setWeeks(loadWeeks());
+  const handlePublish = async () => {
+    if (!semanaBackendIdRef.current) return;
+    try {
+      await semanasApi.publishSemana(semanaBackendIdRef.current);
+      await refreshWeek();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "No se pudo publicar la semana");
+    }
+  };
+
+  const handleClose = async () => {
+    if (!semanaBackendIdRef.current) return;
+    try {
+      await semanasApi.closeSemana(semanaBackendIdRef.current);
+      await refreshWeek();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "No se pudo cerrar la semana");
+    }
   };
 
   // Calculate statistics
@@ -173,23 +285,65 @@ const DashboardPage: React.FC = () => {
   }, [currentWeek]);
 
   const currentArea = AREAS.find(a => a.id === areaId);
+  const cumplimiento = stats.totalPlanned > 0
+    ? Math.round((stats.totalReal / stats.totalPlanned) * 100)
+    : 0;
+
+  const estadoSemanaBadge: Record<string, { label: string; className: string }> = {
+    borrador: { label: "Borrador", className: "bg-white/20 text-white" },
+    publicado: { label: "Publicada", className: "bg-emerald-400/25 text-emerald-50" },
+    cerrado: { label: "Cerrada", className: "bg-slate-900/30 text-blue-100" },
+  };
 
   return (
     <div className="space-y-6">
 
-      {/* Page Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="page-title">Programación Semanal</h1>
-          <p className="page-subtitle">Control de producción por día, turno y orden</p>
+      {/* Encabezado con degradado de marca: contexto de semana y acciones */}
+      <div className="gradient-brand rounded-2xl shadow-lg text-white p-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl lg:text-3xl font-bold">Programación Semanal</h1>
+            <p className="text-blue-100 mt-1">Control de producción por día, turno y orden</p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2 bg-white/15 backdrop-blur-sm rounded-xl px-4 py-2.5">
+              <Calendar size={18} />
+              <span className="font-semibold text-sm">{fmt(monday)} — {fmt(addDays(monday, 6))}</span>
+            </div>
+            <span className={`px-3 py-1.5 rounded-full text-xs font-bold ${estadoSemanaBadge[weekStatus]?.className ?? "bg-white/20 text-white"}`}>
+              {estadoSemanaBadge[weekStatus]?.label ?? weekStatus}
+            </span>
+            {canEdit && weekStatus === "publicado" && (
+              <button
+                onClick={handleClose}
+                className="px-4 py-2.5 rounded-xl bg-white text-blue-800 font-semibold text-sm hover:bg-blue-50 transition-colors shadow-sm"
+                title="Cierra la semana. Solo se puede si no quedan órdenes en borrador."
+              >
+                Cerrar semana
+              </button>
+            )}
+          </div>
         </div>
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <Calendar size={16} />
-          <span className="font-medium">{fmt(monday)} - {fmt(addDays(monday, 6))}</span>
+
+        {/* Barra de cumplimiento real vs planificado */}
+        <div className="mt-5">
+          <div className="flex items-center justify-between text-xs font-semibold text-blue-100 mb-1.5">
+            <span>Cumplimiento de la semana</span>
+            <span>{cumplimiento}% · {stats.totalReal.toLocaleString()} de {stats.totalPlanned.toLocaleString()} unid.</span>
+          </div>
+          <div className="h-2.5 bg-white/20 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-white/90 rounded-full transition-all duration-500"
+              style={{ width: `${Math.min(cumplimiento, 100)}%` }}
+            />
+          </div>
         </div>
       </div>
 
-
+      {loadError && (
+        <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3">{loadError}</div>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -209,7 +363,7 @@ const DashboardPage: React.FC = () => {
           title="Producción Planificada"
           value={stats.totalPlanned.toLocaleString()}
           icon={TrendingUp}
-          color="warning"
+          color="accent"
         />
         <StatsCard
           title="Producción Real"
@@ -222,45 +376,60 @@ const DashboardPage: React.FC = () => {
       {/* Area Selector */}
       <div className="card p-6">
         <div className="mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">Seleccionar Área de Producción</h2>
-          <p className="text-sm text-gray-600">Elige el área para visualizar y gestionar las órdenes de producción</p>
+          <h2 className="text-lg font-semibold text-gray-900 mb-1">Área de Producción</h2>
+          <p className="text-sm text-gray-600">Elige el área para visualizar y gestionar sus órdenes</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-          {AREAS.map(a => (
-            <button
-              key={a.id}
-              onClick={() => setAreaId(a.id)}
-              className={`
-                p-4 rounded-xl border-2 transition-all duration-200
-                text-left
-                ${a.id === areaId
-                  ? a.color + ' ring-2 ring-offset-2 ring-primary-500'
-                  : 'bg-white border-gray-200 hover:border-gray-300'
-                }
-              `}
-            >
-              <p className="font-semibold text-sm text-gray-900">{a.label}</p>
-            </button>
-          ))}
+          {AREAS.map(a => {
+            const isActive = a.id === areaId;
+            return (
+              <button
+                key={a.id}
+                onClick={() => setAreaId(a.id)}
+                className={`
+                  flex items-center gap-3 p-4 rounded-xl border-2 text-left
+                  transition-all duration-200
+                  ${isActive
+                    ? `${a.color} ring-2 ring-offset-2 ring-primary-500 shadow-sm`
+                    : 'bg-white border-gray-200 hover:border-primary-300 hover:bg-primary-50/40'
+                  }
+                `}
+              >
+                <span
+                  className="w-2.5 h-2.5 rounded-full shrink-0"
+                  style={{ backgroundColor: a.dot }}
+                />
+                <p className={`font-semibold text-sm ${isActive ? "text-blue-900" : "text-gray-700"}`}>
+                  {a.label}
+                </p>
+              </button>
+            );
+          })}
         </div>
       </div>
 
       {/* Orders Board */}
       <div className="card p-6">
-        <OrdersBoard
-          days={days}
-          canEdit={canEdit}
-          getOrders={(dayKey) => {
-            const orders = currentWeek?.ordenes.filter(o => o.fecha === dayKey) ?? [];
-            // Non-admin users only see orders that are not in 'borrador' state
-            return canEdit ? orders : orders.filter(o => o.estado !== 'borrador');
-          }}
-          onAdd={handleQuickAdd}
-          onInfo={o => setInfoOrder(o)}
-          onRegister={o => setRegCtx(o)}
-          onAssign={o => setAssignCtx(o)}
-          onDelete={o => delOrder(o.id)}
-        />
+        {loading ? (
+          <div className="flex items-center justify-center py-16">
+            <div className="loading-spinner w-8 h-8" />
+          </div>
+        ) : (
+          <OrdersBoard
+            days={days}
+            canEdit={canEdit}
+            getOrders={(dayKey) => {
+              const orders = currentWeek?.ordenes.filter(o => o.fecha === dayKey) ?? [];
+              // Non-admin users only see orders that are not in 'borrador' state
+              return canEdit ? orders : orders.filter(o => o.estado !== 'borrador');
+            }}
+            onAdd={handleQuickAdd}
+            onInfo={o => setInfoOrder(o)}
+            onRegister={o => setRegCtx(o)}
+            onAssign={o => setAssignCtx(o)}
+            onDelete={o => delOrder(o.id)}
+          />
+        )}
       </div>
 
       {/* Modals */}
@@ -270,9 +439,9 @@ const DashboardPage: React.FC = () => {
           onClose={() => setQuickOpen(false)}
           fecha={quickCtx.fecha}
           turno="mañana"
-          catalogo={catalogoArea}
+          catalogo={products}
           onSave={d => {
-            addOrder(d.fecha, d.turno, d.productoNombre, d.planificado);
+            addOrder(d.fecha, d.turno, d.productoId, d.planificado);
             setQuickOpen(false);
           }}
         />
@@ -285,17 +454,19 @@ const DashboardPage: React.FC = () => {
           plan={regCtx.planificado}
           producto={regCtx.productoNombre}
           turno={regCtx.turno}
-          onSave={(real) => { setReal(regCtx.id, real); setRegCtx(null); }}
+          onSave={(real, obs) => { setReal(regCtx.id, real, obs); setRegCtx(null); }}
         />
       )}
 
       {assignCtx && (() => {
         // Compute all existing assignments for this date/turno from all orders
+        // (misma semana/área cargada en memoria; el backend es la autoridad real
+        // del conflicto cruzando todas las semanas — ver AssignStaffUseCase).
         const existingAssignments = (currentWeek?.ordenes || [])
           .filter(o => o.fecha === assignCtx.fecha && o.turno === assignCtx.turno && o.id !== assignCtx.id)
-          .flatMap(o => o.asignados.map(personName => ({
-            personId: personName, // Using name as ID for now
-            personName,
+          .flatMap(o => o.asignados.map(staffId => ({
+            personId: staffId,
+            personName: staffId,
             areaId: o.areaId,
             turno: o.turno
           })));
@@ -318,20 +489,21 @@ const DashboardPage: React.FC = () => {
         <OrderInfoModal
           open={true}
           order={infoOrder}
-          catalogo={catalogoArea}
+          catalogo={products}
           canEdit={canEdit}
           onClose={() => setInfoOrder(null)}
-          onSave={(p) => {
-            // Update order with new data
-            if (!currentWeek) return;
-            persist({
-              ...currentWeek,
-              ordenes: currentWeek.ordenes.map(o =>
-                o.id === infoOrder.id
-                  ? { ...o, productoNombre: p.productoNombre, planificado: p.planificado, estado: p.estado }
-                  : o
-              )
-            });
+          onSave={async (p) => {
+            const producto = products.find((prod) => prod.nombre === p.productoNombre);
+            try {
+              await ordenesApi.updateOrden(infoOrder.id, {
+                productId: producto?.id,
+                planificado: p.planificado,
+                estado: p.estado,
+              });
+              await refreshWeek();
+            } catch (err) {
+              alert(err instanceof Error ? err.message : "No se pudo actualizar la orden");
+            }
             setInfoOrder(null);
           }}
         />

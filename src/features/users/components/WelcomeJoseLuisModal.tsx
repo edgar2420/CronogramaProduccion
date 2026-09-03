@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 type Props = {
   open: boolean;
@@ -14,7 +14,7 @@ const WelcomeJoseLuisModal: React.FC<Props> = ({ open, onClose, nombre = "José 
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
       <div className="absolute inset-0 flex items-center justify-center p-4">
         <div className="w-full max-w-md bg-white rounded-2xl overflow-hidden shadow-2xl">
-          <div className="px-5 py-3 border-b bg-purple-50 text-purple-900 font-bold">
+          <div className="px-5 py-3 border-b bg-sky-50 text-sky-900 font-bold">
             ¡Bienvenido, {nombre}!
           </div>
 
@@ -34,7 +34,7 @@ const WelcomeJoseLuisModal: React.FC<Props> = ({ open, onClose, nombre = "José 
           </div>
 
           <div className="px-5 py-3 border-t flex justify-end">
-            <button className="btn bg-purple-600 hover:bg-purple-700 text-white" onClick={onClose}>
+            <button className="btn bg-sky-600 hover:bg-sky-700 text-white" onClick={onClose}>
               Cerrar
             </button>
           </div>

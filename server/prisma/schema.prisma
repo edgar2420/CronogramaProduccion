@@ -1,0 +1,278 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  superadmin
+  admin
+  usuario
+}
+
+model Area {
+  id        String    @id @default(uuid())
+  code      String    @unique
+  name      String
+  colorHex  String?
+  active    Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+  tanques   Tanque[]
+  semanas   Semana[]
+
+  @@map("areas")
+}
+
+/// Nunca se actualiza ni se borra una fila existente ante un cambio de contenido:
+/// cada edición inserta una nueva fila con el mismo productGroupId y version+1,
+/// y cierra la anterior seteando validTo + supersededById. La fila vigente es la
+/// que tiene validTo = null para un productGroupId dado.
+model Product {
+  id              String    @id @default(uuid())
+  productGroupId  String
+  version         Int       @default(1)
+  codigo          String
+  nombre          String
+  vol             String?
+  envase          String?
+  areaId          String
+  area            Area      @relation(fields: [areaId], references: [id])
+  active          Boolean   @default(true)
+  validFrom       DateTime  @default(now())
+  validTo         DateTime?
+  supersededById  String?   @unique
+  changeReason    String?
+  createdByUserId String
+  createdAt       DateTime  @default(now())
+
+  @@index([productGroupId])
+  @@index([areaId, active])
+  @@unique([areaId, codigo, version])
+  @@map("products")
+}
+
+model User {
+  id               String    @id @default(uuid())
+  username         String    @unique
+  name             String
+  role             Role      @default(usuario)
+  passwordHash     String
+  active           Boolean   @default(true)
+  failedLoginCount Int       @default(0)
+  lockedUntil      DateTime?
+  createdAt        DateTime  @default(now())
+
+  @@map("users")
+}
+
+enum RolBaseStaff {
+  Operador
+  Supervisor
+  Tecnologo
+}
+
+/// Mismo patrón de versionado inmutable que Product: editar crea una fila
+/// nueva (staffGroupId compartido, version+1) y cierra la anterior (validTo).
+model Staff {
+  id              String        @id @default(uuid())
+  staffGroupId    String
+  version         Int           @default(1)
+  nombre          String
+  codigoEmpleado  String?
+  rolBase         RolBaseStaff
+  areaIds         String[]
+  /// Mapa de capacitación por habilidad (SkillKey -> "ok"|"reforzar"|"capacitar").
+  /// Mutable en el sitio (no versiona el Staff): es metadata operativa, no un
+  /// dato identitario como nombre/rol/áreas. Cada guardado igual queda en
+  /// audit_log (STAFF_SKILLS_UPDATE).
+  skills          Json?
+  active          Boolean       @default(true)
+  validFrom       DateTime      @default(now())
+  validTo         DateTime?
+  supersededById  String?       @unique
+  changeReason    String?
+  createdByUserId String
+  createdAt       DateTime      @default(now())
+
+  @@index([staffGroupId])
+  @@map("staff")
+}
+
+model Tanque {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  areaId    String
+  area      Area     @relation(fields: [areaId], references: [id])
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@map("tanques")
+}
+
+/// Rendimiento teórico de un producto en un tanque (de "LEVANTAMIENTO DE LOTES
+/// PARA FM SEGÚN ÁREA"). Es dato de referencia para planificar producción, no
+/// un lote ejecutado. Mismo versionado inmutable que Product/Staff.
+model CapacidadProductoTanque {
+  id                  String    @id @default(uuid())
+  groupId             String
+  version             Int       @default(1)
+  productId           String
+  tanqueId            String
+  volumenUnitarioMl   Decimal
+  volumenAValidarL    Decimal
+  lotesProgramadosDia Decimal
+  cantidadTeoricaDia  Decimal
+  horasEnvasado       Decimal?
+  horasAnalisis       Decimal?
+  observaciones       String?
+  active              Boolean   @default(true)
+  validFrom           DateTime  @default(now())
+  validTo             DateTime?
+  supersededById      String?   @unique
+  changeReason        String?
+  createdByUserId     String
+  createdAt           DateTime  @default(now())
+
+  @@index([groupId])
+  @@unique([productId, tanqueId, version])
+  @@map("capacidad_producto_tanque")
+}
+
+enum EstadoSemana {
+  borrador
+  publicado
+  cerrado
+}
+
+enum EstadoOrden {
+  borrador
+  en_proceso
+  terminada
+  /// Lote cancelado (la planta lo registra a diario: fallas de máquina,
+  /// temperatura fuera de rango, etc.). Nunca se borra la orden: queda
+  /// cancelada con su motivo, para no perder el rastro del lote asignado.
+  cancelada
+}
+
+enum Turno {
+  manana
+  tarde
+  noche
+}
+
+/// Datos operativos (no versionados campo a campo como Product): nunca se
+/// hace DELETE, las bajas y transiciones quedan en audit_log.
+model Semana {
+  id                String       @id @default(uuid())
+  areaId            String
+  area              Area         @relation(fields: [areaId], references: [id])
+  fechaInicio       DateTime
+  fechaFin          DateTime
+  estado            EstadoSemana @default(borrador)
+  publishedAt       DateTime?
+  publishedByUserId String?
+  closedAt          DateTime?
+  closedByUserId    String?
+  createdAt         DateTime     @default(now())
+  ordenes           Orden[]
+
+  @@unique([areaId, fechaInicio])
+  @@map("semanas")
+}
+
+/// Una Orden es un registro de fabricación: se corresponde 1:1 con una O.P. y
+/// un Nº de lote en el "CRONOGRAMA DE FABRICACIÓN" que lleva la planta
+/// (ver AUDITORIA-DATOS.md). Los campos de lote/correlativos/vencimiento son
+/// los que dan trazabilidad al producto liberado, no son opcionales de negocio
+/// aunque el schema los permita nulos mientras la orden está en borrador.
+model Orden {
+  id                     String               @id @default(uuid())
+  semanaId               String
+  semana                 Semana               @relation(fields: [semanaId], references: [id])
+  areaId                 String
+  fecha                  DateTime
+  turno                  Turno
+  productId              String
+  tanqueId               String?
+
+  // Identificación del registro de fabricación
+  opCode                 String?
+  numeroLote             String?
+  correlativoFabricacion Int?
+  correlativoProduccion  Int?
+  fechaVencimiento       String?
+
+  // Volúmenes programados
+  volumenUnitarioL       Decimal?
+  volumenTotalL          Decimal?
+  planificado            Decimal
+
+  // Cumplido (ejecución real)
+  real                   Decimal?
+  fechaInicioReal        DateTime?
+  fechaFinReal           DateTime?
+  observaciones          String?
+
+  estado                 EstadoOrden          @default(borrador)
+  motivoCancelacion      String?
+  active                 Boolean              @default(true)
+  createdByUserId        String
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
+  asignaciones           AsignacionPersonal[]
+
+  @@index([semanaId])
+  @@index([areaId, fecha, turno])
+  @@index([numeroLote])
+  @@map("ordenes")
+}
+
+/// Reemplaza el `asignados: string[]` del frontend (que mezclaba ids y
+/// nombres). El conflicto de turno (misma persona, misma fecha/turno, área
+/// distinta) se resuelve con una consulta sobre esta tabla, cruzando todas
+/// las semanas, no solo la cargada en memoria del cliente.
+model AsignacionPersonal {
+  id              String   @id @default(uuid())
+  ordenId         String
+  orden           Orden    @relation(fields: [ordenId], references: [id])
+  staffId         String
+  fecha           DateTime
+  turno           Turno
+  areaId          String
+  rolOperativo    String
+  horarioInicio   String?
+  horarioFin      String?
+  active          Boolean  @default(true)
+  createdByUserId String
+  createdAt       DateTime @default(now())
+
+  @@index([staffId, fecha, turno])
+  @@index([ordenId])
+  @@map("asignaciones_personal")
+}
+
+/// Tabla de solo-inserción. La migración 0001_init agrega reglas SQL a nivel de
+/// Postgres que bloquean UPDATE/DELETE sobre esta tabla, y el código de
+/// aplicación (PrismaAuditLogRepository) solo expone un método append().
+model AuditLog {
+  id            String   @id @default(uuid())
+  occurredAt    DateTime @default(now())
+  actorUserId   String?
+  actorUsername String?
+  action        String
+  entityType    String
+  entityId      String
+  beforeJson    Json?
+  afterJson     Json?
+  ipAddress     String?
+  requestId     String?
+
+  @@index([entityType, entityId])
+  @@index([actorUserId])
+  @@map("audit_log")
+}

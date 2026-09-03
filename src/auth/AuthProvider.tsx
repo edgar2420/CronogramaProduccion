@@ -1,59 +1,47 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import type { Session, User } from "./types";
+import type { User } from "./types";
 import { AuthContext } from "./AuthContext";
-import {
-  seedUsersIfNeeded,
-  loadUsers,
-  findByUsername,
-} from "@/services/storage/users.store";
-import {
-  getSession,
-  setSession,
-  logout as clearSession,
-} from "@/services/storage/session.store";
+import * as authApi from "@/services/api/auth.api";
 import { useNavigate } from "react-router-dom";
+
+const TOKEN_KEY = "auth_token";
 
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  //  Inicializa usuarios y sesión desde localStorage
+  // Restaura la sesión contra el backend real (/auth/me) usando el access
+  // token en sessionStorage. Sin backend no hay sesión — no hay fallback local.
   useEffect(() => {
-    seedUsersIfNeeded();
-    const s = getSession();
-    if (s) {
-      const all = loadUsers();
-      const u = all.find((x) => x.id === s.userId) || null;
-      if (u) {
-        setUser(u);
-      }
+    const token = sessionStorage.getItem(TOKEN_KEY);
+    if (!token) {
+      setLoading(false);
+      return;
     }
-    setLoading(false); // Terminó de cargar
+    authApi
+      .me()
+      .then(({ user: remoteUser }) => setUser({ ...remoteUser, password: "" }))
+      .catch(() => {
+        sessionStorage.removeItem(TOKEN_KEY);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
-  // Login
   const login = useCallback(async (username: string, password: string) => {
-    const u = findByUsername(username);
-    await new Promise((r) => setTimeout(r, 300));
-
-    if (!u || u.password !== password) {
-      throw new Error("Usuario o contraseña inválidos");
-    }
-
-    const session: Session = {
-      userId: u.id,
-      token: Math.random().toString(36).slice(2),
-      createdAt: new Date().toISOString(),
-    };
-    setSession(session);
-    setUser(u);
+    const result = await authApi.login(username, password);
+    sessionStorage.setItem(TOKEN_KEY, result.accessToken);
+    // El backend no expone la contraseña; el campo queda vacío y no se usa
+    // una vez autenticado (ver comentario "DEMO" en auth/types.ts).
+    setUser({ ...result.user, password: "" });
     navigate("/", { replace: true });
   }, [navigate]);
 
-
   const logout = useCallback(() => {
-    clearSession();
+    authApi.logout().catch(() => {
+      // best-effort: igual limpiamos la sesión local aunque falle la llamada
+    });
+    sessionStorage.removeItem(TOKEN_KEY);
     setUser(null);
     navigate("/login", { replace: true });
   }, [navigate]);
@@ -62,7 +50,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     () => ({
       user,
       isAuthenticated: !!user,
-      loading, // Incluir loading en el contexto
+      loading,
       login,
       logout,
     }),

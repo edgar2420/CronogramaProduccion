@@ -1,70 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { Layers, Plus, Pencil, Trash2, Save, X } from "lucide-react";
-
-// Types
-interface Area {
-    id: string;
-    label: string;
-    color: string;
-    activo: boolean;
-}
+import * as areasApi from "@/services/api/areas.api";
+import type { Area } from "@/services/api/areas.api";
 
 const COLORS = [
-    { bg: "bg-blue-100", border: "border-blue-300", label: "Azul" },
-    { bg: "bg-purple-100", border: "border-purple-300", label: "Morado" },
-    { bg: "bg-green-100", border: "border-green-300", label: "Verde" },
-    { bg: "bg-yellow-100", border: "border-yellow-300", label: "Amarillo" },
-    { bg: "bg-red-100", border: "border-red-300", label: "Rojo" },
-    { bg: "bg-indigo-100", border: "border-indigo-300", label: "Índigo" },
-    { bg: "bg-pink-100", border: "border-pink-300", label: "Rosa" },
-    { bg: "bg-teal-100", border: "border-teal-300", label: "Teal" },
+    { hex: "#3b82f6", label: "Azul" },
+    { hex: "#8b5cf6", label: "Morado" },
+    { hex: "#22c55e", label: "Verde" },
+    { hex: "#eab308", label: "Amarillo" },
+    { hex: "#ef4444", label: "Rojo" },
+    { hex: "#6366f1", label: "Índigo" },
+    { hex: "#ec4899", label: "Rosa" },
+    { hex: "#14b8a6", label: "Teal" },
 ];
-
-const LS_KEY = "app_areas";
-
-function loadAreas(): Area[] {
-    try {
-        const raw = localStorage.getItem(LS_KEY);
-        if (raw) return JSON.parse(raw);
-    } catch { }
-    // Default areas
-    return [
-        { id: "BFS_PGV_321", label: "Área BFS PGV 321", color: "bg-blue-100 border-blue-300", activo: true },
-        { id: "VIDRIO", label: "Área Vidrio", color: "bg-purple-100 border-purple-300", activo: true },
-        { id: "PVC_PP", label: "Área PVC/PP", color: "bg-green-100 border-green-300", activo: true },
-        { id: "BFS_PPV_312", label: "Área BFS PPV 312", color: "bg-yellow-100 border-yellow-300", activo: true },
-        { id: "HEMODIALISIS", label: "Hemo-diálisis", color: "bg-red-100 border-red-300", activo: true },
-        { id: "BFS_PGV_305", label: "Área BFS PGV 305", color: "bg-indigo-100 border-indigo-300", activo: true },
-        { id: "DIVISION_PLASTICOS", label: "División Plásticos", color: "bg-pink-100 border-pink-300", activo: true },
-    ];
-}
-
-function saveAreas(areas: Area[]) {
-    localStorage.setItem(LS_KEY, JSON.stringify(areas));
-}
 
 const AreasPage: React.FC = () => {
     const [areas, setAreas] = useState<Area[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [editingId, setEditingId] = useState<string | null>(null);
-    const [form, setForm] = useState({ id: "", label: "", color: COLORS[0].bg + " " + COLORS[0].border });
+    const [form, setForm] = useState({ code: "", name: "", colorHex: COLORS[0].hex });
     const [isNew, setIsNew] = useState(false);
 
-    useEffect(() => {
-        setAreas(loadAreas());
-    }, []);
+    async function refresh() {
+        setLoading(true);
+        setError(null);
+        try {
+            setAreas(await areasApi.getAreas());
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "No se pudieron cargar las áreas");
+        } finally {
+            setLoading(false);
+        }
+    }
 
-    const refresh = () => setAreas(loadAreas());
+    useEffect(() => {
+        refresh();
+    }, []);
 
     const startNew = () => {
         setIsNew(true);
         setEditingId(null);
-        setForm({ id: "", label: "", color: COLORS[0].bg + " " + COLORS[0].border });
+        setForm({ code: "", name: "", colorHex: COLORS[0].hex });
     };
 
     const startEdit = (area: Area) => {
         setIsNew(false);
         setEditingId(area.id);
-        setForm({ id: area.id, label: area.label, color: area.color });
+        setForm({ code: area.code, name: area.name, colorHex: area.colorHex ?? COLORS[0].hex });
     };
 
     const cancelEdit = () => {
@@ -72,34 +55,39 @@ const AreasPage: React.FC = () => {
         setIsNew(false);
     };
 
-    const handleSave = () => {
-        if (!form.label.trim()) return;
-
-        let updated: Area[];
-        if (isNew) {
-            const newId = form.label.toUpperCase().replace(/\s+/g, "_").replace(/[^A-Z0-9_]/g, "");
-            updated = [...areas, { id: newId, label: form.label.trim(), color: form.color, activo: true }];
-        } else {
-            updated = areas.map(a => a.id === editingId ? { ...a, label: form.label.trim(), color: form.color } : a);
+    async function handleSave() {
+        if (!form.name.trim()) return;
+        try {
+            if (isNew) {
+                const code = form.code.trim()
+                    ? form.code.trim().toUpperCase().replace(/\s+/g, "_").replace(/[^A-Z0-9_]/g, "")
+                    : form.name.toUpperCase().replace(/\s+/g, "_").replace(/[^A-Z0-9_]/g, "");
+                await areasApi.createArea({ code, name: form.name.trim(), colorHex: form.colorHex });
+            } else if (editingId) {
+                await areasApi.updateArea(editingId, { name: form.name.trim(), colorHex: form.colorHex });
+            }
+            cancelEdit();
+            await refresh();
+        } catch (err) {
+            alert(err instanceof Error ? err.message : "No se pudo guardar el área");
         }
+    }
 
-        saveAreas(updated);
-        refresh();
-        cancelEdit();
-    };
+    async function toggleActive(area: Area) {
+        try {
+            await areasApi.setAreaActive(area.id, !area.active);
+            await refresh();
+        } catch (err) {
+            alert(err instanceof Error ? err.message : "No se pudo cambiar el estado del área");
+        }
+    }
 
-    const toggleActive = (id: string) => {
-        const updated = areas.map(a => a.id === id ? { ...a, activo: !a.activo } : a);
-        saveAreas(updated);
-        refresh();
-    };
-
-    const deleteArea = (id: string) => {
-        if (!confirm("¿Eliminar esta área? Las órdenes asociadas quedarán sin área.")) return;
-        const updated = areas.filter(a => a.id !== id);
-        saveAreas(updated);
-        refresh();
-    };
+    // El backend nunca borra un área (solo baja lógica): "eliminar" aquí
+    // desactiva, igual que el botón OFF, para no prometer un DELETE que no existe.
+    async function deactivateArea(area: Area) {
+        if (!confirm(`¿Desactivar el área "${area.name}"? No se borra el historial, solo deja de estar activa.`)) return;
+        await toggleActive(area);
+    }
 
     return (
         <div className="space-y-6">
@@ -117,6 +105,10 @@ const AreasPage: React.FC = () => {
                 </button>
             </div>
 
+            {error && (
+                <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3">{error}</div>
+            )}
+
             {/* New Area Form */}
             {isNew && (
                 <div className="card p-6">
@@ -126,19 +118,31 @@ const AreasPage: React.FC = () => {
                             <label className="label">Nombre del Área</label>
                             <input
                                 className="input"
-                                value={form.label}
-                                onChange={e => setForm({ ...form, label: e.target.value })}
+                                value={form.name}
+                                onChange={e => setForm({ ...form, name: e.target.value })}
                                 placeholder="Ej: Área de Envasado"
                             />
                         </div>
                         <div>
+                            <label className="label">Código (opcional, se genera del nombre)</label>
+                            <input
+                                className="input"
+                                value={form.code}
+                                onChange={e => setForm({ ...form, code: e.target.value })}
+                                placeholder="Ej: ENVASADO"
+                            />
+                        </div>
+                        <div className="md:col-span-2">
                             <label className="label">Color</label>
                             <div className="flex flex-wrap gap-2">
                                 {COLORS.map(c => (
                                     <button
-                                        key={c.label}
-                                        onClick={() => setForm({ ...form, color: c.bg + " " + c.border })}
-                                        className={`w-8 h-8 rounded-lg border-2 ${c.bg} ${c.border} ${form.color.includes(c.bg) ? 'ring-2 ring-primary-500 ring-offset-2' : ''}`}
+                                        key={c.hex}
+                                        type="button"
+                                        title={c.label}
+                                        onClick={() => setForm({ ...form, colorHex: c.hex })}
+                                        style={{ backgroundColor: c.hex }}
+                                        className={`w-8 h-8 rounded-lg border-2 border-white ${form.colorHex === c.hex ? 'ring-2 ring-primary-500 ring-offset-2' : ''}`}
                                     />
                                 ))}
                             </div>
@@ -158,32 +162,42 @@ const AreasPage: React.FC = () => {
                         <thead>
                             <tr className="text-left text-gray-600 bg-gray-50">
                                 <th className="py-3 px-4 font-semibold">Área</th>
-                                <th className="py-3 px-4 font-semibold">ID</th>
+                                <th className="py-3 px-4 font-semibold">Código</th>
                                 <th className="py-3 px-4 font-semibold">Estado</th>
                                 <th className="py-3 px-4 font-semibold w-40">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {areas.map(area => (
+                            {loading && (
+                                <tr>
+                                    <td colSpan={4} className="py-8 text-center">
+                                        <div className="loading-spinner w-6 h-6 mx-auto" />
+                                    </td>
+                                </tr>
+                            )}
+                            {!loading && areas.map(area => (
                                 <tr key={area.id} className="border-t hover:bg-gray-50 transition-colors">
                                     <td className="py-3 px-4">
                                         {editingId === area.id ? (
                                             <input
                                                 className="input py-1"
-                                                value={form.label}
-                                                onChange={e => setForm({ ...form, label: e.target.value })}
+                                                value={form.name}
+                                                onChange={e => setForm({ ...form, name: e.target.value })}
                                             />
                                         ) : (
                                             <div className="flex items-center gap-3">
-                                                <div className={`w-4 h-4 rounded ${area.color}`} />
-                                                <span className="font-medium">{area.label}</span>
+                                                <div
+                                                    className="w-4 h-4 rounded"
+                                                    style={{ backgroundColor: area.colorHex ?? "#9ca3af" }}
+                                                />
+                                                <span className="font-medium">{area.name}</span>
                                             </div>
                                         )}
                                     </td>
-                                    <td className="py-3 px-4 font-mono text-xs text-gray-500">{area.id}</td>
+                                    <td className="py-3 px-4 font-mono text-xs text-gray-500">{area.code}</td>
                                     <td className="py-3 px-4">
-                                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${area.activo ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
-                                            {area.activo ? "✓ Activo" : "✕ Inactivo"}
+                                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${area.active ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
+                                            {area.active ? "✓ Activo" : "✕ Inactivo"}
                                         </span>
                                     </td>
                                     <td className="py-3 px-4">
@@ -196,18 +210,26 @@ const AreasPage: React.FC = () => {
                                             ) : (
                                                 <>
                                                     <button className="btn-icon hover:bg-gray-200" onClick={() => startEdit(area)}><Pencil size={16} /></button>
-                                                    <button className="btn-icon hover:bg-amber-100" onClick={() => toggleActive(area.id)}>
-                                                        <span className={`text-xs font-bold ${area.activo ? 'text-amber-600' : 'text-green-600'}`}>
-                                                            {area.activo ? 'OFF' : 'ON'}
+                                                    <button className="btn-icon hover:bg-amber-100" onClick={() => toggleActive(area)}>
+                                                        <span className={`text-xs font-bold ${area.active ? 'text-amber-600' : 'text-green-600'}`}>
+                                                            {area.active ? 'OFF' : 'ON'}
                                                         </span>
                                                     </button>
-                                                    <button className="btn-icon hover:bg-red-100" onClick={() => deleteArea(area.id)}><Trash2 size={16} className="text-red-600" /></button>
+                                                    <button className="btn-icon hover:bg-red-100" onClick={() => deactivateArea(area)}><Trash2 size={16} className="text-red-600" /></button>
                                                 </>
                                             )}
                                         </div>
                                     </td>
                                 </tr>
                             ))}
+                            {!loading && areas.length === 0 && (
+                                <tr>
+                                    <td colSpan={4} className="empty-state">
+                                        <Layers size={32} className="mb-2 text-gray-300" />
+                                        No hay áreas registradas todavía. Crea la primera con "Nueva Área".
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>

@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Send, FileEdit, CheckCircle, RefreshCw } from "lucide-react";
 import type { EstadoSemana } from "@/features/schedule/types";
 
@@ -58,7 +58,7 @@ const AdminQuickActions: React.FC<Props> = ({
         className={`
           flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm transition-all shadow-md
           ${hasBorrador
-            ? 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white hover:shadow-lg'
+            ? 'bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white hover:shadow-lg'
             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
           }
         `}

@@ -73,7 +73,7 @@ const MiniCalendar: React.FC<Props> = ({ value, view, onViewChange, onChange }) 
               key={d.toISOString()}
               className={`rounded-md py-2 text-center transition
                 ${isCurrentMonth ? "text-blue-900" : "text-gray-400"}
-                ${isToday ? "bg-yellow-100" : "hover:bg-blue-50"}`}
+                ${isToday ? "bg-sky-100 font-bold text-sky-800" : "hover:bg-blue-50"}`}
               onClick={() => onChange?.(d)}
             >
               {d.getDate()}

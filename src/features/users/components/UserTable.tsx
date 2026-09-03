@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+﻿import React, { useMemo, useState } from "react";
 import type { User } from "@/auth/types";
 import { Pencil, Trash2, Search, Power, Shield, User as UserIcon } from "lucide-react";
 
@@ -17,7 +17,7 @@ const UserTable: React.FC<{
   const getRoleBadge = (role: string) => {
     switch (role) {
       case 'admin':
-        return <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-purple-100 text-purple-700 font-semibold"><Shield size={12} /> Admin</span>;
+        return <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-sky-100 text-sky-700 font-semibold"><Shield size={12} /> Admin</span>;
       case 'supervisor':
         return <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-blue-100 text-blue-700 font-semibold"><UserIcon size={12} /> Supervisor</span>;
       default:

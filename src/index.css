@@ -4,62 +4,74 @@
    Tailwind v4 Theme Registration
    ============================================ */
 @theme {
-  /* Primary Colors - Professional Blue/Indigo */
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-200: #c7d2fe;
-  --color-primary-300: #a5b4fc;
-  --color-primary-400: #818cf8;
-  --color-primary-500: #6366f1;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-800: #3730a3;
-  --color-primary-900: #312e81;
+  /* Primary — Azul corporativo */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
 
-  /* Accent Colors */
-  --color-accent-500: #06b6d4;
-  --color-accent-600: #0891b2;
+  /* Accent — Celeste */
+  --color-accent-50: #f0f9ff;
+  --color-accent-100: #e0f2fe;
+  --color-accent-200: #bae6fd;
+  --color-accent-300: #7dd3fc;
+  --color-accent-400: #38bdf8;
+  --color-accent-500: #0ea5e9;
+  --color-accent-600: #0284c7;
+  --color-accent-700: #0369a1;
 
   /* Sidebar Colors */
-  --color-sidebar-text: #cbd5e1;
+  --color-sidebar-text: #bfdbfe;
   --color-sidebar-text-active: #ffffff;
-  --color-sidebar-item-hover: #334155;
-  --color-sidebar-item-active: #4f46e5;
+  --color-sidebar-item-hover: #14345e;
+  --color-sidebar-item-active: #0284c7;
 }
 
 /* ============================================
    CSS Custom Properties - Theme System
    ============================================ */
 :root {
-  /* Primary Colors - Professional Blue/Indigo */
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-200: #c7d2fe;
-  --color-primary-300: #a5b4fc;
-  --color-primary-400: #818cf8;
-  --color-primary-500: #6366f1;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-800: #3730a3;
-  --color-primary-900: #312e81;
+  /* Primary — Azul corporativo */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
 
-  /* Accent Colors */
-  --color-accent-500: #06b6d4;
-  --color-accent-600: #0891b2;
+  /* Accent — Celeste */
+  --color-accent-50: #f0f9ff;
+  --color-accent-100: #e0f2fe;
+  --color-accent-200: #bae6fd;
+  --color-accent-300: #7dd3fc;
+  --color-accent-400: #38bdf8;
+  --color-accent-500: #0ea5e9;
+  --color-accent-600: #0284c7;
+  --color-accent-700: #0369a1;
 
   /* Success/Warning/Error */
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-error: #ef4444;
 
-  /* Sidebar */
+  /* Sidebar — Navy profundo */
   --sidebar-width: 280px;
   --sidebar-collapsed-width: 80px;
-  --sidebar-bg: #1e293b;
-  --sidebar-text: #cbd5e1;
+  --sidebar-bg: #0c2340;
+  --sidebar-text: #bfdbfe;
   --sidebar-text-active: #ffffff;
-  --sidebar-item-hover: #334155;
-  --sidebar-item-active: #4f46e5;
+  --sidebar-item-hover: #14345e;
+  --sidebar-item-active: #0284c7;
 
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -81,7 +93,8 @@
   html,
   body,
   #root {
-    @apply h-full bg-gray-50;
+    @apply h-full;
+    background-color: #f4f8fd;
   }
 
   body {
@@ -109,7 +122,8 @@
   }
 
   .stat-card {
-    @apply bg-white rounded-xl p-6 shadow-md border border-gray-100 transition-all duration-200 hover:shadow-lg;
+    @apply bg-white rounded-xl p-6 shadow-md border border-gray-100 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5;
+    border-top: 3px solid var(--color-accent-400);
   }
 
   /* Buttons */
@@ -191,6 +205,31 @@
   .sidebar-collapsed .sidebar-item,
   .sidebar-collapsed .sidebar-item-active {
     @apply justify-center px-2;
+  }
+
+  /* ── Sistema azul/celeste: gradientes y turnos ─────────────────────
+     Fuente única de verdad para los degradados de la app. Los turnos se
+     diferencian por intensidad dentro de la misma familia azul→celeste
+     (mañana = celeste claro, tarde = azul medio, noche = navy), en vez
+     de usar colores ajenos a la marca. */
+  .gradient-brand {
+    background-image: linear-gradient(135deg, var(--color-primary-700), var(--color-accent-500));
+  }
+
+  .gradient-turno-manana {
+    background-image: linear-gradient(135deg, var(--color-accent-400), var(--color-accent-600));
+  }
+
+  .gradient-turno-tarde {
+    background-image: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-700));
+  }
+
+  .gradient-turno-noche {
+    background-image: linear-gradient(135deg, var(--color-primary-800), #0c2340);
+  }
+
+  .badge-accent {
+    @apply bg-accent-100 text-accent-700;
   }
 
   /* Page Headers */

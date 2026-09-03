@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+﻿import React, { useEffect, useState, useMemo, useRef } from "react";
 import type { Orden, EstadoOrden, Turno } from "@/features/schedule/types";
 import type { ItemCatalogo } from "@/features/schedule/catalogoProductos";
 import {
@@ -27,18 +27,18 @@ const ESTADOS: { value: EstadoOrden; label: string; color: string; icon: React.R
 // Configuración de colores por turno
 const TURNO_COLORS: Record<Turno, { gradient: string; textSecondary: string; icon: React.ReactNode }> = {
   mañana: {
-    gradient: "from-amber-500 via-amber-600 to-yellow-600",
-    textSecondary: "text-amber-100",
+    gradient: "from-sky-400 via-sky-500 to-cyan-600",
+    textSecondary: "text-sky-100",
     icon: <Sun size={20} />
   },
   tarde: {
-    gradient: "from-orange-500 via-orange-600 to-red-500",
-    textSecondary: "text-orange-100",
+    gradient: "from-blue-500 via-blue-600 to-blue-700",
+    textSecondary: "text-blue-100",
     icon: <SunMedium size={20} />
   },
   noche: {
-    gradient: "from-purple-600 via-purple-700 to-indigo-700",
-    textSecondary: "text-purple-100",
+    gradient: "from-blue-800 via-blue-900 to-slate-900",
+    textSecondary: "text-blue-200",
     icon: <Moon size={20} />
   },
 };
@@ -218,7 +218,7 @@ export default function OrderInfoModal({ open, order, catalogo = [], canEdit = f
           {canEdit && (
             <div className="border-t border-gray-200 pt-6 mt-6">
               <div className="flex items-center gap-3 mb-5">
-                <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl">
+                <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl">
                   <FileEdit size={18} className="text-white" />
                 </div>
                 <div>
@@ -320,7 +320,7 @@ export default function OrderInfoModal({ open, order, catalogo = [], canEdit = f
                 {/* Estado Select */}
                 <div className="space-y-2">
                   <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                    <CheckCircle2 size={14} className="text-purple-500" />
+                    <CheckCircle2 size={14} className="text-sky-500" />
                     Estado
                   </label>
                   <div className="flex gap-2">
@@ -347,7 +347,7 @@ export default function OrderInfoModal({ open, order, catalogo = [], canEdit = f
 
               {/* Selected product info */}
               {selected && (
-                <div className="mt-4 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100">
+                <div className="mt-4 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-blue-50 border border-blue-100">
                   <div className="flex items-center gap-2 mb-2">
                     <Pill size={14} className="text-blue-600" />
                     <span className="text-sm font-semibold text-blue-800">Información del Producto</span>
@@ -391,7 +391,7 @@ export default function OrderInfoModal({ open, order, catalogo = [], canEdit = f
 function InfoCard({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: string; color: string }) {
   const colorClasses = {
     blue: "bg-blue-50 text-blue-600",
-    purple: "bg-purple-50 text-purple-600",
+    purple: "bg-sky-50 text-sky-600",
     green: "bg-green-50 text-green-600",
     amber: "bg-amber-50 text-amber-600",
   }[color] || "bg-gray-50 text-gray-600";

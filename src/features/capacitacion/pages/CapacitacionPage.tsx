@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { GraduationCap, Search, CheckCircle2, AlertTriangle, XCircle, HelpCircle, Save, Plus } from "lucide-react";
-import { loadStaff, updateStaff, seedStaffIfNeeded } from "@/services/storage/staff.store";
+import { GraduationCap, Search, CheckCircle2, AlertTriangle, XCircle, HelpCircle, Save } from "lucide-react";
+import * as staffApi from "@/services/api/staff.api";
 import type { Staff, SkillKey, SkillLevel } from "@/features/staff/types";
 
 type Nivel = SkillLevel | "sin_dato";
@@ -112,11 +112,18 @@ const CapacitacionPage: React.FC = () => {
     const [search, setSearch] = useState("");
     const [filterNivel, setFilterNivel] = useState<Nivel | "todos">("todos");
     const [hasChanges, setHasChanges] = useState(false);
+    const [changedIds, setChangedIds] = useState<Set<string>>(new Set());
     const [expandedStaff, setExpandedStaff] = useState<string | null>(null);
 
+    const [loading, setLoading] = useState(true);
+    const [loadError, setLoadError] = useState<string | null>(null);
+
     useEffect(() => {
-        seedStaffIfNeeded();
-        setStaffList(loadStaff());
+        staffApi
+            .getStaff()
+            .then(setStaffList)
+            .catch((err) => setLoadError(err instanceof Error ? err.message : "No se pudo cargar el personal"))
+            .finally(() => setLoading(false));
     }, []);
 
     const filtered = useMemo(() => {
@@ -164,6 +171,7 @@ const CapacitacionPage: React.FC = () => {
 
             return { ...s, skills: newSkills };
         }));
+        setChangedIds(prev => new Set(prev).add(staffId));
         setHasChanges(true);
     };
 
@@ -179,15 +187,22 @@ const CapacitacionPage: React.FC = () => {
             }
             return { ...s, skills: newSkills };
         }));
+        setChangedIds(prev => new Set(prev).add(staffId));
         setHasChanges(true);
     };
 
-    const handleSave = () => {
-        staffList.forEach(staff => {
-            updateStaff(staff.id, { skills: staff.skills });
-        });
-        setHasChanges(false);
-        alert("✓ Cambios guardados correctamente");
+    const handleSave = async () => {
+        try {
+            const toSave = staffList.filter((s) => changedIds.has(s.id));
+            await Promise.all(
+                toSave.map((staff) => staffApi.updateStaffSkills(staff.id, staff.skills ?? {}))
+            );
+            setChangedIds(new Set());
+            setHasChanges(false);
+            alert("✓ Cambios guardados correctamente");
+        } catch (err) {
+            alert(err instanceof Error ? err.message : "No se pudieron guardar los cambios");
+        }
     };
 
     const getSkillLevel = (staff: Staff, skillKey: SkillKey): Nivel => {
@@ -220,6 +235,9 @@ const CapacitacionPage: React.FC = () => {
                         Gestión de Capacitación
                     </h1>
                     <p className="page-subtitle">Administra el nivel de capacitación del personal por habilidad</p>
+                    {loadError && (
+                        <p className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2 mt-2">{loadError}</p>
+                    )}
                 </div>
                 {hasChanges && (
                     <button className="btn-primary" onClick={handleSave}>

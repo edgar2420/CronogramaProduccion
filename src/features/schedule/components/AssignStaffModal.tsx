@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { loadStaff } from "@/services/storage/staff.store";
+﻿import React, { useEffect, useMemo, useState } from "react";
+import * as staffApi from "@/services/api/staff.api";
 import type { Staff } from "@/features/staff/types";
 import type { Turno } from "@/features/schedule/types";
 import {
@@ -190,9 +190,15 @@ const AssignStaffModal: React.FC<Props> = ({
 
   useEffect(() => {
     if (!open) return;
-    setStoreStaff(loadStaff());
+    let cancelled = false;
+    staffApi.getStaff().then((list) => {
+      if (!cancelled) setStoreStaff(list);
+    });
     setPicked(selectedIds);
     setQ(""); setFilterLevel("todos");
+    return () => {
+      cancelled = true;
+    };
   }, [open, selectedIds]);
 
 
@@ -289,18 +295,18 @@ const AssignStaffModal: React.FC<Props> = ({
   // Configuración de colores por turno
   const turnoConfig: Record<Turno, { gradient: string; textSecondary: string; icon: React.ReactNode }> = {
     mañana: {
-      gradient: "from-amber-500 via-amber-600 to-yellow-600",
-      textSecondary: "text-amber-100",
+      gradient: "from-sky-400 via-sky-500 to-cyan-600",
+      textSecondary: "text-sky-100",
       icon: <Sun size={20} />
     },
     tarde: {
-      gradient: "from-orange-500 via-orange-600 to-red-500",
-      textSecondary: "text-orange-100",
+      gradient: "from-blue-500 via-blue-600 to-blue-700",
+      textSecondary: "text-blue-100",
       icon: <SunMedium size={20} />
     },
     noche: {
-      gradient: "from-purple-600 via-purple-700 to-indigo-700",
-      textSecondary: "text-purple-100",
+      gradient: "from-blue-800 via-blue-900 to-slate-900",
+      textSecondary: "text-blue-200",
       icon: <Moon size={20} />
     },
   };
@@ -353,9 +359,9 @@ const AssignStaffModal: React.FC<Props> = ({
               <UserCheck size={16} />
               {stats.selected} seleccionados
             </div>
-            <div className="px-3 py-1.5 bg-purple-500/30 rounded-lg text-sm font-medium flex items-center gap-2" title="Personal guardado en tu navegador (localStorage)">
+            <div className="px-3 py-1.5 bg-sky-500/30 rounded-lg text-sm font-medium flex items-center gap-2" title="Personal disponible">
               <Users size={16} />
-              {storeStaff.length} en local
+              {storeStaff.length} en el sistema
             </div>
             <div className="px-3 py-1.5 bg-emerald-500/30 rounded-lg text-sm font-medium flex items-center gap-2">
               <CheckCircle2 size={16} />
@@ -390,8 +396,8 @@ const AssignStaffModal: React.FC<Props> = ({
             <button
               onClick={() => setFilterLevel("todos")}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5 ${filterLevel === "todos"
-                ? "bg-indigo-600 text-white shadow-md"
-                : "bg-white text-gray-700 border border-gray-300 hover:border-indigo-400"
+                ? "bg-blue-600 text-white shadow-md"
+                : "bg-white text-gray-700 border border-gray-300 hover:border-blue-400"
                 }`}
             >
               <Users size={14} />

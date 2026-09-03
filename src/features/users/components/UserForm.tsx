@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import type { User, Role } from "@/auth/types";
 
 type Props = {
@@ -28,12 +28,20 @@ const UserForm: React.FC<Props> = ({ initial, onSubmit, onCancel }) => {
       alert("Completa usuario y nombre");
       return;
     }
+    if (!initial && password.trim().length < 8) {
+      alert("La contraseña inicial debe tener al menos 8 caracteres");
+      return;
+    }
+    if (password && password.trim().length < 8) {
+      alert("La nueva contraseña debe tener al menos 8 caracteres");
+      return;
+    }
 
     const payload: Omit<User, "id"> = {
       username: username.trim(),
       name: name.trim(),
       role,
-      password: password || initial?.password || "123456",
+      password,
       active,
     };
 
@@ -110,7 +118,7 @@ const UserForm: React.FC<Props> = ({ initial, onSubmit, onCancel }) => {
         >
           Cancelar
         </button>
-        <button className="btn bg-indigo-600 text-white hover:bg-indigo-700">
+        <button className="btn bg-blue-600 text-white hover:bg-blue-700">
           {initial ? "Guardar" : "Crear usuario"}
         </button>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { X, Pill, Clock, Target, TrendingUp, CheckCircle2, Sun, SunMedium, Moon } from "lucide-react";
 import type { Turno } from "@/features/schedule/types";
 
@@ -14,28 +14,28 @@ type Props = {
 // Configuración de colores por turno
 const TURNO_COLORS: Record<Turno, { gradient: string; textSecondary: string; icon: React.ReactNode; buttonBg: string; buttonHover: string; focusRing: string }> = {
   mañana: {
-    gradient: "from-amber-500 via-amber-600 to-yellow-600",
-    textSecondary: "text-amber-100",
+    gradient: "from-sky-400 via-sky-500 to-cyan-600",
+    textSecondary: "text-sky-100",
     icon: <Sun size={20} className="text-white" />,
-    buttonBg: "bg-amber-600",
-    buttonHover: "hover:bg-amber-700",
-    focusRing: "focus:ring-amber-100 focus:border-amber-500"
+    buttonBg: "bg-sky-600",
+    buttonHover: "hover:bg-sky-700",
+    focusRing: "focus:ring-sky-100 focus:border-sky-500"
   },
   tarde: {
-    gradient: "from-orange-500 via-orange-600 to-red-500",
-    textSecondary: "text-orange-100",
+    gradient: "from-blue-500 via-blue-600 to-blue-700",
+    textSecondary: "text-blue-100",
     icon: <SunMedium size={20} className="text-white" />,
-    buttonBg: "bg-orange-600",
-    buttonHover: "hover:bg-orange-700",
-    focusRing: "focus:ring-orange-100 focus:border-orange-500"
+    buttonBg: "bg-blue-600",
+    buttonHover: "hover:bg-blue-700",
+    focusRing: "focus:ring-blue-100 focus:border-blue-500"
   },
   noche: {
-    gradient: "from-purple-600 via-purple-700 to-indigo-700",
-    textSecondary: "text-purple-100",
+    gradient: "from-blue-800 via-blue-900 to-slate-900",
+    textSecondary: "text-blue-200",
     icon: <Moon size={20} className="text-white" />,
-    buttonBg: "bg-purple-600",
-    buttonHover: "hover:bg-purple-700",
-    focusRing: "focus:ring-purple-100 focus:border-purple-500"
+    buttonBg: "bg-blue-800",
+    buttonHover: "hover:bg-blue-900",
+    focusRing: "focus:ring-blue-100 focus:border-blue-800"
   },
 };
 
@@ -102,9 +102,9 @@ const RegisterRealModal: React.FC<Props> = ({ open, onClose, plan, producto, tur
               <p className="text-[10px] uppercase tracking-wider text-blue-600 font-bold">Producto</p>
               <p className="text-sm font-semibold text-gray-900 truncate" title={producto}>{producto}</p>
             </div>
-            <div className="p-3 bg-purple-50 rounded-xl text-center">
-              <Clock className="mx-auto text-purple-500 mb-1" size={20} />
-              <p className="text-[10px] uppercase tracking-wider text-purple-600 font-bold">Turno</p>
+            <div className="p-3 bg-sky-50 rounded-xl text-center">
+              <Clock className="mx-auto text-sky-500 mb-1" size={20} />
+              <p className="text-[10px] uppercase tracking-wider text-sky-600 font-bold">Turno</p>
               <p className="text-sm font-semibold text-gray-900 capitalize">{turno}</p>
             </div>
             <div className="p-3 bg-amber-50 rounded-xl text-center">

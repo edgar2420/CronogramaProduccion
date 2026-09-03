@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Building2, Filter, Save } from "lucide-react";
 
 type Props = {
@@ -44,7 +44,7 @@ const ToolbarHeader: React.FC<Props> = ({
 
           {/* Filtro de estado */}
           <div className="flex items-center gap-3 bg-white rounded-xl px-4 py-2.5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-            <Filter size={20} className="text-purple-900" />
+            <Filter size={20} className="text-sky-900" />
             <select
               className="bg-transparent border-none outline-none text-base font-semibold text-gray-800 cursor-pointer pr-8 min-w-[180px]"
               value={estado}
@@ -60,7 +60,7 @@ const ToolbarHeader: React.FC<Props> = ({
 
         {/* Botón Publicar */}
         <button
-          className="flex items-center justify-center gap-3 px-8 py-3 bg-gradient-to-r from-purple-900 to-purple-800 hover:from-purple-800 hover:to-purple-700 text-white rounded-xl font-bold text-base transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
+          className="flex items-center justify-center gap-3 px-8 py-3 bg-gradient-to-r from-sky-900 to-sky-800 hover:from-sky-800 hover:to-sky-700 text-white rounded-xl font-bold text-base transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
           onClick={onPublish}
         >
           <Save size={20} />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { Send, X, Bell, CheckCircle, RefreshCw } from "lucide-react";
 import type { EstadoSemana } from "@/features/schedule/types";
 
@@ -40,7 +40,7 @@ const FloatingPublishButton: React.FC<Props> = ({
                 {isExpanded && !showConfirm && (
                     <div className="absolute bottom-16 right-0 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden animate-in slide-in-from-bottom-4 fade-in duration-300">
                         {/* Header */}
-                        <div className="bg-gradient-to-r from-amber-500 to-orange-500 p-4 text-white">
+                        <div className="bg-gradient-to-r from-sky-500 to-blue-600 p-4 text-white">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <Bell size={18} />
@@ -80,7 +80,7 @@ const FloatingPublishButton: React.FC<Props> = ({
 
                             <button
                                 onClick={() => setShowConfirm(true)}
-                                className="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                                className="w-full py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                             >
                                 {isPublished ? (
                                     <>
@@ -101,7 +101,7 @@ const FloatingPublishButton: React.FC<Props> = ({
                 {/* Confirmation Dialog */}
                 {showConfirm && (
                     <div className="absolute bottom-16 right-0 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden animate-in slide-in-from-bottom-4 fade-in duration-300">
-                        <div className="bg-gradient-to-r from-emerald-500 to-teal-600 p-4 text-white">
+                        <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 p-4 text-white">
                             <div className="flex items-center gap-2">
                                 <Send size={18} />
                                 <span className="font-bold">Confirmar Publicación</span>
@@ -123,7 +123,7 @@ const FloatingPublishButton: React.FC<Props> = ({
                                 </button>
                                 <button
                                     onClick={handleConfirm}
-                                    className="flex-1 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold rounded-xl transition-all shadow-md flex items-center justify-center gap-1.5 text-sm"
+                                    className="flex-1 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-xl transition-all shadow-md flex items-center justify-center gap-1.5 text-sm"
                                 >
                                     <CheckCircle size={16} />
                                     Confirmar
@@ -141,7 +141,7 @@ const FloatingPublishButton: React.FC<Props> = ({
             transition-all duration-300 hover:scale-105 active:scale-95
             ${isExpanded
                             ? 'bg-gray-800 text-white'
-                            : 'bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600'
+                            : 'bg-gradient-to-r from-sky-500 to-blue-600 text-white hover:from-sky-600 hover:to-blue-700'
                         }
           `}
                 >
