@@ -4,7 +4,7 @@ import type { ItemCatalogo } from "@/features/schedule/catalogoProductos";
 import {
   X, Clock, TrendingUp,
   Sun, SunMedium, Moon, CheckCircle2, Sparkles,
-  Pill, CalendarDays, Search, ChevronDown, FlaskConical, PackageOpen
+  Pill, CalendarDays, Search, ChevronDown, FlaskConical, PackageOpen, Hash, FileText
 } from "lucide-react";
 
 type Props = {
@@ -13,7 +13,15 @@ type Props = {
   fecha: string;
   turno: Turno;
   catalogo: ItemCatalogo[];
-  onSave: (data: { fecha: string; turno: Turno; productoId: string; productoNombre: string; planificado: number }) => void;
+  onSave: (data: {
+    fecha: string;
+    turno: Turno;
+    productoId: string;
+    productoNombre: string;
+    planificado: number;
+    opCode?: string;
+    numeroLote?: string;
+  }) => void;
 };
 
 const TURNOS: Turno[] = ["mañana", "tarde", "noche"];
@@ -48,6 +56,8 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [planificadoStr, setPlanificadoStr] = useState("");
+  const [opCode, setOpCode] = useState("");
+  const [numeroLote, setNumeroLote] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -68,6 +78,8 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
       setSearchQuery("");
       setShowDropdown(false);
       setPlanificadoStr("");
+      setOpCode("");
+      setNumeroLote("");
     }
   }, [open]);
 
@@ -99,6 +111,8 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
       productoId: producto!.id,
       productoNombre: producto!.nombre,
       planificado: Number(planificadoStr),
+      opCode: opCode.trim() || undefined,
+      numeroLote: numeroLote.trim() || undefined,
     });
     onClose();
   };
@@ -262,6 +276,36 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Registro de fabricación (opcional) */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 font-semibold text-gray-700 text-sm">
+                <FileText size={16} className="text-blue-600" />
+                O.P. <span className="text-gray-400 font-normal text-xs">(opcional)</span>
+              </label>
+              <input
+                type="text"
+                value={opCode}
+                onChange={e => setOpCode(e.target.value)}
+                placeholder="Ej. 1005"
+                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 font-semibold text-gray-700 text-sm">
+                <Hash size={16} className="text-blue-600" />
+                Nº de Lote <span className="text-gray-400 font-normal text-xs">(opcional)</span>
+              </label>
+              <input
+                type="text"
+                value={numeroLote}
+                onChange={e => setNumeroLote(e.target.value)}
+                placeholder="Ej. 1020266"
+                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+              />
+            </div>
           </div>
 
           {/* Planificado Section */}

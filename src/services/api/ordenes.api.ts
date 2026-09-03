@@ -7,8 +7,12 @@
 import { API_CONFIG, buildApiUrl, getAuthHeader, ApiError } from "./api.config";
 
 export type Turno = "manana" | "tarde" | "noche";
-export type EstadoOrden = "borrador" | "en_proceso" | "terminada";
+export type EstadoOrden = "borrador" | "en_proceso" | "terminada" | "cancelada";
 
+/**
+ * Registro de fabricación: se corresponde 1:1 con una O.P. y un Nº de lote
+ * del "CRONOGRAMA DE FABRICACIÓN" real de la planta (server/AUDITORIA-DATOS.md).
+ */
 export interface Orden {
     id: string;
     semanaId: string;
@@ -17,11 +21,27 @@ export interface Orden {
     turno: Turno;
     productId: string;
     tanqueId: string | null;
+
+    // Identificación del registro de fabricación
     opCode: string | null;
+    numeroLote: string | null;
+    correlativoFabricacion: number | null;
+    correlativoProduccion: number | null;
+    fechaVencimiento: string | null;
+
+    // Volúmenes programados
+    volumenUnitarioL: string | null;
+    volumenTotalL: string | null;
     planificado: string;
+
+    // Cumplido
     real: string | null;
+    fechaInicioReal: string | null;
+    fechaFinReal: string | null;
     observaciones: string | null;
+
     estado: EstadoOrden;
+    motivoCancelacion: string | null;
 }
 
 export interface AsignacionPersonal {
@@ -56,8 +76,17 @@ export interface CreateOrdenInput {
     turno: Turno;
     productId: string;
     tanqueId?: string | null;
-    opCode?: string | null;
     planificado: number;
+
+    // Registro de fabricación: opcionales, para trazar el lote real desde
+    // el momento en que se programa la orden y no solo al importarlo.
+    opCode?: string | null;
+    numeroLote?: string | null;
+    correlativoFabricacion?: number | null;
+    correlativoProduccion?: number | null;
+    fechaVencimiento?: string | null;
+    volumenUnitarioL?: number | null;
+    volumenTotalL?: number | null;
 }
 
 export const createOrden = async (input: CreateOrdenInput): Promise<Orden> => {
@@ -80,6 +109,17 @@ export const registerReal = async (
     return request<Orden>(`/ordenes/${id}/registrar-real`, {
         method: "POST",
         body: JSON.stringify({ real, observaciones: observaciones ?? null }),
+    });
+};
+
+/**
+ * Cancela un lote (estado "cancelada", `motivoCancelacion` obligatorio y
+ * trazado en el audit_log). No es un DELETE: la orden sigue existiendo.
+ */
+export const cancelOrden = async (id: string, motivoCancelacion: string): Promise<Orden> => {
+    return request<Orden>(`/ordenes/${id}/cancelar`, {
+        method: "POST",
+        body: JSON.stringify({ motivoCancelacion }),
     });
 };
 

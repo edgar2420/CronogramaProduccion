@@ -4,7 +4,8 @@ import type { ItemCatalogo } from "@/features/schedule/catalogoProductos";
 import {
   X, Calendar, Clock, MapPin, Pill, Search,
   BarChart3, Users, CheckCircle2, FileEdit,
-  PlayCircle, TrendingUp, Sun, SunMedium, Moon, ChevronDown
+  PlayCircle, TrendingUp, Sun, SunMedium, Moon, ChevronDown,
+  Hash, FileText, CalendarClock, XCircle, AlertTriangle
 } from "lucide-react";
 
 type Editable = Pick<Orden, "productoNombre" | "planificado" | "estado">;
@@ -14,15 +15,23 @@ type Props = {
   order: Orden | null;
   catalogo?: ItemCatalogo[];
   canEdit?: boolean;
+  /** Staff.id -> nombre. Un id sin entrada se muestra tal cual, no se oculta. */
+  staffNames?: Map<string, string>;
   onClose: () => void;
   onSave: (patch: Editable) => void;
+  /** Cancela el lote (motivo obligatorio, trazado en el audit_log). */
+  onCancel?: (motivo: string) => void;
 };
 
+// El estado "cancelada" no forma parte del selector genérico: cancelar exige
+// un motivo y pasa por su propio flujo (ver bloque "Cancelar orden" abajo).
 const ESTADOS: { value: EstadoOrden; label: string; color: string; icon: React.ReactNode }[] = [
   { value: "borrador", label: "Borrador", color: "bg-amber-500", icon: <FileEdit size={14} /> },
   { value: "en_proceso", label: "En Proceso", color: "bg-blue-500", icon: <PlayCircle size={14} /> },
   { value: "terminada", label: "Terminada", color: "bg-green-600", icon: <CheckCircle2 size={14} /> },
 ];
+
+const ESTADO_CANCELADA = { label: "Cancelada", color: "bg-rose-600", icon: <XCircle size={14} /> };
 
 // Configuración de colores por turno
 const TURNO_COLORS: Record<Turno, { gradient: string; textSecondary: string; icon: React.ReactNode }> = {
@@ -43,13 +52,15 @@ const TURNO_COLORS: Record<Turno, { gradient: string; textSecondary: string; ico
   },
 };
 
-export default function OrderInfoModal({ open, order, catalogo = [], canEdit = false, onClose, onSave }: Props) {
+export default function OrderInfoModal({ open, order, catalogo = [], canEdit = false, staffNames, onClose, onSave, onCancel }: Props) {
 
   const [form, setForm] = useState({
     productoNombre: "",
     planificadoStr: "",
     estado: "borrador" as EstadoOrden
   });
+  const [motivoCancelacion, setMotivoCancelacion] = useState("");
+  const [showCancelForm, setShowCancelForm] = useState(false);
 
   // Estado para búsqueda de productos
   const [productSearch, setProductSearch] = useState("");
@@ -76,15 +87,18 @@ export default function OrderInfoModal({ open, order, catalogo = [], canEdit = f
       });
       setProductSearch("");
       setIsProductDropdownOpen(false);
+      setMotivoCancelacion("");
+      setShowCancelForm(false);
     }
   }, [open, order]);
 
   if (!open || !order) return null;
 
-  const canSave = canEdit && form.productoNombre.trim() !== "" && Number(form.planificadoStr) > 0;
+  const isCancelada = order.estado === "cancelada";
+  const canSave = canEdit && !isCancelada && form.productoNombre.trim() !== "" && Number(form.planificadoStr) > 0;
   const selected = catalogo.find(p => p.nombre === form.productoNombre);
   const progreso = order.real ? Math.min((order.real / order.planificado) * 100, 100) : 0;
-  const estadoActual = ESTADOS.find(e => e.value === order.estado) || ESTADOS[0];
+  const estadoActual = isCancelada ? ESTADO_CANCELADA : ESTADOS.find(e => e.value === order.estado) || ESTADOS[0];
   const turnoConfig = TURNO_COLORS[order.turno] || TURNO_COLORS.mañana;
 
   function handleSave() {
@@ -94,6 +108,11 @@ export default function OrderInfoModal({ open, order, catalogo = [], canEdit = f
       planificado: Number(form.planificadoStr),
       estado: form.estado
     });
+  }
+
+  function handleCancelar() {
+    if (!onCancel || motivoCancelacion.trim().length < 3) return;
+    onCancel(motivoCancelacion.trim());
   }
 
 
@@ -131,10 +150,44 @@ export default function OrderInfoModal({ open, order, catalogo = [], canEdit = f
             </span>
             {order.opCode && (
               <span className="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-gray-700">
-                OP: {order.opCode}
+                O.P.: {order.opCode}
+              </span>
+            )}
+            {order.numeroLote && (
+              <span className="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-gray-700">
+                Lote: {order.numeroLote}
               </span>
             )}
           </div>
+
+          {/* Registro de fabricación: identificación real del lote */}
+          {(order.numeroLote || order.correlativoFabricacion || order.correlativoProduccion || order.fechaVencimiento) && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              {order.numeroLote && (
+                <InfoCard icon={<Hash size={18} />} label="Nº de Lote" value={order.numeroLote} color="blue" />
+              )}
+              {order.correlativoFabricacion != null && (
+                <InfoCard icon={<FileText size={18} />} label="Correlativo Fabricación" value={String(order.correlativoFabricacion)} color="purple" />
+              )}
+              {order.correlativoProduccion != null && (
+                <InfoCard icon={<FileText size={18} />} label="Correlativo Producción" value={String(order.correlativoProduccion)} color="green" />
+              )}
+              {order.fechaVencimiento && (
+                <InfoCard icon={<CalendarClock size={18} />} label="Fecha de Vencimiento" value={order.fechaVencimiento} color="amber" />
+              )}
+            </div>
+          )}
+
+          {/* Cancelada: motivo trazado, no se puede editar más */}
+          {isCancelada && order.motivoCancelacion && (
+            <div className="bg-rose-50 border border-rose-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+              <AlertTriangle className="text-rose-500 shrink-0 mt-0.5" size={20} />
+              <div>
+                <h4 className="font-semibold text-rose-900 mb-1">Lote cancelado</h4>
+                <p className="text-sm text-rose-700">{order.motivoCancelacion}</p>
+              </div>
+            </div>
+          )}
 
           {/* Info Cards Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -195,6 +248,18 @@ export default function OrderInfoModal({ open, order, catalogo = [], canEdit = f
                 />
               </div>
             </div>
+
+            {(order.fechaInicioReal || order.fechaFinReal) && (
+              <div className="flex items-center gap-2 mt-4 pt-4 border-t border-gray-200 text-sm text-gray-600">
+                <CalendarClock size={16} className="text-gray-400" />
+                <span>
+                  Cumplido: {order.fechaInicioReal?.slice(0, 10) ?? "—"}
+                  {order.fechaFinReal && order.fechaFinReal.slice(0, 10) !== order.fechaInicioReal?.slice(0, 10)
+                    ? ` → ${order.fechaFinReal.slice(0, 10)}`
+                    : ""}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Assigned Staff */}
@@ -205,17 +270,17 @@ export default function OrderInfoModal({ open, order, catalogo = [], canEdit = f
                 Personal Asignado
               </h4>
               <div className="flex flex-wrap gap-2">
-                {order.asignados.map((name, i) => (
-                  <span key={i} className="px-3 py-1 bg-white rounded-lg text-sm font-medium text-blue-800 shadow-sm border border-blue-100">
-                    {name}
+                {order.asignados.map((staffId) => (
+                  <span key={staffId} className="px-3 py-1 bg-white rounded-lg text-sm font-medium text-blue-800 shadow-sm border border-blue-100">
+                    {staffNames?.get(staffId) ?? staffId}
                   </span>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Edit Section - Only for Admin */}
-          {canEdit && (
+          {/* Edit Section - Only for Admin, y no sobre un lote ya cancelado */}
+          {canEdit && !isCancelada && (
             <div className="border-t border-gray-200 pt-6 mt-6">
               <div className="flex items-center gap-3 mb-5">
                 <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl">
@@ -355,6 +420,55 @@ export default function OrderInfoModal({ open, order, catalogo = [], canEdit = f
                   <div className="flex flex-wrap gap-2">
                     {selected.vol && <Tag label={`Volumen: ${selected.vol}`} />}
                     {selected.envase && <Tag label={`Envase: ${selected.envase}`} />}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Cancelar orden: propio flujo, motivo obligatorio y trazado. No
+              disponible sobre un estado "terminada" ni ya cancelado. */}
+          {canEdit && onCancel && !isCancelada && order.estado !== "terminada" && (
+            <div className="border-t border-gray-200 pt-6 mt-6">
+              {!showCancelForm ? (
+                <button
+                  type="button"
+                  onClick={() => setShowCancelForm(true)}
+                  className="flex items-center gap-2 text-sm font-semibold text-rose-600 hover:text-rose-700"
+                >
+                  <XCircle size={16} />
+                  Cancelar este lote
+                </button>
+              ) : (
+                <div className="bg-rose-50 border border-rose-200 rounded-xl p-4">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-rose-900 mb-2">
+                    <AlertTriangle size={14} />
+                    Motivo de cancelación (obligatorio)
+                  </label>
+                  <textarea
+                    className="w-full px-3 py-2 border-2 border-rose-200 rounded-lg text-sm focus:border-rose-500 focus:ring-2 focus:ring-rose-100 transition-all resize-none"
+                    rows={2}
+                    value={motivoCancelacion}
+                    onChange={e => setMotivoCancelacion(e.target.value)}
+                    placeholder="Ej: problema mecánico en la máquina, se cancela por instrucción de..."
+                    autoFocus
+                  />
+                  <div className="flex gap-2 mt-3">
+                    <button
+                      type="button"
+                      onClick={() => { setShowCancelForm(false); setMotivoCancelacion(""); }}
+                      className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50"
+                    >
+                      Volver
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCancelar}
+                      disabled={motivoCancelacion.trim().length < 3}
+                      className="px-4 py-2 bg-rose-600 text-white rounded-lg text-sm font-semibold hover:bg-rose-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    >
+                      Confirmar cancelación
+                    </button>
                   </div>
                 </div>
               )}

@@ -17,6 +17,7 @@ import * as productsApi from "@/services/api/products.api";
 import * as areasApi from "@/services/api/areas.api";
 import * as semanasApi from "@/services/api/semanas.api";
 import * as ordenesApi from "@/services/api/ordenes.api";
+import * as staffApi from "@/services/api/staff.api";
 import type { Turno as BackendTurno } from "@/services/api/ordenes.api";
 
 import {
@@ -76,6 +77,7 @@ const DashboardPage: React.FC = () => {
   const [weeks, setWeeks] = useState<Semana[]>([]);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [products, setProducts] = useState<ItemCatalogo[]>([]);
+  const [staffNames, setStaffNames] = useState<Map<string, string>>(new Map());
   const [loadError, setLoadError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -124,6 +126,15 @@ const DashboardPage: React.FC = () => {
           opCode: o.opCode ?? undefined,
           observaciones: o.observaciones ?? undefined,
           createdAt: new Date().toISOString(),
+          numeroLote: o.numeroLote ?? undefined,
+          correlativoFabricacion: o.correlativoFabricacion ?? undefined,
+          correlativoProduccion: o.correlativoProduccion ?? undefined,
+          fechaVencimiento: o.fechaVencimiento ?? undefined,
+          volumenUnitarioL: o.volumenUnitarioL ? Number(o.volumenUnitarioL) : undefined,
+          volumenTotalL: o.volumenTotalL ? Number(o.volumenTotalL) : undefined,
+          fechaInicioReal: o.fechaInicioReal ?? undefined,
+          fechaFinReal: o.fechaFinReal ?? undefined,
+          motivoCancelacion: o.motivoCancelacion ?? undefined,
         };
       })
     );
@@ -136,6 +147,25 @@ const DashboardPage: React.FC = () => {
       ];
     });
   }, [areaId, monday, weekId, products, resolveAreaUuid]);
+
+  // Personal del sistema, para resolver "asignados" (ids) a nombres al
+  // mostrar. Se carga una sola vez: el personal no es específico del área
+  // que se está viendo y una orden puede tener asignados de cualquier área.
+  useEffect(() => {
+    let cancelled = false;
+    staffApi
+      .getStaff()
+      .then((list) => {
+        if (cancelled) return;
+        setStaffNames(new Map(list.map((s) => [s.id, s.nombre])));
+      })
+      .catch(() => {
+        /* si falla, se muestran los ids tal cual — no bloquea el dashboard */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Catálogo de productos del área seleccionada.
   useEffect(() => {
@@ -180,7 +210,13 @@ const DashboardPage: React.FC = () => {
     weeks.find(w => w.id === weekId && w.areaId === areaId) ?? null
     , [weeks, weekId, areaId]);
 
-  async function addOrder(fecha: string, turno: Turno, productoId: string, plan: number) {
+  async function addOrder(
+    fecha: string,
+    turno: Turno,
+    productoId: string,
+    plan: number,
+    registro?: { opCode?: string; numeroLote?: string }
+  ) {
     if (!semanaBackendIdRef.current) return;
     try {
       await ordenesApi.createOrden({
@@ -189,6 +225,8 @@ const DashboardPage: React.FC = () => {
         turno: turnoToBackend(turno),
         productId: productoId,
         planificado: plan,
+        opCode: registro?.opCode || null,
+        numeroLote: registro?.numeroLote || null,
       });
       await refreshWeek();
     } catch (err) {
@@ -231,6 +269,15 @@ const DashboardPage: React.FC = () => {
       await refreshWeek();
     } catch (err) {
       alert(err instanceof Error ? err.message : "No se pudo eliminar la orden");
+    }
+  };
+
+  const cancelOrder = async (id: string, motivo: string) => {
+    try {
+      await ordenesApi.cancelOrden(id, motivo);
+      await refreshWeek();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "No se pudo cancelar la orden");
     }
   };
 
@@ -441,7 +488,7 @@ const DashboardPage: React.FC = () => {
           turno="mañana"
           catalogo={products}
           onSave={d => {
-            addOrder(d.fecha, d.turno, d.productoId, d.planificado);
+            addOrder(d.fecha, d.turno, d.productoId, d.planificado, { opCode: d.opCode, numeroLote: d.numeroLote });
             setQuickOpen(false);
           }}
         />
@@ -491,6 +538,7 @@ const DashboardPage: React.FC = () => {
           order={infoOrder}
           catalogo={products}
           canEdit={canEdit}
+          staffNames={staffNames}
           onClose={() => setInfoOrder(null)}
           onSave={async (p) => {
             const producto = products.find((prod) => prod.nombre === p.productoNombre);
@@ -504,6 +552,10 @@ const DashboardPage: React.FC = () => {
             } catch (err) {
               alert(err instanceof Error ? err.message : "No se pudo actualizar la orden");
             }
+            setInfoOrder(null);
+          }}
+          onCancel={async (motivo) => {
+            await cancelOrder(infoOrder.id, motivo);
             setInfoOrder(null);
           }}
         />

@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/es";
 dayjs.locale("es");
 
-import { Plus, Trash2, Users, Info, ClipboardCheck, Pill, Sun, SunMedium, Moon, FileEdit, CheckCircle2, PlayCircle } from "lucide-react";
+import { Plus, Trash2, Users, Info, ClipboardCheck, Pill, Sun, SunMedium, Moon, FileEdit, CheckCircle2, PlayCircle, XCircle } from "lucide-react";
 
 const TURN_CONFIG = {
   mañana: { bg: "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)", badge: "#F59E0B", text: "#78350F", icon: <Sun size={14} /> },
@@ -102,14 +102,17 @@ function OrderCard({ orden: o, canEdit, onInfo, onRegister, onAssign, onDelete }
   const estadoConfig = {
     borrador: { bg: 'bg-amber-500', icon: <FileEdit size={9} />, label: 'BORRADOR' },
     en_proceso: { bg: 'bg-blue-500', icon: <PlayCircle size={9} />, label: 'EN PROCESO' },
-    terminada: { bg: 'bg-green-600', icon: <CheckCircle2 size={9} />, label: 'TERMINADA' }
+    terminada: { bg: 'bg-green-600', icon: <CheckCircle2 size={9} />, label: 'TERMINADA' },
+    cancelada: { bg: 'bg-rose-600', icon: <XCircle size={9} />, label: 'CANCELADA' },
   };
-  const estadoCfg = estadoConfig[o.estado] || estadoConfig.borrador;
+  const estadoCfg = estadoConfig[o.estado] ?? estadoConfig.borrador;
+
+  const cancelada = o.estado === "cancelada";
 
   return (
     <div
       style={{ background: c.bg }}
-      className="h-[280px] rounded-2xl p-4 shadow-md border border-white/50 hover:shadow-xl transition-all duration-300 flex flex-col backdrop-blur-sm relative group"
+      className={`h-[280px] rounded-2xl p-4 shadow-md border border-white/50 hover:shadow-xl transition-all duration-300 flex flex-col backdrop-blur-sm relative group ${cancelada ? "opacity-70 grayscale-[35%]" : ""}`}
     >
 
       <div className="flex items-start justify-between mb-3 gap-2">
@@ -181,7 +184,9 @@ function OrderCard({ orden: o, canEdit, onInfo, onRegister, onAssign, onDelete }
 
       <div className="grid grid-cols-2 gap-2 mt-auto">
         <ActionBtn icon={<Info size={12} />} color="slate" onClick={() => onInfo(o)} label="Info" />
-        <ActionBtn icon={<ClipboardCheck size={12} />} color="emerald" onClick={() => onRegister(o)} label="Registrar" />
+        {!cancelada && (
+          <ActionBtn icon={<ClipboardCheck size={12} />} color="emerald" onClick={() => onRegister(o)} label="Registrar" />
+        )}
         {canEdit && <ActionBtn icon={<Users size={12} />} color="blue" onClick={() => onAssign(o)} label="Asignar" />}
         {canEdit && <ActionBtn icon={<Trash2 size={12} />} color="rose" onClick={() => onDelete(o)} label="Eliminar" />}
       </div>
