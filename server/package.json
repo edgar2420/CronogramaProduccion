@@ -15,7 +15,11 @@
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:seed": "tsx prisma/seed.ts",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "backup": "node scripts/backup-db.mjs",
+    "restore": "node scripts/restore-db.mjs",
+    "restore:ensayo": "node scripts/restore-db.mjs --ensayo",
+    "db:proteger-audit": "node scripts/proteger-audit.mjs"
   },
   "dependencies": {
     "@prisma/client": "^5.20.0",

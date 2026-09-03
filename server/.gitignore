@@ -1,0 +1,6 @@
+
+# Respaldos de base de datos: nunca al repositorio
+backups/
+
+# Certificados TLS: nunca al repositorio (la clave privada es un secreto)
+certs/
