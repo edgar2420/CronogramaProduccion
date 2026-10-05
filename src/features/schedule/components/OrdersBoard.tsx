@@ -9,6 +9,7 @@ import {
   DragOverlay,
   MeasuringStrategy,
   PointerSensor,
+  pointerWithin,
   TouchSensor,
   useDraggable,
   useDroppable,
@@ -121,8 +122,10 @@ export default function OrdersBoard({
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragCancel={() => setDragging(null)}
-      // Los carriles vacíos aparecen recién al empezar a arrastrar y mueven el
-      // layout: hay que volver a medir las zonas, no usar las del inicio.
+      // La zona destino es la que está bajo el puntero (no la que más se
+      // superpone con la tarjeta): así se suelta exactamente donde se apunta.
+      collisionDetection={pointerWithin}
+      // Las zonas de destino se montan recién al empezar a arrastrar.
       measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
     >
       {canEdit && (
@@ -146,7 +149,7 @@ export default function OrdersBoard({
                 key={fecha}
                 data-today={isToday}
                 aria-label={dayjs(d).format("dddd D [de] MMMM")}
-                className="snap-start flex flex-col gap-3 rounded-2xl bg-slate-50 p-2.5 min-h-[9rem]"
+                className="relative snap-start flex flex-col gap-3 rounded-2xl bg-slate-50 p-2.5 min-h-[15rem]"
               >
                 {/* Hoy se distingue solo en la cabecera (número resaltado y
                     "Hoy"), sin pintar toda la columna como si estuviera
@@ -179,18 +182,34 @@ export default function OrdersBoard({
                   )}
                 </header>
 
-                {TURNOS.map(turno => (
-                  <TurnLane
-                    key={turno}
-                    fecha={fecha}
-                    turno={turno}
-                    ordenes={ordenes.filter(o => o.turno === turno)}
+                {/* Las tarjetas se listan por turno (mañana → noche). */}
+                {TURNOS.flatMap(turno => ordenes.filter(o => o.turno === turno)).map(o => (
+                  <DraggableCard
+                    key={o.id}
+                    orden={o}
                     canEdit={canEdit}
-                    dragEnabled={dragEnabled}
-                    draggingId={dragging?.id ?? null}
+                    disabled={!dragEnabled || !isMovable(o)}
+                    ghost={o.id === dragging?.id}
                     handlers={handlers}
                   />
                 ))}
+
+                {/* Mientras se arrastra, una capa ENCIMA de la columna con las
+                    3 zonas de turno: no se inserta nada en el flujo, así el
+                    tablero no cambia de tamaño ni se desplaza. */}
+                {dragging && dragEnabled && (
+                  <div className="absolute inset-1.5 z-10 flex flex-col gap-1.5">
+                    {TURNOS.map(turno => (
+                      <DropZone
+                        key={turno}
+                        fecha={fecha}
+                        turno={turno}
+                        diaLabel={dayjs(d).format("dddd D")}
+                        esOrigen={dragging.fecha === fecha && dragging.turno === turno}
+                      />
+                    ))}
+                  </div>
+                )}
 
               </section>
             )
@@ -210,50 +229,32 @@ export default function OrdersBoard({
 }
 
 
-function TurnLane({ fecha, turno, ordenes, canEdit, dragEnabled, draggingId, handlers }: {
+function DropZone({ fecha, turno, diaLabel, esOrigen }: {
   fecha: string;
   turno: Turno;
-  ordenes: Orden[];
-  canEdit: boolean;
-  dragEnabled: boolean;
-  draggingId: string | null;
-  handlers: CardHandlers;
+  diaLabel: string;
+  esOrigen: boolean;
 }) {
-  const { setNodeRef, isOver } = useDroppable({ id: laneId(fecha, turno), disabled: !dragEnabled });
+  const { setNodeRef, isOver } = useDroppable({ id: laneId(fecha, turno), disabled: esOrigen });
   const { Icon, label } = TURN_CONFIG[turno];
-  const isDragging = draggingId !== null;
-
-  // Fuera de un arrastre, un carril vacío no ocupa espacio.
-  if (ordenes.length === 0 && !isDragging) return null;
 
   return (
     <div
       ref={setNodeRef}
-      className={`flex flex-col gap-3 rounded-xl transition-colors duration-150 ${isDragging ? "p-1.5 -m-1.5" : ""} ${isOver ? "bg-primary-100 ring-2 ring-primary-400" : isDragging ? "bg-white/60" : ""}`}
+      className={`flex-1 min-h-0 rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-0.5 px-2 text-center transition-colors duration-100 ${
+        isOver
+          ? "border-primary-500 bg-primary-50/95 text-primary-800 shadow-lg"
+          : esOrigen
+            ? "border-slate-300 bg-slate-100/80 text-slate-400"
+            : "border-slate-300 bg-white/85 text-slate-500"
+      }`}
     >
-      {isDragging && (
-        <div className="flex items-center gap-1.5 px-1 text-xs font-semibold text-slate-600">
-          <Icon size={12} />
-          {label}
-        </div>
-      )}
-
-      {ordenes.map(o => (
-        <DraggableCard
-          key={o.id}
-          orden={o}
-          canEdit={canEdit}
-          disabled={!dragEnabled || !isMovable(o)}
-          ghost={o.id === draggingId}
-          handlers={handlers}
-        />
-      ))}
-
-      {ordenes.length === 0 && (
-        <div className={`h-14 rounded-lg border-2 border-dashed flex items-center justify-center text-xs font-medium ${isOver ? "border-primary-400 text-primary-700" : "border-slate-300 text-slate-400"}`}>
-          Soltar aquí
-        </div>
-      )}
+      <span className="flex items-center gap-1.5 text-xs font-semibold">
+        <Icon size={14} />
+        {label}
+      </span>
+      {isOver && <span className="text-xs capitalize">Mover a {diaLabel}</span>}
+      {esOrigen && <span className="text-xs">Posición actual</span>}
     </div>
   );
 }

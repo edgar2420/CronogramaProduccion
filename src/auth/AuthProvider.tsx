@@ -31,15 +31,13 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   const login = useCallback(async (username: string, password: string) => {
     const result = await authApi.login(username, password);
     sessionStorage.setItem(TOKEN_KEY, result.accessToken);
-    // El backend no expone la contraseña; el campo queda vacío y no se usa
-    // una vez autenticado (ver comentario "DEMO" en auth/types.ts).
+
     setUser({ ...result.user, password: "" });
     navigate("/", { replace: true });
   }, [navigate]);
 
   const logout = useCallback(() => {
     authApi.logout().catch(() => {
-      // best-effort: igual limpiamos la sesión local aunque falle la llamada
     });
     sessionStorage.removeItem(TOKEN_KEY);
     setUser(null);

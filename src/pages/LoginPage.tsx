@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useAuth } from "@/auth/useAuth";
 import { UserRound, Lock, Eye, EyeOff, LogIn, Loader2 } from "lucide-react";
 import logo from "../assets/logo_abd.jpg";
-import "./login.css";
 
 const LoginPage: React.FC = () => {
   const { login } = useAuth();

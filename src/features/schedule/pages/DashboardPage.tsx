@@ -13,7 +13,6 @@ import FloatingCalendar from "@/components/ui/FloatingCalendar";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
-import FloatingPublishButton from "@/features/schedule/components/FloatingPublishButton";
 
 import * as productsApi from "@/services/api/products.api";
 import * as areasApi from "@/services/api/areas.api";
@@ -26,6 +25,8 @@ import {
   Calendar,
   ChevronLeft,
   ChevronRight,
+  Send,
+  Lock,
 } from "lucide-react";
 
 function startOfWeek(date: Date) {
@@ -232,48 +233,42 @@ const DashboardPage: React.FC = () => {
     registro?: { opCode?: string; numeroLote?: string }
   ) {
     if (!semanaBackendIdRef.current) return;
-    try {
-      await ordenesApi.createOrden({
-        semanaId: semanaBackendIdRef.current,
-        fecha,
-        turno: turnoToBackend(turno),
-        productId: productoId,
-        planificado: plan,
-        opCode: registro?.opCode || null,
-        numeroLote: registro?.numeroLote || null,
-      });
-      await refreshWeek();
-    } catch (err) {
-      alert(err instanceof Error ? err.message : "No se pudo crear la orden");
-    }
+    await ordenesApi.createOrden({
+      semanaId: semanaBackendIdRef.current,
+      fecha,
+      turno: turnoToBackend(turno),
+      productId: productoId,
+      planificado: plan,
+      opCode: registro?.opCode || null,
+      numeroLote: registro?.numeroLote || null,
+    });
+    await refreshWeek();
   }
 
+  // Los errores de estas acciones suben al modal que las disparó (que queda
+  // abierto mostrando el mensaje), en vez de un alert() con el modal cerrado.
   const setReal = async (id: string, real: number, observaciones?: string) => {
-    try {
-      await ordenesApi.registerReal(id, real, observaciones);
-      await refreshWeek();
-    } catch (err) {
-      alert(err instanceof Error ? err.message : "No se pudo registrar la producción real");
-    }
+    await ordenesApi.registerReal(id, real, observaciones);
+    await refreshWeek();
   };
 
+  // Sincroniza las asignaciones de la orden con `ids`. La diferencia se
+  // calcula contra lo que tiene el servidor, no contra la copia en pantalla.
+  // Si el servidor rechaza alguna (p. ej. la persona ya está en otra área ese
+  // turno) el error sube al modal, que queda abierto para corregir.
   const setAssigned = async (id: string, ids: string[]) => {
-    const orden = currentWeek?.ordenes.find((o) => o.id === id);
-    if (!orden) return;
     const after = new Set(ids);
-    const toAdd = ids.filter((sid) => !new Set(orden.asignados).has(sid));
     try {
       const current = await ordenesApi.getAsignaciones(id);
-      const toRemove = current.filter((a) => !after.has(a.staffId));
-      for (const asig of toRemove) {
+      const actuales = new Set(current.map((a) => a.staffId));
+      for (const asig of current.filter((a) => !after.has(a.staffId))) {
         await ordenesApi.revokeAssignment(asig.id);
       }
-      for (const staffId of toAdd) {
+      for (const staffId of ids.filter((sid) => !actuales.has(sid))) {
         await ordenesApi.assignStaff(id, { staffId, rolOperativo: "Operador" });
       }
-      await refreshWeek();
-    } catch (err) {
-      alert(err instanceof Error ? err.message : "No se pudo actualizar la asignación de personal");
+    } finally {
+      await refreshWeek().catch(() => undefined);
     }
   };
 
@@ -323,12 +318,8 @@ const DashboardPage: React.FC = () => {
   };
 
   const cancelOrder = async (id: string, motivo: string) => {
-    try {
-      await ordenesApi.cancelOrden(id, motivo);
-      await refreshWeek();
-    } catch (err) {
-      alert(err instanceof Error ? err.message : "No se pudo cancelar la orden");
-    }
+    await ordenesApi.cancelOrden(id, motivo);
+    await refreshWeek();
   };
 
   const [quickOpen, setQuickOpen] = useState(false);
@@ -337,36 +328,37 @@ const DashboardPage: React.FC = () => {
   const [assignCtx, setAssignCtx] = useState<Orden | null>(null);
   const [infoOrder, setInfoOrder] = useState<Orden | null>(null);
 
-  // Count borrador orders for publishing
   const ordenesBorrador = useMemo(() => {
     return currentWeek?.ordenes.filter(o => o.estado === "borrador").length ?? 0;
   }, [currentWeek]);
 
   const weekStatus = currentWeek?.estado ?? "borrador";
 
+  // Publicar / cerrar la semana: siempre con confirmación, y el error (p. ej.
+  // "hay órdenes en borrador") se muestra dentro del diálogo.
+  const [weekAction, setWeekAction] = useState<"publicar" | "cerrar" | null>(null);
+  const [weekBusy, setWeekBusy] = useState(false);
+  const [weekError, setWeekError] = useState<string | null>(null);
+
+  const runWeekAction = async () => {
+    if (!semanaBackendIdRef.current || !weekAction) return;
+    setWeekBusy(true);
+    setWeekError(null);
+    try {
+      if (weekAction === "publicar") await semanasApi.publishSemana(semanaBackendIdRef.current);
+      else await semanasApi.closeSemana(semanaBackendIdRef.current);
+      await refreshWeek();
+      setWeekAction(null);
+    } catch (err) {
+      setWeekError(err instanceof Error ? err.message : "No se pudo completar la acción");
+    } finally {
+      setWeekBusy(false);
+    }
+  };
+
   const handleQuickAdd = (fecha: string) => {
     setQuickCtx({ fecha, turno: "mañana" });
     setQuickOpen(true);
-  };
-
-  const handlePublish = async () => {
-    if (!semanaBackendIdRef.current) return;
-    try {
-      await semanasApi.publishSemana(semanaBackendIdRef.current);
-      await refreshWeek();
-    } catch (err) {
-      alert(err instanceof Error ? err.message : "No se pudo publicar la semana");
-    }
-  };
-
-  const handleClose = async () => {
-    if (!semanaBackendIdRef.current) return;
-    try {
-      await semanasApi.closeSemana(semanaBackendIdRef.current);
-      await refreshWeek();
-    } catch (err) {
-      alert(err instanceof Error ? err.message : "No se pudo cerrar la semana");
-    }
   };
 
   // Calculate statistics
@@ -431,12 +423,21 @@ const DashboardPage: React.FC = () => {
             <span className={`px-3 py-1.5 rounded-full text-xs font-bold ${estadoSemanaBadge[weekStatus]?.className ?? "bg-white/20 text-white"}`}>
               {estadoSemanaBadge[weekStatus]?.label ?? weekStatus}
             </span>
+            {canEdit && weekStatus === "borrador" && stats.totalOrders > 0 && (
+              <button
+                onClick={() => { setWeekError(null); setWeekAction("publicar"); }}
+                className="h-10 px-3 rounded-xl bg-white text-blue-800 font-semibold text-sm hover:bg-blue-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white transition-colors inline-flex items-center gap-2"
+              >
+                <Send size={16} />
+                Publicar semana
+              </button>
+            )}
             {canEdit && weekStatus === "publicado" && (
               <button
-                onClick={handleClose}
-                className="h-10 px-3 rounded-xl bg-white text-blue-800 font-semibold text-sm hover:bg-blue-50 transition-colors"
-                title="Cierra la semana. Solo se puede si no quedan órdenes en borrador."
+                onClick={() => { setWeekError(null); setWeekAction("cerrar"); }}
+                className="h-10 px-3 rounded-xl bg-white text-blue-800 font-semibold text-sm hover:bg-blue-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white transition-colors inline-flex items-center gap-2"
               >
+                <Lock size={16} />
                 Cerrar semana
               </button>
             )}
@@ -536,10 +537,7 @@ const DashboardPage: React.FC = () => {
           fecha={quickCtx.fecha}
           turno="mañana"
           catalogo={products}
-          onSave={d => {
-            addOrder(d.fecha, d.turno, d.productoId, d.planificado, { opCode: d.opCode, numeroLote: d.numeroLote });
-            setQuickOpen(false);
-          }}
+          onSave={d => addOrder(d.fecha, d.turno, d.productoId, d.planificado, { opCode: d.opCode, numeroLote: d.numeroLote })}
         />
       )}
 
@@ -550,36 +548,22 @@ const DashboardPage: React.FC = () => {
           plan={regCtx.planificado}
           producto={regCtx.productoNombre}
           turno={regCtx.turno}
-          onSave={(real, obs) => { setReal(regCtx.id, real, obs); setRegCtx(null); }}
+          onSave={(real, obs) => setReal(regCtx.id, real, obs)}
         />
       )}
 
-      {assignCtx && (() => {
-        // Compute all existing assignments for this date/turno from all orders
-        // (misma semana/área cargada en memoria; el backend es la autoridad real
-        // del conflicto cruzando todas las semanas — ver AssignStaffUseCase).
-        const existingAssignments = (currentWeek?.ordenes || [])
-          .filter(o => o.fecha === assignCtx.fecha && o.turno === assignCtx.turno && o.id !== assignCtx.id)
-          .flatMap(o => o.asignados.map(staffId => ({
-            personId: staffId,
-            personName: staffId,
-            areaId: o.areaId,
-            turno: o.turno
-          })));
-
-        return (
-          <AssignStaffModal
-            open={true}
-            onClose={() => setAssignCtx(null)}
-            areaId={assignCtx.areaId}
-            fecha={assignCtx.fecha}
-            turno={assignCtx.turno}
-            selectedIds={assignCtx.asignados}
-            existingAssignments={existingAssignments}
-            onSave={(ids) => { setAssigned(assignCtx.id, ids); setAssignCtx(null); }}
-          />
-        );
-      })()}
+      {assignCtx && (
+        <AssignStaffModal
+          open={true}
+          onClose={() => setAssignCtx(null)}
+          areaId={assignCtx.areaId}
+          productoNombre={assignCtx.productoNombre}
+          fecha={assignCtx.fecha}
+          turno={assignCtx.turno}
+          selectedIds={assignCtx.asignados}
+          onSave={(ids) => setAssigned(assignCtx.id, ids)}
+        />
+      )}
 
       {infoOrder && (
         <OrderInfoModal
@@ -591,35 +575,41 @@ const DashboardPage: React.FC = () => {
           onClose={() => setInfoOrder(null)}
           onSave={async (p) => {
             const producto = products.find((prod) => prod.nombre === p.productoNombre);
-            try {
-              await ordenesApi.updateOrden(infoOrder.id, {
-                productId: producto?.id,
-                planificado: p.planificado,
-                estado: p.estado,
-              });
-              await refreshWeek();
-            } catch (err) {
-              alert(err instanceof Error ? err.message : "No se pudo actualizar la orden");
-            }
-            setInfoOrder(null);
+            await ordenesApi.updateOrden(infoOrder.id, {
+              productId: producto?.id,
+              planificado: p.planificado,
+              estado: p.estado,
+            });
+            await refreshWeek();
           }}
-          onCancel={async (motivo) => {
-            await cancelOrder(infoOrder.id, motivo);
-            setInfoOrder(null);
-          }}
+          onCancel={(motivo) => cancelOrder(infoOrder.id, motivo)}
         />
       )}
 
-      {/* Floating Publish Button - only for admins */}
-      {canEdit && (
-        <FloatingPublishButton
-          ordenesBorrador={ordenesBorrador}
-          weekStatus={weekStatus}
-          fechaRango={`${fmt(monday)} al ${fmt(addDays(monday, 6))}`}
-          areaLabel={currentArea?.label ?? ""}
-          onPublish={handlePublish}
-        />
-      )}
+      <ConfirmDialog
+        open={weekAction !== null}
+        title={weekAction === "publicar" ? "¿Publicar la semana?" : "¿Cerrar la semana?"}
+        confirmLabel={weekAction === "publicar" ? "Publicar semana" : "Cerrar semana"}
+        busy={weekBusy}
+        onConfirm={runWeekAction}
+        onCancel={() => setWeekAction(null)}
+      >
+        <p>
+          {currentArea?.label} · {rangoSemana}
+        </p>
+        {weekAction === "publicar" ? (
+          <p>
+            Las {stats.totalOrders} órdenes quedan visibles para todos los usuarios
+            {ordenesBorrador > 0 ? ` (${ordenesBorrador} en borrador pasan a "en proceso")` : ""}. Después se pueden
+            reprogramar arrastrando, pero ya no se agregan órdenes nuevas.
+          </p>
+        ) : (
+          <p>La semana pasa a histórico: sus órdenes ya no se pueden reprogramar ni editar.</p>
+        )}
+        {weekError && (
+          <p role="alert" className="form-error">{weekError}</p>
+        )}
+      </ConfirmDialog>
 
       <ConfirmDialog
         open={deleteCtx !== null}

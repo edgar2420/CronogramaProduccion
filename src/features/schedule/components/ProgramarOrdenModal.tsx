@@ -4,7 +4,7 @@ import "dayjs/locale/es";
 import type { Turno } from "@/features/schedule/types";
 import type { ItemCatalogo } from "@/features/schedule/catalogoProductos";
 import Modal from "@/components/ui/Modal";
-import { Sun, SunMedium, Moon, Pill, Search, CalendarPlus, AlertCircle, X } from "lucide-react";
+import { Sun, SunMedium, Moon, Pill, Search, CalendarPlus, AlertCircle, X, Loader2 } from "lucide-react";
 
 type Props = {
   open: boolean;
@@ -20,7 +20,7 @@ type Props = {
     planificado: number;
     opCode?: string;
     numeroLote?: string;
-  }) => void;
+  }) => Promise<void> | void;
 };
 
 // Mismos colores de turno que el tablero (borde de la tarjeta + etiqueta).
@@ -40,6 +40,7 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
   const [opCode, setOpCode] = useState("");
   const [numeroLote, setNumeroLote] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
   const cantidadRef = useRef<HTMLInputElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -80,35 +81,47 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
     else if (e.key === "Enter" && resultados[activeIdx]) { e.preventDefault(); elegir(resultados[activeIdx]); }
   };
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!producto) return setError("Elige el producto a fabricar.");
     const plan = Number(planificadoStr);
     if (!plan || plan <= 0) return setError("Indica la cantidad planificada (mayor a 0).");
-    onSave({
-      fecha,
-      turno: selectedTurno,
-      productoId: producto.id,
-      productoNombre: producto.nombre,
-      planificado: plan,
-      opCode: opCode.trim() || undefined,
-      numeroLote: numeroLote.trim() || undefined,
-    });
-    onClose();
+    setError(null);
+    setSaving(true);
+    try {
+      await onSave({
+        fecha,
+        turno: selectedTurno,
+        productoId: producto.id,
+        productoNombre: producto.nombre,
+        planificado: plan,
+        opCode: opCode.trim() || undefined,
+        numeroLote: numeroLote.trim() || undefined,
+      });
+      onClose();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo crear la orden");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
     <Modal
       open={open}
       onClose={onClose}
+      busy={saving}
       size="lg"
       icon={<CalendarPlus size={20} />}
       title="Nueva orden de producción"
       description={fechaLarga.charAt(0).toUpperCase() + fechaLarga.slice(1)}
       footer={
         <>
-          <button type="button" className="btn-secondary" onClick={onClose}>Cancelar</button>
-          <button type="submit" form={FORM_ID} className="btn-primary">Programar orden</button>
+          <button type="button" className="btn-secondary" onClick={onClose} disabled={saving}>Cancelar</button>
+          <button type="submit" form={FORM_ID} className="btn-primary" disabled={saving}>
+            {saving && <Loader2 size={16} className="animate-spin" />}
+            Programar orden
+          </button>
         </>
       }
     >

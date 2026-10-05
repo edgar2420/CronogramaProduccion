@@ -18,7 +18,7 @@ const FloatingCalendar: React.FC<FloatingCalendarProps> = ({
 
     const daysInMonth = viewDate.daysInMonth();
     const firstDayOfMonth = viewDate.startOf("month").day();
-    const adjustedFirstDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1; // Monday = 0
+    const adjustedFirstDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
 
     const prevMonth = () => setViewDate(viewDate.subtract(1, "month"));
     const nextMonth = () => setViewDate(viewDate.add(1, "month"));
