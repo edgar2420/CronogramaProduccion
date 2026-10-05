@@ -308,13 +308,13 @@
 |  |  |  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  | Gluconato de Calcio al 10% | 2240041 | 01/06/26 | 01/06/26 | 5.272 | N.A. |
 | LUNES | 01/06/26 | 2232 | 2240041 | Gluconato de Calcio al 10% | 10 | 14 | 56.501 | 5.381 | 96 | 9 | 1 | 06/28 | X |  |  | Corregir op y correlativo de mes.                                     Se solicita 62 unidades para la validación de proceso de manufactura y 20 muestras para validación en Microbiologia |  | Gluconato de Calcio al 10% | 2240042 | 01/06/26 | 02/06/26 | 5.550 | N.A. |
 |  |  | 2233 | 2240042 | Gluconato de Calcio al 10% | 10 | 14 | 56.501 | 5.381 | 97 | 10 | 2 | 06/28 | X |  |  | Corregir op y correlativo de mes |  |  |  |  |  |  |  |
-| MARTES | 02/06/26 | 2234 | 2090037 | Atracurio ABD | 5 | 19 | 54600 | 10.920 | 98 | 5 | 3 | 06/28 |  | X | LICITACION CNS |  |  |  |  |  |  |  |  |
+| MARTES | 02/06/26 | 2234 | 2090037 | Atracurio ABD | 5 | 19 |  | 0 | 98 | 5 | 3 | 06/28 |  | X | LICITACION CNS |  |  |  |  |  |  |  |  |
 | MIERCOLES | 03/06/26 | 2235 | 2090038 | Atracurio ABD | 5 | 19 | 54600 | 10.920 | 99 | 6 | 4 | 06/28 |  | X | LICITACION CNS |  |  |  |  |  |  |  |  |
 |  |  | 2236 | 2090039 | Atracurio ABD | 5 | 19 | 54600 | 10.920 | 100 | 7 | 5 | 06/28 | X |  |  |  |  |  |  |  |  |  |  |
 | JUEVES | 04/06/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | VIERNES | 05/06/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | SABADO | 07/06/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-|  |  |  |  |  |  | TOTAL | 276.801 | 43.522 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  | TOTAL | 222.201 | 32.602 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  |  | ÁREA: PPV |  |  |  | CUMPLIDO |  |  |  |  | PPV-VIDRIO |
@@ -345,42 +345,112 @@
 | VIERNES | 14/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  | 28 | 169.500 | 16.950 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  |  | ÁREA: PPV |  |  |  |  |  |  |  |  |  |
-| MES: | agosto |  |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  |  | ÁREA: PPV |  |  |  | CUMPLIDO |  |  |  |  | PPV-VIDRIO |
+| MES: | agosto |  |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  | MES: |  | AGOSTO |  |  |  |
 |  |  |  |  | 17/08/26 | al | 22/08/26 |  |  |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |
-| Día | Fecha | O.P. | Nº LOTE | Producto | VOLUMEN UNITARIO [ML] | Cantidad de Bandejas | Volumen total          [mL] | Tamaño del          lote [unidades] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  |  |  |  |  |  |
-| LUNES | 17/08/26 | 2242 | 2100012 | Cianocobalamina (Vitamina B12) | 1 | 24 | 25.400 | 25.400 | 106 | 4 | 4 | 08/28 |  | X | LEYENDA CNS | 24 bandejas más 200 unidades sueltas. Se solicita 20 muestras para validación microbiologica |  |  |  |  |  |  |  |
-| MARTES | 18/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-|  |  | 2243 | 2100013 | Cianocobalamina (Vitamina B12) | 1 | 24 | 25.400 | 25.400 | 107 | 5 | 5 | 08/28 | 6018 | 19382 | 19382 LEYENDA CNS                                                         6018 VENTAS PRIVADAS | 24 bandejas más 200 unidades sueltas. Se solicita 20 muestras para validación microbiologica |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | Nº LOTE | Producto | VOLUMEN UNITARIO [ML] | Cantidad de Bandejas | Volumen total          [mL] | Tamaño del          lote [unidades] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  | PRODUCTO | LOTE | FECHA DE INICIO | FECHA FINAL | CANTIDAD CUMPLIDA (Unidades) | OBSERVACIONES |
+|  |  |  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  | Cianocobalamina (Vitamina B12) | 2100012 | 18/08/26 | 18/08/26 | 20823 | N.A. |
+| LUNES | 17/08/26 | 2242 | 2100012 | Cianocobalamina (Vitamina B12) | 1 | 24 | 25.400 | 25.400 | 106 | 4 | 4 | 08/28 |  | X | LEYENDA CNS | 24 bandejas más 200 unidades sueltas. Se solicita 20 muestras para validación microbiologica |  | Cianocobalamina (Vitamina B12) | 2100013 | 19/08/26 | 19/08/26 | 21838 | N.A. |
+| MARTES | 18/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Amikacin ABD | 2320007 | 19/08/26 | 19/08/26 | 11186 | N.A. |
+|  |  | 2243 | 2100013 | Cianocobalamina (Vitamina B12) | 1 | 24 | 25.400 | 25.400 | 107 | 5 | 5 | 08/28 | 6018 | 19382 | 19382 LEYENDA CNS                                                         6018 VENTAS PRIVADAS | 24 bandejas más 200 unidades sueltas. Se solicita 20 muestras para validación microbiologica |  | Vitamina C ABD | 2020060 | 22/08/26 | 22/08/26 | 19350 | N.A. |
 | MIERCOLES | 19/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | JUEVES | 20/08/26 | 2244 | 2320007 | Amikacin ABD | 2 | 12 | 25.400 | 12.700 | 108 | 1 | 6 | 08/28 | 3468 | 9232 | 9232 LEYENDA CNS 3468 VENTAS PRIVADAS | 12 bandejas más 100 unidades sueltas |  |  |  |  |  |  |  |
 | VIERNES | 21/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | SABADO | 22/08/26 | 2245 | 2020060 | Vitamina C ABD | 2 | 22 | 46.200 | 23.100 | 109 | 5 | 7 | 08/28 |  | X | LEYENDA CNS | Se solicita 300 muestras para estudio de estabilidad natural |  |  |  |  |  |  |  |
 |  |  |  |  |  |  | 82 | 122.400 | 86.600 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  |  | ÁREA: PPV |  |  |  |  |  |  |  |  |  |
-| MES: | agosto |  |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  |  | ÁREA: PPV |  |  |  | CUMPLIDO |  |  |  |  | PPV-VIDRIO |
+| MES: | agosto |  |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  | MES: |  | AGOSTO |  |  |  |
 |  |  |  |  | 24/08/26 | al | 29/08/26 |  |  |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |
-| Día | Fecha | O.P. | Nº LOTE | Producto | VOLUMEN UNITARIO [ML] | Cantidad de Bandejas | Volumen total          [mL] | Tamaño del          lote [unidades] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  |  |  |  |  |  |
-| LUNES | 24/08/26 | 2246 | 2370022 | Neuro-ciatic ABD | 1 | 48 | 50.400 | 50.400 | 110 | 2 | 8 | 08/28 |  | X | SELLO CNS | Se solicita 61 muestras para validación en proceso. Se entrego una etiqueta adicional de acido bencilico 252 g |  |  |  |  |  |  |  |
-| MARTES | 25/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-|  |  | 2247 | 2370023 | Neuro-ciatic ABD | 1 | 48 | 50.400 | 50.400 | 111 | 3 | 9 | 08/28 |  | X | SELLO CNS | Se solicita 40 muestras para validacion microbiologica. Se solicita 61 muestras para validación en proceso. Se entrego una etiqueta adicional de acido bencilico 252 g |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | Nº LOTE | Producto | VOLUMEN UNITARIO [ML] | Cantidad de Bandejas | Volumen total          [mL] | Tamaño del          lote [unidades] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  | PRODUCTO | LOTE | FECHA DE INICIO | FECHA FINAL | CANTIDAD CUMPLIDA (Unidades) | OBSERVACIONES |
+|  |  |  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  | Neuro-ciatic ABD | 2370022 | 25/08/26 | 26/08/26 | 39952 | N.A. |
+| LUNES | 24/08/26 | 2246 | 2370022 | Neuro-ciatic ABD | 1 | 48 | 50.400 | 50.400 | 110 | 2 | 8 | 08/28 |  | X | SELLO CNS | Se solicita 55 muestras para validación en proceso. Se entrego una etiqueta adicional de acido bencilico 252 g |  | Neuro-ciatic ABD | 2370023 | 26/08/26 | 27/08/26 | 40451 | N.A. |
+| MARTES | 25/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Neuro-ciatic ABD | 2370024 | 27/08/26 | 28/08/26 | 40959 | N.A. |
+|  |  | 2247 | 2370023 | Neuro-ciatic ABD | 1 | 48 | 50.400 | 50.400 | 111 | 3 | 9 | 08/28 |  | X | SELLO CNS | Se solicita 40 muestras para validacion microbiologica. Se solicita 61 muestras para validación en proceso. Se entrego una etiqueta adicional de acido bencilico 252 g |  | Neuro-ciatic ABD | 2370025 | 29/08/26 | 29/08/26 | 41535 | N.A. |
 | MIERCOLES | 26/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| JUEVES | 27/08/26 | 2248 | 2370024 | Neuro-ciatic ABD | 1 | 48 | 50.400 | 50.400 | 112 | 4 | 10 | 08/28 |  | X | SELLO CNS | Se solicita 40 muestras para validacion microbiologica. Se solicita 61 muestras para validación en proceso. Se entrego una etiqueta adicional de acido bencilico 252 g |  |  |  |  |  |  |  |
+| JUEVES | 27/08/26 | 2248 | 2370024 | Neuro-ciatic ABD | 1 | 48 | 50.400 | 50.400 | 112 | 4 | 10 | 08/28 |  | X | SELLO CNS | Se solicita 40 muestras para validacion microbiologica. Se solicita 85 muestras para validación en proceso. Se entrego una etiqueta adicional de acido bencilico 252 g |  |  |  |  |  |  |  |
 | VIERNES | 28/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | SABADO | 29/08/26 | 2249 | 2370025 | Neuro-ciatic ABD | 1 | 48 | 50.400 | 50.400 | 113 | 5 | 11 | 08/28 |  | X | SELLO CNS | Se solicita 40 muestras para validacion microbiologica. Se solicita 61 muestras para validación en proceso. Se entrego una etiqueta adicional de acido bencilico 252 g |  |  |  |  |  |  |  |
 |  |  |  |  |  |  | 192 | 201.600 | 201.600 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  |  | ÁREA: PPV |  |  |  |  |  |  |  |  |  |
-| MES: | agosto |  |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  |  | ÁREA: PPV |  |  |  | CUMPLIDO |  |  |  |  | PPV-VIDRIO |
+| MES: | agosto |  |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  | MES: |  | SEPTIEMBRE |  |  |  |
 |  |  |  |  | 31/08/26 | al | 04/09/26 |  |  |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | Nº LOTE | Producto | VOLUMEN UNITARIO [ML] | Cantidad de Bandejas | Volumen total          [mL] | Tamaño del          lote [unidades] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  | PRODUCTO | LOTE | FECHA DE INICIO | FECHA FINAL | CANTIDAD CUMPLIDA (Unidades) | OBSERVACIONES |
+|  |  |  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  | Neuro-ciatic ABD | 2370026 | 01/09/26 | 01/09/26 | 41907 | N.A. |
+| LUNES | 31/08/26 | 2250 | 2370026 | Neuro-ciatic ABD | 1 | 48 | 50.400 | 50.400 | 114 | 6 | 12 | 08/28 | X |  | VENTAS PRIVADAS | Se entrego una etiqueta adicional de acido bencilico 252 g |  | Clorfenamina ABD | 2080008 | 02/09/26 | 03/09/26 | 22407 | N.A. |
+| MARTES | 01/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Aminofilina ABD | 2110007 | 03/09/26 | 04/09/26 | 5057 | N.A. |
+| MIERCOLES | 02/09/26 | 2251 | 2080008 | Clorfenamina ABD | 1 | 24 | 25.400 | 25.400 | 115 | 2 | 1 | 09/28 | 14588 | 10812 | 10812 SELLO CNS                                               14588 VENTAS PRIVADAS | 24 bandejas con 200 unidades sueltas |  |  |  |  |  |  |  |
+| JUEVES | 03/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| VIERNES | 04/09/26 | 2252 | 2110007 | Aminofilina ABD | 10 | 14 | 56.500 | 5.650 | 116 | 1 | 2 | 09/28 | 4163 | 1487 | 1487 SELLO CNS                                   4163 VENTAS PRIVADAS | 14 bandejas con 288 unidades sueltas |  |  |  |  |  |  |  |
+|  |  |  |  |  |  | 86 | 132.300 | 81.450 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  |  | ÁREA: PPV |  |  |  | CUMPLIDO |  |  |  |  | PPV-VIDRIO |
+| MES: | septiembre |  |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  | MES: |  | SEPTIEMBRE |  |  |  |
+|  |  |  |  | 07/09/26 | al | 11/09/26 |  |  |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | Nº LOTE | Producto | VOLUMEN UNITARIO [ML] | Cantidad de Bandejas | Volumen total          [mL] | Tamaño del          lote [unidades] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  | PRODUCTO | LOTE | FECHA DE INICIO | FECHA FINAL | CANTIDAD CUMPLIDA (Unidades) | OBSERVACIONES |
+|  |  |  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  | Mucoteína  ABD | 2330025 | 08/09/26 | 08/09/26 | 16.509 | N.A. |
+| LUNES | 07/09/26 | 2253 | 2330025 | Mucoteína  ABD | 3 | 33 | 55.000 | 18.333 | 117 | 3 | 3 | 09/28 |  | X | SELLO CNS | Se solicita 20 muestras para validación microbiologica. Se solicita 69 muestras para validación en proceso |  | Mucoteína  ABD | 2330026 | 09/09/26 | 09/09/26 | 18.425 | N.A. |
+| MARTES | 08/09/26 | 2254 | 2330026 | Mucoteína  ABD | 3 | 33 | 55.000 | 18.333 | 118 | 4 | 4 | 09/28 | 5074 | 13259 | 13259 SELLO CNS                                          5074 VENTAS PRIVADAS | Se solicita 20 muestras para validación microbiologica. Se solicita 69 muestras para validación en proceso |  | Mucoteína  ABD | 2330027 | 10/09/26 | 10/09/26 | 16.333 | N.A. |
+| MIERCOLES | 09/09/26 | 2255 | 2330027 | Mucoteína  ABD | 3 | 33 | 55.000 | 18.333 | 119 | 5 | 5 | 09/28 | X |  | VENTAS PRIVADAS | Se solicita 20 muestras para validación microbiologica. Se solicita 69 muestras para validación en proceso |  | Brocur ABD | 2360006 | 11/09/26 | 11/09/26 | 2.089 | N.A. |
+| JUEVES | 10/09/26 | 2256 | 2360006 | Brocur ABD | 5 | 4 | 12.500 | 2.500 | 120 | 1 | 6 | 09/28 | 1860 | 640 | 640 SELLO CSN                                    1860 VENTAS PRIVADAS | Se solicita 20 muestras para validación microbiologica. |  |  |  |  |  |  |  |
+| VIERNES | 11/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  | 103 | 177.500 | 57.500 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  |  | ÁREA: PPV |  |  |  | CUMPLIDO |  |  |  |  | PPV-VIDRIO |
+| MES: | septiembre |  |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  | MES: |  | SEPTIEMBRE |  |  |  |
+|  |  |  |  | 14/09/26 | al | 18/09/26 |  |  |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | Nº LOTE | Producto | VOLUMEN UNITARIO [ML] | Cantidad de Bandejas | Volumen total          [mL] | Tamaño del          lote [unidades] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  | PRODUCTO | LOTE | FECHA DE INICIO | FECHA FINAL | CANTIDAD CUMPLIDA (Unidades) | OBSERVACIONES |
+|  |  |  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  | Solución de glucosa al 50% | 2050015 | 14/09/26 | 14/09/26 | 2.297 | N.A. |
+| LUNES | 14/09/26 | 2257 | 2050015 | Solución de glucosa al 50% | 20 | 12 | 54.720 | 2.736 | 121 | 7 | 7 | 09/31 | 94 | 2642 | 2642 SELLO CNS 94 VENTAS PRIVADAS | Se solicita 20 muestras para validacion microbiologica. Se solicita 50 muestras para validación en proceso |  | Solución de glucosa al 50% | 2050016 | 15/09/26 | 15/09/26 | 2.362 | N.A. |
+|  |  | 2258 | 2050016 | Solución de glucosa al 50% | 20 | 12 | 54.720 | 2.736 | 122 | 8 | 8 | 09/31 | X |  | VENTAS PRIVADAS | Se solicita 20 muestras para validacion microbiologica. Se solicita 50 muestras para validación en proceso |  | Solución de glucosa al 50% | 2050017 | 15/09/26 | 15/09/26 | 2.185 | N.A. |
+|  |  | 2259 | 2050017 | Solución de glucosa al 50% | 20 | 12 | 54.720 | 2.736 | 123 | 9 | 9 | 09/31 | X |  | VENTAS PRIVADAS | Se solicita 20 muestras para validacion microbiologica. Se solicita 50 muestras para validación en proceso. Se solicita 80 muestras para estudio de estabilidad ON GOING |  | Atracurio ABD | 2090040 | 17/09/26 | 17/09/26 | 9.871 | N.A. |
+| MARTES | 15/09/26 | 2260 | 2090040 | Atracurio ABD | 5 | 20 | 54.600 | 10.920 | 124 | 8 | 10 | 09/28 | 5920 | 5000 | 5000 SELLO CNS 5920 VENTAS PRIVADAS |  |  | Atracurio ABD | 2090041 | 17/09/26 | 17/09/26 | 10.364 | N.A. |
+| MIERCOLES | 16/09/26 | 2261 | 2090041 | Atracurio ABD | 5 | 20 | 54.600 | 10.920 | 125 | 9 | 11 | 09/28 |  | X | LICITACION SIN LEYENDA |  |  | Doloquerol ABD | 2140013 |  |  |  | N.A. |
+| JUEVES | 17/09/26 | 2262 | 2140013 | Doloquerol ABD | 1 | 24 | 25.400 | 25.400 | 126 | 5 | 12 | 09/28 |  | X | LICITACION SIN LEYENDA | Se solicita 30 muestras para validación microbiologica. |  |  |  |  |  |  |  |
+| VIERNES | 18/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  | 100 | 298.760 | 55.448 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  |  | ÁREA: PPV |  |  |  |  |  |  |  |  |  |
+| MES: | septiembre |  |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  |  |  |  |  |  |  |
+|  |  |  |  | 21/09/26 | al | 25/09/26 |  |  |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |
 | Día | Fecha | O.P. | Nº LOTE | Producto | VOLUMEN UNITARIO [ML] | Cantidad de Bandejas | Volumen total          [mL] | Tamaño del          lote [unidades] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  |  |  |  |  |  |
-| LUNES | 31/08/26 | 2250 | 2370026 | Neuro-ciatic ABD | 1 | 48 | 50.400 | 50.400 | 114 | 6 | 12 | 08/28 | X |  | VENTAS PRIVADAS | Se entrego una etiqueta adicional de acido bencilico 252 g |  |  |  |  |  |  |  |
-| MARTES | 01/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| MIERCOLES | 02/09/26 | 2251 | 2080008 | Clorfenamina ABD | 1 | 24 | 25.400 | 25.400 | 115 | 2 | 1 | 09/28 | 14588 | 10812 | 10812 SELLO CNS                                               14588 VENTAS PRIVADAS |  |  |  |  |  |  |  |  |
-| JUEVES | 03/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| VIERNES | 04/09/26 | 2252 | 2110007 | Aminofilina ABD | 10 | 14 | 56.500 | 5.650 | 116 | 1 | 2 | 09/28 | 4163 | 1487 | 1487 SELLO CNS                                   4163 VENTAS PRIVADAS |  |  |  |  |  |  |  |  |
-|  |  |  |  |  |  | 86 | 132.300 | 81.450 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| LUNES | 21/09/26 | 2263 | 2020061 | Vitamina C ABD | 2 | 22 | 46.200 | 23.100 | 127 | 6 | 13 | 09/28 |  | X | LICITACION SIN LEYENDA | Corregir OP y correlativo de mes. Se canceló el lote de Doloquerol el 2140014 debido a falta de personal en fecha 21/09/26 a hrs 08:20 |  |  |  |  |  |  |  |
+| MARTES | 22/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| MIERCOLES | 23/09/26 | 2264 | 2030077 | Bicarbonato de sodio 8% | 20 | 11 | 54.700 | 2.735 | 128 | 22 | 14 | 09/31 | X |  | VENTAS PRIVADAS | Se solicita 20 muestras para validación microbilogica. Se solicita 49 muestras para validación en proceso |  |  |  |  |  |  |  |
+|  |  | 2265 | 2030078 | Bicarbonato de sodio 8% | 20 | 11 | 54.700 | 2.735 | 129 | 23 | 15 | 09/31 | X |  | VENTAS PRIVADAS | Se solicita 20 muestras para validación microbilogica. Se solicita 49 muestras para validación en proceso |  |  |  |  |  |  |  |
+|  |  | 2266 | 2030079 | Bicarbonato de sodio 8% | 20 | 11 | 54.700 | 2.735 | 130 | 24 | 16 | 09/31 |  | X | LICITACION SIN LEYENDA | Se solicita 20 muestras para validación microbilogica. Se solicita 49 muestras para validación en proceso |  |  |  |  |  |  |  |
+|  |  | 2267 | 2030080 | Bicarbonato de sodio 8% | 20 | 11 | 54700 | 2735 | 131 | 25 | 17 | 09/31 |  | X | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
+| JUEVES | 24/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| VIERNES | 25/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  | 66 | 265.000 | 34.040 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  |  | ÁREA: PPV |  |  |  |  |  |  |  |  |  |
+| MES: | septiembre |  |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  |  |  |  |  |  |  |
+|  |  |  |  | 28/09/26 | al | 02/10/26 |  |  |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | Nº LOTE | Producto | VOLUMEN UNITARIO [ML] | Cantidad de Bandejas | Volumen total          [mL] | Tamaño del          lote [unidades] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  |  |  |  |  |  |
+| LUNES | 28/09/26 | 2268 | 2040187 | Dipirona Sódica | 2 | 22 | 46.200 | 23.100 | 132 | 13 | 18 | 09/31 |  | X | LICITACION SIN LEYENDA | Se solicita 30 muestras para validación microbiologica. Se solicita 99 muestras para validación en proceso de manufactura. Se solicita 380 unidades para estabilidad natural |  |  |  |  |  |  |  |
+| MARTES | 29/09/26 | 2269 | 2040188 | Dipirona Sódica | 2 | 22 | 46.200 | 23.100 | 133 | 14 | 19 | 09/31 |  | X | LICITACION SIN LEYENDA | Se solicita 30 muestras para validación microbiologica. Se solicita 99 muestras para validación en proceso de manufactura. Se solicita 380 unidades para estabilidad natural |  |  |  |  |  |  |  |
+| MIERCOLES | 30/09/26 | 2270 | 2040189 | Dipirona Sódica | 2 | 22 | 46.200 | 23.100 | 134 | 15 | 20 | 09/31 | X |  | VENTAS PRIVADAS | Se solicita 30 muestras para validación microbiologica. Se solicita 99 muestras para validación en proceso de manufactura |  |  |  |  |  |  |  |
+| JUEVES | 01/10/26 | 2271 | 2290007 | Beta ABD | 1 | 11 | 12.500 | 12.500 | 135 | 2 | 1 | 10/28 |  | X | LICITACION SIN LEYENDA | Se solicita 40 muestras para validación microbiologica. Se solicita 108 muestras para validacion en proceso de manufactura. Se solicita 387 unidades para estudio de estabilidad natural |  |  |  |  |  |  |  |
+|  |  | 2272 | 2290008 | Beta ABD | 1 | 11 | 12.500 | 12.500 | 136 | 3 | 2 | 10/28 |  | X | LICITACION SIN LEYENDA | Se solicita 40 muestras para validación microbiologica. Se solicita 108 muestras para validacion en proceso de manufactura. Se solicita 387 unidades para estudio de estabilidad natural |  |  |  |  |  |  |  |
+| VIERNES | 02/10/26 | 2273 | 2290009 | Beta ABD | 1 | 11 | 12.500 | 12.500 | 137 | 4 | 3 | 10/28 | X |  | VENTAS PRIVADAS | Se solicita 40 muestras para validación microbiologica. Se solicita 108 muestras para validacion en proceso de manufactura. Se solicita 387 unidades para estudio de estabilidad natural |  |  |  |  |  |  |  |
+|  |  |  |  |  |  | 99 | 176.100 | 106.800 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  |  | ÁREA: PPV |  |  |  |  |  |  |  |  |  |
+| MES: | octubre |  |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  |  |  |  |  |  |  |
+|  |  |  |  | 05/10/26 | al | 09/10/26 |  |  |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | Nº LOTE | Producto | VOLUMEN UNITARIO [ML] | Cantidad de Bandejas | Volumen total          [mL] | Tamaño del          lote [unidades] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  |  |  |  |  |  |
+| LUNES | 05/10/26 | 2274 | 2370027 | Neuro-ciatic ABD | 1 | 48 | 50400 | 50400 | 138 | 7 | 4 | 10/28 |  |  |  |  |  |  |  |  |  |  |  |
+| MARTES | 06/10/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| MIERCOLES | 07/10/26 | 2275 | 2100014 | Cianocobalamina (Vitamina B12) | 1 | 24 | 25.400 | 25.400 | 139 | 6 | 5 | 10/28 |  |  |  |  |  |  |  |  |  |  |  |
+| JUEVES | 08/10/26 | 2276 | 2030081 | Bicarbonato de sodio 8% | 20 | 11 | 54.700 | 2.735 | 140 | 18 | 6 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 2277 | 2030082 | Bicarbonato de sodio 8% | 20 | 11 | 54.700 | 2.735 | 141 | 19 | 7 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 2278 | 2030083 | Bicarbonato de sodio 8% | 20 | 11 | 54.700 | 2.735 | 142 | 20 | 8 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+| VIERNES | 09/10/26 | 2279 | 2030084 | Bicarbonato de sodio 8% | 20 | 11 | 54.700 | 2.735 | 143 | 21 | 9 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 2280 | 2030085 | Bicarbonato de sodio 8% | 20 | 11 | 54.700 | 2.735 | 144 | 22 | 10 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 2281 | 2030086 | Bicarbonato de sodio 8% | 20 | 11 | 54.700 | 2.735 | 145 | 23 | 11 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  | 138 | 404000 | 92210 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |

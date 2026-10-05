@@ -602,40 +602,410 @@
 2000 para ventas privadas | Se entregaron 10 etiquetas de glucosa anhidra, se pasaron con la cantidad de agua al momento del preparado |  |  |  |  |  |  |  |
 |  |  |  |  |  |  | 28.000 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN |  |  |  |  |  |  |  |  | ÁREA: BFS 305 |  |  |  |  |  |  |  |  |  |
-| MES: | agosto |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN |  |  |  |  |  |  |  |  | ÁREA: BFS 305 |  |  |  | CUMPLIDO |  |  |  |  | BFS 305 |
+| MES: | agosto |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  | MES: | AGOSTO |  |  |  |  |
 |  |  |  |  | 24/08/26 | al | 28/08/26 |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |  |
 | Día | Fecha | O.P. | LOTE | PRODUCTO | VOLUMEN UNITARIO [L] | Volumen total                [L] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | TIPO DE LEYENDA | OBSERVACIONES |  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  |  |  |  |  |  |  |
-| LUNES | 24/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| MARTES | 25/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| MIERCOLES | 26/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| JUEVES | 27/08/26 | 978 | 6390412 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 259 | 121 | 19 | 08/31 | X |  |  | VENTAS PRIVADAS |  |  |  |  |  |  |  |  |
-|  |  | 979 | 6390413 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 260 | 122 | 20 | 08/31 | X |  |  | VENTAS PRIVADAS |  |  |  |  |  |  |  |  |
-|  |  | 980 | 6390414 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 261 | 123 | 21 | 08/31 | 6000 | 1000 |  | 6000 VENTAS PRIVADAS                                        1000 LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
-| VIERNES | 28/08/26 | 981 | 6390415 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 262 | 124 | 22 | 08/31 |  | X |  | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  | PRODUCTO | LOTE | FECHA DE INICIO | FECHA FINAL | CANTIDAD CUMPLIDA (UNIDADES) | OBSERVACIONES |
+| LUNES | 24/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390412 | 27/08/26 | 27/08/26 | 6364 | N.A. |
+| MARTES | 25/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390413 | 27/08/26 | 28/08/26 | 6678 | N.A. |
+| MIERCOLES | 26/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390414 | 27/08/26 | 28/08/26 | 6538 | N.A. |
+| JUEVES | 27/08/26 | 978 | 6390412 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 259 | 121 | 19 | 08/31 | X |  |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390415 | 28/08/26 | 28/08/26 | 6629 | N.A. |
+|  |  | 979 | 6390413 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 260 | 122 | 20 | 08/31 | X |  |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390416 | 28/08/26 | 28/08/26 | 6675 | N.A. |
+|  |  | 980 | 6390414 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 261 | 123 | 21 | 08/31 | 6000 | 1000 |  | 6000 VENTAS PRIVADAS                                        1000 LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390417 | 28/08/26 | 29/08/26 | 4788 | N.A. |
+| VIERNES | 28/08/26 | 981 | 6390415 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 262 | 124 | 22 | 08/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390418 | 28/08/26 | 29/08/26 | 4752 | N.A. |
 |  |  | 982 | 6390416 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 263 | 125 | 23 | 08/31 |  | X |  | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
 |  |  | 983 | 6390417 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5.000 | 264 | 126 | 24 | 08/31 |  | X |  | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
 |  |  | 984 | 6390418 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5.000 | 265 | 127 | 25 | 08/31 |  | X |  | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  | 45.000 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN |  |  |  |  |  |  |  |  | ÁREA: BFS 305 |  |  |  |  |  |  |  |  |  |
-| MES: | agosto |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN |  |  |  |  |  |  |  |  | ÁREA: BFS 305 |  |  |  | CUMPLIDO |  |  |  |  | BFS 305 |
+| MES: | agosto |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  | MES: | AGOSTO |  |  |  |  |
 |  |  |  |  | 31/08/26 | al | 04/09/26 |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |  |
 | Día | Fecha | O.P. | LOTE | PRODUCTO | VOLUMEN UNITARIO [L] | Volumen total                [L] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | TIPO DE LEYENDA | OBSERVACIONES |  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  |  |  |  |  |  |  |
-| LUNES | 31/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| MARTES | 01/09/26 | 985 | 6390419 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 266 | 128 | 1 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  |  |  |  |  |  |  |
-|  |  | 986 | 6390420 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 267 | 129 | 2 | 09/31 | 5000 | 2000 |  | 5000 VENTAS PRIVADAS                                     2000 LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
-|  |  | 987 | 6390421 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 268 | 130 | 3 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
-|  |  | 988 | 6390422 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5.000 | 269 | 131 | 4 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
-| MIERCOLES | 02/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-|  |  | 989 | 6390423 | Solución Fisiológica 0,9% - Foil Cap | 1 | 4.000 | 270 | 132 | 5 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
-|  |  | 990 | 6300122 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 1 | 5.000 | 271 | 26 | 6 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  |  |  |  |  |  |  |
-|  |  | 991 | 6300123 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 1 | 5.000 | 272 | 27 | 7 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  | PRODUCTO | LOTE | FECHA DE INICIO | FECHA FINAL | CANTIDAD CUMPLIDA (UNIDADES) | OBSERVACIONES |
+| LUNES | 31/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390419 | 01/09/26 | 01/09/26 | 6497 | N.A. |
+| MARTES | 01/09/26 | 985 | 6390419 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 266 | 128 | 1 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390420 | 01/09/26 | 01/09/26 | 6706 | N.A. |
+|  |  | 986 | 6390420 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 267 | 129 | 2 | 09/31 | 5000 | 2000 |  | 5000 VENTAS PRIVADAS                                     2000 LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390421 | 01/09/26 | 02/09/26 | 6657 | N.A. |
+|  |  | 987 | 6390421 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 268 | 130 | 3 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390422 | 02/09/26 | 02/09/26 | 4788 | N.A. |
+|  |  | 988 | 6390422 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5.000 | 269 | 131 | 4 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390423 | 02/09/26 | 02/09/26 | 3522 | N.A. |
+| MIERCOLES | 02/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución de Ringer Lactato "Hartmann" - Foil Cap | 6300122 | 02/09/26 | 03/09/26 | 4742 | N.A. |
+|  |  | 989 | 6390423 | Solución Fisiológica 0,9% - Foil Cap | 1 | 4.000 | 270 | 132 | 5 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución de Ringer Lactato "Hartmann" - Foil Cap | 6300123 | 02/09/26 | 03/09/26 | 4845 | N.A. |
+|  |  | 990 | 6300122 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 1 | 5.000 | 271 | 26 | 6 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  | Solución de Ringer Lactato "Hartmann" - Foil Cap | 6300124 | 03/09/26 | 03/09/26 | 4800 | N.A. |
+|  |  | 991 | 6300123 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 1 | 5.000 | 272 | 27 | 7 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  | Solución de Ringer Lactato "Hartmann" - Foil Cap | 6300125 | 03/09/26 | 03/09/26 | 4874 | N.A. |
 |  |  | 992 | 6300124 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 1 | 5.000 | 273 | 28 | 8 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
 |  |  | 993 | 6300125 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 1 | 5.000 | 274 | 29 | 9 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
 | JUEVES | 03/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | VIERNES | 04/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  | 50.000 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN |  |  |  |  |  |  |  |  | ÁREA: BFS 305 |  |  |  | CUMPLIDO |  |  |  |  | BFS 305 |
+| MES: | septiembre |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  | MES: | Septiembre |  |  |  |  |
+|  |  |  |  | 07/09/26 | al | 11/09/26 |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | LOTE | PRODUCTO | VOLUMEN UNITARIO [L] | Volumen total                [L] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | TIPO DE LEYENDA | OBSERVACIONES |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  | PRODUCTO | LOTE | FECHA DE INICIO | FECHA FINAL | CANTIDAD CUMPLIDA (UNIDADES) | OBSERVACIONES |
+| LUNES | 07/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390424 | 09/09/26 | 10/09/26 | 6477 | N.A. |
+| MARTES | 08/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390425 | 10/09/26 | 10/09/26 | 6782 | N.A. |
+| MIERCOLES | 09/09/26 | 994 | 6390424 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 275 | 133 | 10 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390426 | 10/09/26 | 10/09/26 | 6631 | N.A. |
+|  |  | 995 | 6390425 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 276 | 134 | 11 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390427 | 10/09/26 | 10/09/26 | 6703 | N.A. |
+| JUEVES | 10/09/26 | 996 | 6390426 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 277 | 135 | 12 | 09/31 | 3000 | 4000 |  | 3000 VENTAS PRIVADAS                                         4000 LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390428 | 11/09/26 | 11/09/26 | 6660 | N.A. |
+|  |  | 997 | 6390427 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 278 | 136 | 13 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390429 | 11/09/26 | 11/09/26 | 4791 | N.A. |
+|  |  | 998 | 6390428 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 279 | 137 | 14 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución Ringer Normal - Foil Cap | 6310095 | 11/09/26 | 11/09/26 | 6561 | N.A. |
+|  |  | 999 | 6390429 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5.000 | 280 | 138 | 15 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución Ringer Normal - Foil Cap | 6310096 | 11/09/26 | 11/09/26 | 6788 | N.A. |
+| VIERNES | 11/09/26 | 1000 | 6310095 | Solución Ringer Normal - Foil Cap | 1 | 7.000 | 281 | 28 | 16 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución Ringer Normal - Foil Cap | 6310097 | 11/09/26 | 12/09/26 | 6557 | N.A. |
+|  |  | 1001 | 6310096 | Solución Ringer Normal - Foil Cap | 1 | 7.000 | 282 | 29 | 17 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución Ringer Normal - Foil Cap | 6310098 | 12/09/26 | 12/09/26 | 4806 | N.A. |
+|  |  | 1002 | 6310097 | Solución Ringer Normal - Foil Cap | 1 | 7.000 | 283 | 30 | 18 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
+|  |  | 1003 | 6310098 | Solución Ringer Normal - Foil Cap | 1 | 5.000 | 284 | 31 | 19 | 09/31 | X |  |  | VENTAS PRIVADAS | Se cancelo el lote 6310099 debido a que se rompio una pieza de la bottelpack y paró la producción |  |  |  |  |  |  |  |
+|  |  |  |  |  |  | 66.000 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN |  |  |  |  |  |  |  |  | ÁREA: BFS 305 |  |  |  | CUMPLIDO |  |  |  |  | BFS 305 |
+| MES: | septiembre |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  | MES: | Septiembre |  |  |  |  |
+|  |  |  |  | 14/09/26 | al | 18/09/26 |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | LOTE | PRODUCTO | VOLUMEN UNITARIO [L] | Volumen total                [L] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | TIPO DE LEYENDA | OBSERVACIONES |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  | PRODUCTO | LOTE | FECHA DE INICIO | FECHA FINAL | CANTIDAD CUMPLIDA (UNIDADES) | OBSERVACIONES |
+| LUNES | 14/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390430 | 15/09/26 | 16/09/26 | 6401 | N.A. |
+| MARTES | 15/09/26 | 1004 | 6390430 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 285 | 139 | 20 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390431 | 16/09/26 | 16/09/26 | 6560 | N.A. |
+|  |  | 1005 | 6390431 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 286 | 140 | 21 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390432 | 16/09/26 | 16/09/26 | 6624 | N.A. |
+|  |  | 1006 | 6390432 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 287 | 141 | 22 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390433 | 16/09/26 | 17/09/26 | 6634 | N.A. |
+|  |  | 1007 | 6390433 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 288 | 142 | 23 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390434 | 16/09/26 | 17/09/26 | 6657 | N.A. |
+|  |  | 1008 | 6390434 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 289 | 143 | 24 | 09/31 | 2000 | 5000 |  | 2000 VENTAS PRIVADAS                                                             5000 LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390435 | 17/09/26 | 17/09/26 | 6704 | N.A. |
+| MIERCOLES | 16/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390436 | 17/09/26 | 17/09/26 | 6724 | N.A. |
+| JUEVES | 17/09/26 | 1009 | 6390435 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 290 | 144 | 25 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390437 | 17/09/26 | 18/09/26 | 6706 | N.A. |
+|  |  | 1010 | 6390436 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 291 | 145 | 26 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Foil Cap | 6390438 | 18/09/26 | 18/09/26 | 3886 | N.A. |
+|  |  | 1011 | 6390437 | Solución Fisiológica 0,9% - Foil Cap | 1 | 7.000 | 292 | 146 | 27 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución de Ringer Lactato "Hartmann" - Foil Cap | 6300126 | 18/09/26 | 18/09/26 | 4713 | N.A. |
+|  |  | 1012 | 6390438 | Solución Fisiológica 0,9% - Foil Cap | 1 | 4.000 | 293 | 147 | 28 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución de Ringer Lactato "Hartmann" - Foil Cap | 6300127 | 18/09/26 | 18/09/26 | 4846 | N.A. |
+| VIERNES | 18/09/26 | 1013 | 6300126 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 1 | 5.000 | 294 | 30 | 29 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  | Solución de Ringer Lactato "Hartmann" - Foil Cap | 6300128 | 18/09/26 | 18/09/26 | 4810 | N.A. |
+|  |  | 1014 | 6300127 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 1 | 5.000 | 295 | 31 | 30 | 09/31 | X |  |  | VENTAS PRIVADAS |  |  | Solución de Ringer Lactato "Hartmann" - Foil Cap | 6300129 | 18/09/26 | 18/09/26 | 4744 | N.A. |
+|  |  | 1015 | 6300128 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 1 | 5.000 | 296 | 32 | 31 | 09/31 | 1000 | 4000 |  | 1000 VENTAS PRIVADAS                                                               4000 LICITACION SIN LEYENDA |  |  | Solución de Ringer Lactato "Hartmann" - Foil Cap | 6300130 | 18/09/26 | 19/09/26 | 4855 | N.A. |
+|  |  | 1016 | 6300129 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 1 | 5.000 | 297 | 33 | 32 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  | Solución de Ringer Lactato "Hartmann" - Foil Cap | 6300131 | 19/09/26 | 19/09/26 | 4871 | N.A. |
+|  |  | 1017 | 6300130 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 1 | 5.000 | 298 | 34 | 33 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
+|  |  | 1018 | 6300131 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 1 | 5.000 | 299 | 35 | 34 | 09/31 |  | X |  | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  | 90.000 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN |  |  |  |  |  |  |  |  | ÁREA: BFS 305 |  |  |  |  |  |  |  |  |  |
+| MES: | septiembre |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  |  |  |  |  |  |  |
+|  |  |  |  | 28/09/26 | al | 02/10/26 |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | LOTE | PRODUCTO | VOLUMEN UNITARIO [L] | Volumen total                [L] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | TIPO DE LEYENDA | OBSERVACIONES |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  |  |  |  |  |  |  |
+| LUNES | 28/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| MARTES | 29/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| MIERCOLES | 30/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| JUEVES | 01/10/26 | 1019 | 6340116 | Solución Fisiológica 0,9% - Foil Cap | 0,5 | 5.000 | 300 | 39 | 1 | 10/31 |  | X |  | SELLO CNS |  |  |  |  |  |  |  |  |
+|  |  | 1020 | 6340117 | Solución Fisiológica 0,9% - Foil Cap | 0,5 | 5.000 | 301 | 40 | 2 | 10/31 |  | X |  | SELLO CNS | Se entrego de etiqueta de cloruro de sodio 2,300 g |  |  |  |  |  |  |  |
+| VIERNES | 02/10/26 | 1021 | 6340118 | Solución Fisiológica 0,9% - Foil Cap | 0,5 | 5.000 | 302 | 41 | 3 | 10/31 |  | X |  | SELLO CNS |  |  |  |  |  |  |  |  |
+|  |  | 1022 | 6340119 | Solución Fisiológica 0,9% - Foil Cap | 0,5 | 5.000 | 303 | 42 | 4 | 10/31 |  | X |  | SELLO CNS |  |  |  |  |  |  |  |  |
+| SABADO | 03/10/26 | 1023 | 6340120 | Solución Fisiológica 0,9% - Foil Cap | 0,5 | 5.000 | 304 | 43 | 5 | 10/31 |  |  |  | 4000 SELLO CNS 6000 LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  | 25.000 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN |  |  |  |  |  |  |  |  | ÁREA: BFS 305 |  |  |  |  |  |  |  |  |  |
+| MES: | octubre |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  |  |  |  |  |  |  |
+|  |  |  |  | 06/10/26 | al | 09/10/26 |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | LOTE | PRODUCTO | VOLUMEN UNITARIO [L] | Volumen total                [L] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | TIPO DE LEYENDA | OBSERVACIONES |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  |  |  |  |  |  |  |
+| LUNES | 05/10/26 | 1024 | 6340121 | Solución Fisiológica 0,9% - Foil Cap | 0,5 | 5.000 | 305 | 44 | 6 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1025 | 6340122 | Solución Fisiológica 0,9% - Foil Cap | 0,5 | 5.000 | 306 | 45 | 7 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |  |
+| MARTES | 06/10/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1026 | 6340123 | Solución Fisiológica 0,9% - Foil Cap | 0,5 | 5.000 | 307 | 46 | 8 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1027 | 6340124 | Solución Fisiológica 0,9% - Foil Cap | 0,5 | 5.000 | 308 | 47 | 9 | 10/313 |  |  |  |  |  |  |  |  |  |  |  |  |
+| MIERCOLES | 07/10/26 | 1028 | 6230015 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 0,5 | 5.000 | 309 | 6 | 10 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1029 | 6230016 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 0,5 | 5.000 | 310 | 7 | 11 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1030 | 6230017 | Solución de Ringer Lactato "Hartmann" - Foil Cap | 0,5 | 5.000 | 311 | 8 | 12 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |  |
+| JUEVES | 08/10/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| VIERNES | 09/10/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  | 35.000 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 10/09/26 |  |  |

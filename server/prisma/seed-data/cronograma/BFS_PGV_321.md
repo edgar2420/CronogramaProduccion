@@ -574,32 +574,72 @@
 | MES: | agosto |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  | MES: | AGOSTO |  |  |  |  |
 |  |  |  |  | 17/08/26 | al | 21/08/26 |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |
 | Día | Fecha | O.P. | Nº LOTE | PRODUCTO | VOLUMEN UNITARIO [L] | Volumen total                [L] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  | PRODUCTO | LOTE | FECHA DE INICIO | FECHA FINAL | CANTIDAD CUMPLIDA (UNIDADES) | OBSERVACIONES |
-|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  | Solución Estéril ABD - Flex | 1090010 |  |  |  |  |
-| LUNES | 17/08/26 | 1250 | 1090010 | Solución Estéril ABD - Flex | 1 | 5.000 | 248 | 3 | 17 | 08/28 | X |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Flex | 1020314 |  |  |  |  |
-|  |  | 1251 | 1020314 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 249 | 49 | 18 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020315 |  |  |  |  |
-| MARTES | 18/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución Fisiológica 0,9% - Flex | 1020316 |  |  |  |  |
-|  |  | 1252 | 1020315 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 250 | 50 | 19 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020317 |  |  |  |  |
-|  |  | 1253 | 1020316 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 251 | 51 | 20 | 08/31 | 3000 | 2000 | 2000 LICITACION SIN LEYENDA                                                 3000 VENTAS PRIVADAS | Se modifico el programa de producción en fecha 18/08/26 a las 10:18, se cambio la presentación de foil cap a flex |  | Solución Fisiológica 0,9% - Flex | 1020318 |  |  |  |  |
-| MIERCOLES | 19/08/26 | 1254 | 1020317 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 252 | 52 | 21 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020319 |  |  |  |  |
-|  |  | 1255 | 1020318 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 253 | 53 | 22 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020320 |  |  |  |  |
-|  |  | 1256 | 1020319 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 254 | 54 | 23 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020321 |  |  |  |  |
-|  |  | 1257 | 1020320 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 255 | 55 | 24 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020322 |  |  |  |  |
-| JUEVES | 20/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución Fisiológica 0,9% - Flex | 1020323 |  |  |  |  |
-|  |  | 1258 | 1020321 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 256 | 56 | 25 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020324 |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  | Solución Estéril ABD - Flex | 1090010 | 17/08/26 | 17/08/26 | 4688 | N.A. |
+| LUNES | 17/08/26 | 1250 | 1090010 | Solución Estéril ABD - Flex | 1 | 5.000 | 248 | 3 | 17 | 08/28 | X |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Flex | 1020314 | 18/08/26 | 18/08/26 | 4785 | N.A. |
+|  |  | 1251 | 1020314 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 249 | 49 | 18 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020315 | 18/08/26 | 18/08/26 | 4838 | N.A. |
+| MARTES | 18/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución Fisiológica 0,9% - Flex | 1020316 | 18/08/26 | 18/08/26 | 4825 | N.A. |
+|  |  | 1252 | 1020315 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 250 | 50 | 19 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020317 | 19/08/26 | 19/08/26 | 4894 | N.A. |
+|  |  | 1253 | 1020316 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 251 | 51 | 20 | 08/31 | 3000 | 2000 | 2000 LICITACION SIN LEYENDA                                                 3000 VENTAS PRIVADAS | Se modifico el programa de producción en fecha 18/08/26 a las 10:18, se cambio la presentación de foil cap a flex |  | Solución Fisiológica 0,9% - Flex | 1020318 | 19/08/26 | 19/08/26 | 4767 | N.A. |
+| MIERCOLES | 19/08/26 | 1254 | 1020317 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 252 | 52 | 21 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020319 | 19/08/26 | 19/08/26 | 4766 | N.A. |
+|  |  | 1255 | 1020318 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 253 | 53 | 22 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020320 | 19/08/26 | 20/08/26 | 4872 | N.A. |
+|  |  | 1256 | 1020319 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 254 | 54 | 23 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020321 | 20/08/26 | 20/08/26 | 4888 | N.A. |
+|  |  | 1257 | 1020320 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 255 | 55 | 24 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020322 | 20/08/26 | 20/08/26 | 4877 | N.A. |
+| JUEVES | 20/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución Fisiológica 0,9% - Flex | 1020323 | 20/08/26 | 20/08/26 | 4778 | N.A. |
+|  |  | 1258 | 1020321 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 256 | 56 | 25 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020324 | 20/08/26 | 21/08/26 | 4899 | N.A. |
 |  |  | 1259 | 1020322 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 257 | 57 | 26 | 08/31 |  | X | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
 |  |  | 1260 | 1020323 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 258 | 58 | 27 | 08/31 | X |  | VENTAS PRIVADAS |  |  |  |  |  |  |  |  |
 |  |  | 1261 | 1020324 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 259 | 59 | 28 | 08/31 | X |  | VENTAS PRIVADAS |  |  |  |  |  |  |  |  |
 | VIERNES | 21/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  | 60.000 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  | ÁREA: BFS PGV 321 |  |  |  |  |  |  |  |  |
-| MES: | agosto |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  | ÁREA: BFS PGV 321 |  |  | CUMPLIDO |  |  |  |  | BFS PGV 321 |
+| MES: | agosto |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  | MES: | SEPTIEMBRE |  |  |  |  |
 |  |  |  |  | 31/08/26 | al | 04/09/26 |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |
-| Día | Fecha | O.P. | Nº LOTE | PRODUCTO | VOLUMEN UNITARIO [L] | Volumen total                [L] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | Nº LOTE | PRODUCTO | VOLUMEN UNITARIO [L] | Volumen total                [L] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  | PRODUCTO | LOTE | FECHA DE INICIO | FECHA FINAL | CANTIDAD CUMPLIDA (UNIDADES) | OBSERVACIONES |
+|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  | Solución Fisiológica 0,9% - Foil Cap | 1170009 | 03/09/26 | 04/09/26 | 25528 | N.A. |
 | LUNES | 31/08/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | MARTES | 01/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | MIERCOLES | 02/09/26 | 1262 | 1170009 | Solución Fisiológica 0,9% - Foil Cap | 0,1 | 3.000 | 260 | 6 | 1 | 09/31 |  |  | 12936 SELLO CNS                                                                        7064 LICITACION SIN LEYENDA                                                        10000 VENTAS PRIVADAS |  |  |  |  |  |  |  |  |
 | JUEVES | 03/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | VIERNES | 04/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  | 3.000 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  | ÁREA: BFS PGV 321 |  |  | CUMPLIDO |  |  |  |  | BFS PGV 321 |
+| MES: | septiembre |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  | MES: | SEPTIEMBRE |  |  |  |  |
+|  |  |  |  | 07/09/26 | al | 12/09/26 |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | Nº LOTE | PRODUCTO | VOLUMEN UNITARIO [L] | Volumen total                [L] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  | PRODUCTO | LOTE | FECHA DE INICIO | FECHA FINAL | CANTIDAD CUMPLIDA (UNIDADES) | OBSERVACIONES |
+|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  | Solución para Diálisis Peritoneal con Glucosa al 1.5% Diálisis I  - Flex | 1050018 | 08/09/26 | 08/09/26 | 2.890 | N.A. |
+| LUNES | 07/09/26 | 1263 | 1050018 | Solución para Diálisis Peritoneal con Glucosa al 1.5% Diálisis I  - Flex | 1 | 3.000 | 261 | 6 | 2 | 09/31 |  | X | LICITACION SIN LEYENDA | Se solicita 10 muestras para validación microbiologica |  | Solución para Diálisis Peritoneal con Glucosa al 1.5% Diálisis I  - Flex | 1050019 | 08/09/26 | 08/09/26 | 2.938 | N.A. |
+|  |  | 1264 | 1050019 | Solución para Diálisis Peritoneal con Glucosa al 1.5% Diálisis I  - Flex | 1 | 3000 | 262 | 7 | 3 | 09/31 |  | X | LICITACION SIN LEYENDA | Se solicita 10 muestras para validación microbiologica |  | Solución Fisiológica 0,9% - Flex | 1020325 | 09/09/26 | 09/09/26 | 4.606 | N.A. |
+| MARTES | 08/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  | Solución Fisiológica 0,9% - Flex | 1020326 | 09/09/26 | 09/09/26 | 4.718 | N.A. |
+| MIERCOLES | 09/09/26 | 1265 | 1020325 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 263 | 60 | 4 | 09/31 | X |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Flex | 1020327 | 09/09/26 | 10/09/26 | 4.838 | N.A. |
+|  |  | 1266 | 1020326 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 264 | 61 | 5 | 09/31 | X |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Flex | 1020328 | 10/09/26 | 10/09/26 | 4.748 | N.A. |
+|  |  | 1267 | 1020327 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 265 | 62 | 6 | 09/31 | X |  | VENTAS PRIVADAS |  |  | Solución Fisiológica 0,9% - Flex | 1020329 | 10/09/26 | 10/09/26 | 4.567 | N.A. |
+|  |  | 1268 | 1020328 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 266 | 63 | 7 | 09/31 |  | X | LICITACION SIN LEYENDA |  |  | Solución Fisiológica 0,9% - Flex | 1020330 | 10/09/26 | 11/09/26 | 4.847 | N.A. |
+|  |  | 1269 | 1020329 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 267 | 64 | 8 | 09/31 |  | X | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
+|  |  | 1270 | 1020330 | Solución Fisiológica 0,9% - Flex | 1 | 5.000 | 268 | 65 | 9 | 09/31 |  | X | LICITACION SIN LEYENDA |  |  |  |  |  |  |  |  |
+| JUEVES | 10/09/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| VIERNES | 12/09/26 |  |  |  |  |  |  |  |  |  |  |  |  | Se cancelo los siguientes lotes:1150132, 1150133, 1150134, 1150135, 1150136, 1150137 debido a que no llego el polietileno |  |  |  |  |  |  |  |
+|  |  |  |  |  |  | 36.000 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CRONOGRAMA DE FABRICACIÓN |  |  |  | PLANTA DE PRODUCCIÓN 1 |  |  |  |  |  |  |  |  | ÁREA: BFS PGV 321 |  |  |  |  |  |  |  |  |
+| MES: | octubre |  |  |  |  |  |  |  |  |  |  |  | Programado |  |  |  |  |  |  |  |  |
+|  |  |  |  | 05/10/26 | al | 09/10/26 |  |  |  |  | V.P.= Venta Pública | LIC. = Licitaciones |  |  |  |  |  |  |  |  |  |
+| Día | Fecha | O.P. | Nº LOTE | PRODUCTO | VOLUMEN UNITARIO [L] | Volumen total                [L] | Correlativo de Fabricación | Correlativo de Producción | N° | Fecha de vencimiento | TIPO DE PEDIDO |  | LEYENDA DE ETIQUETA | OBSERVACIONES |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  | V.P. | LIC. |  |  |  |  |  |  |  |  |  |
+| LUNES | 05/10/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| MARTES | 06/10/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| MIERCOLES | 07/10/26 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| JUEVES | 08/10/26 | 1271 | 1150132 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5000 | 269 | 103 | 1 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1272 | 1150133 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5000 | 270 | 104 | 2 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1273 | 1150134 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5000 | 271 | 105 | 3 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1274 | 1150135 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5000 | 272 | 106 | 4 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1275 | 1150136 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5000 | 273 | 107 | 5 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1276 | 1150137 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5000 | 274 | 108 | 6 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+| VIERNES | 09/10/26 | 1277 | 1150138 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5000 | 275 | 109 | 7 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1278 | 1150139 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5000 | 276 | 110 | 8 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1279 | 1150140 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5000 | 277 | 111 | 9 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1280 | 1150141 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5000 | 278 | 112 | 10 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1281 | 1150142 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5000 | 279 | 113 | 11 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  | 1282 | 1150143 | Solución Fisiológica 0,9% - Foil Cap | 1 | 5000 | 280 | 114 | 12 | 10/31 |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  | 60.000 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
