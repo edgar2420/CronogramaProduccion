@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { GraduationCap, Search, CheckCircle2, AlertTriangle, XCircle, HelpCircle, Save } from "lucide-react";
+import { GraduationCap, Search, CheckCircle2, AlertTriangle, XCircle, HelpCircle, Save, ChevronDown } from "lucide-react";
 import * as staffApi from "@/services/api/staff.api";
 import type { Staff, SkillKey, SkillLevel } from "@/features/staff/types";
 
@@ -46,23 +46,31 @@ const MAIN_SKILLS: SkillKey[] = [
 
 const ALL_SKILLS = Object.keys(SKILL_LABELS) as SkillKey[];
 
-const NivelBadge: React.FC<{ nivel: Nivel; onClick?: (e?: React.MouseEvent) => void; small?: boolean }> = ({ nivel, onClick, small }) => {
-    const config = {
-        ok: { bg: "bg-emerald-100 text-emerald-700 border-emerald-200", icon: <CheckCircle2 size={small ? 10 : 12} />, label: "Capacitado" },
-        reforzar: { bg: "bg-amber-100 text-amber-700 border-amber-200", icon: <AlertTriangle size={small ? 10 : 12} />, label: "Reforzar" },
-        capacitar: { bg: "bg-rose-100 text-rose-700 border-rose-200", icon: <XCircle size={small ? 10 : 12} />, label: "Falta Capacitar" },
-        sin_dato: { bg: "bg-gray-100 text-gray-500 border-gray-200", icon: <HelpCircle size={small ? 10 : 12} />, label: "—" },
-    };
-    const c = config[nivel];
+const NIVEL_CONFIG: Record<Nivel, { bg: string; Icon: typeof CheckCircle2; label: string }> = {
+    ok: { bg: "bg-emerald-50 text-emerald-800 ring-emerald-200", Icon: CheckCircle2, label: "Capacitado" },
+    reforzar: { bg: "bg-amber-50 text-amber-800 ring-amber-200", Icon: AlertTriangle, label: "Reforzar" },
+    capacitar: { bg: "bg-rose-50 text-rose-800 ring-rose-200", Icon: XCircle, label: "Falta capacitar" },
+    sin_dato: { bg: "bg-slate-50 text-slate-500 ring-slate-200", Icon: HelpCircle, label: "Sin evaluar" },
+};
 
+const NivelBadge: React.FC<{ nivel: Nivel; onClick?: () => void; skillLabel?: string }> = ({ nivel, onClick, skillLabel }) => {
+    const c = NIVEL_CONFIG[nivel];
+    const content = (
+        <>
+            <c.Icon size={12} />
+            <span>{c.label}</span>
+        </>
+    );
+    if (!onClick) return <span className={`tag ${c.bg}`}>{content}</span>;
     return (
         <button
+            type="button"
             onClick={onClick}
-            className={`flex items-center justify-center gap-1 px-2 py-1 rounded-lg border text-xs font-semibold transition-all hover:scale-105 whitespace-nowrap ${c.bg}`}
-            title={`Click para cambiar nivel - Actual: ${c.label}`}
+            className={`tag min-h-8 ${c.bg} hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400`}
+            aria-label={`${skillLabel ?? "Habilidad"}: ${c.label}. Cambiar nivel`}
+            title="Click para cambiar el nivel"
         >
-            {c.icon}
-            {!small && <span>{c.label}</span>}
+            {content}
         </button>
     );
 };
@@ -199,7 +207,7 @@ const CapacitacionPage: React.FC = () => {
             );
             setChangedIds(new Set());
             setHasChanges(false);
-            alert("✓ Cambios guardados correctamente");
+            alert("Cambios guardados correctamente");
         } catch (err) {
             alert(err instanceof Error ? err.message : "No se pudieron guardar los cambios");
         }
@@ -228,172 +236,146 @@ const CapacitacionPage: React.FC = () => {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                     <h1 className="page-title flex items-center gap-3">
                         <GraduationCap className="text-primary-600" size={28} />
                         Gestión de Capacitación
                     </h1>
-                    <p className="page-subtitle">Administra el nivel de capacitación del personal por habilidad</p>
-                    {loadError && (
-                        <p className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2 mt-2">{loadError}</p>
-                    )}
+                    <p className="page-subtitle">Nivel de capacitación del personal por habilidad</p>
                 </div>
                 {hasChanges && (
                     <button className="btn-primary" onClick={handleSave}>
-                        <Save size={18} /> Guardar Cambios
+                        <Save size={18} /> Guardar cambios ({changedIds.size})
                     </button>
                 )}
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <div className="card p-4 text-center">
-                    <p className="text-3xl font-black text-gray-900">{stats.total}</p>
-                    <p className="text-xs text-gray-500 font-semibold">Total Personal</p>
-                </div>
-                <div className="card p-4 text-center">
-                    <CheckCircle2 className="mx-auto text-emerald-500 mb-1" size={20} />
-                    <p className="text-2xl font-black text-emerald-600">{stats.ok}</p>
-                    <p className="text-xs text-gray-500 font-semibold">Capacitados</p>
-                </div>
-                <div className="card p-4 text-center">
-                    <AlertTriangle className="mx-auto text-amber-500 mb-1" size={20} />
-                    <p className="text-2xl font-black text-amber-600">{stats.reforzar}</p>
-                    <p className="text-xs text-gray-500 font-semibold">Por Reforzar</p>
-                </div>
-                <div className="card p-4 text-center">
-                    <XCircle className="mx-auto text-rose-500 mb-1" size={20} />
-                    <p className="text-2xl font-black text-rose-600">{stats.capacitar}</p>
-                    <p className="text-xs text-gray-500 font-semibold">Falta Capacitar</p>
-                </div>
-                <div className="card p-4 text-center">
-                    <HelpCircle className="mx-auto text-gray-400 mb-1" size={20} />
-                    <p className="text-2xl font-black text-gray-500">{stats.sin_dato}</p>
-                    <p className="text-xs text-gray-500 font-semibold">Sin Datos</p>
-                </div>
-            </div>
+            {loadError && (
+                <p role="alert" className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-4 py-3">{loadError}</p>
+            )}
 
-            {/* Filters */}
-            <div className="card p-4">
-                <div className="flex flex-col md:flex-row gap-3">
-                    <div className="flex-1 relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <div className="table-shell">
+                <div className="table-toolbar">
+                    <label className="table-search">
+                        <span className="sr-only">Buscar personal</span>
+                        <Search size={18} />
                         <input
-                            className="input pl-10"
-                            placeholder="Buscar por nombre, rol o área..."
+                            placeholder="Buscar por nombre, rol o área…"
                             value={search}
                             onChange={e => setSearch(e.target.value)}
                         />
-                    </div>
-                    <select
-                        className="input w-full md:w-48"
-                        value={filterNivel}
-                        onChange={e => setFilterNivel(e.target.value as Nivel | "todos")}
-                    >
-                        <option value="todos">Todos los niveles</option>
-                        <option value="ok">Capacitado</option>
-                        <option value="reforzar">Reforzar</option>
-                        <option value="capacitar">Falta Capacitar</option>
-                        <option value="sin_dato">Sin datos</option>
-                    </select>
+                    </label>
+                    <label>
+                        <span className="sr-only">Filtrar por nivel</span>
+                        <select
+                            className="table-select w-full sm:w-auto"
+                            value={filterNivel}
+                            onChange={e => setFilterNivel(e.target.value as Nivel | "todos")}
+                        >
+                            <option value="todos">Todos los niveles</option>
+                            <option value="ok">Capacitado</option>
+                            <option value="reforzar">Reforzar</option>
+                            <option value="capacitar">Falta capacitar</option>
+                            <option value="sin_dato">Sin evaluar</option>
+                        </select>
+                    </label>
                 </div>
-            </div>
 
-            {/* Staff List */}
-            <div className="space-y-3">
-                {filtered.length === 0 ? (
-                    <div className="card p-8 text-center text-gray-500">
-                        No se encontró personal. Agrega personal desde la sección "Personal" del menú.
-                    </div>
-                ) : (
-                    filtered.map(staff => (
-                        <div key={staff.id} className="card overflow-hidden">
-                            {/* Staff Header */}
-                            <div
-                                className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors"
-                                onClick={() => setExpandedStaff(expandedStaff === staff.id ? null : staff.id)}
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold">
-                                        {staff.nombre.charAt(0).toUpperCase()}
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-gray-900">{staff.nombre}</h3>
-                                        <p className="text-xs text-gray-500">{staff.rolBase} · {staff.areas.join(", ") || "Sin área"}</p>
-                                    </div>
-                                </div>
+                {/* Resumen: hace también de leyenda de los niveles. */}
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-2.5 border-b border-slate-200 text-xs text-slate-600">
+                    <span className="font-semibold text-slate-800">{stats.total} personas</span>
+                    <span className="inline-flex items-center gap-1.5"><NivelBadge nivel="ok" /> {stats.ok}</span>
+                    <span className="inline-flex items-center gap-1.5"><NivelBadge nivel="reforzar" /> {stats.reforzar}</span>
+                    <span className="inline-flex items-center gap-1.5"><NivelBadge nivel="capacitar" /> {stats.capacitar}</span>
+                    <span className="inline-flex items-center gap-1.5"><NivelBadge nivel="sin_dato" /> {stats.sin_dato} personas</span>
+                </div>
 
-                                {/* Quick Skills Preview */}
-                                <div className="flex items-center gap-2">
-                                    <div className="hidden md:flex gap-1">
-                                        {MAIN_SKILLS.slice(0, 4).map(skill => (
-                                            <NivelBadge
-                                                key={skill}
-                                                nivel={getSkillLevel(staff, skill)}
-                                                small
-                                                onClick={(e) => {
-                                                    e?.stopPropagation();
-                                                    cycleNivel(staff.id, skill);
-                                                }}
-                                            />
-                                        ))}
-                                    </div>
-                                    <span className="text-gray-400 text-sm">
-                                        {expandedStaff === staff.id ? "▲" : "▼"}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* Expanded Skills Grid */}
-                            {expandedStaff === staff.id && (
-                                <div className="px-4 pb-4 border-t bg-gray-50">
-                                    <p className="text-sm font-semibold text-gray-700 py-3">
-                                        Selecciona el nivel de capacitación para cada habilidad
-                                    </p>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                                        {ALL_SKILLS.map(skill => (
-                                            <div
-                                                key={skill}
-                                                className="bg-white rounded-lg p-3 border hover:shadow-md transition-shadow"
-                                            >
-                                                <p className="text-xs text-gray-700 font-semibold mb-2" title={SKILL_LABELS[skill]}>
-                                                    {SKILL_LABELS[skill]}
-                                                </p>
-                                                <NivelSelector
-                                                    nivelActual={getSkillLevel(staff, skill)}
-                                                    onSelect={(nivel) => setNivel(staff.id, skill, nivel)}
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
+                <div className="table-scroll">
+                    <table className="data-table">
+                        <thead>
+                            <tr>
+                                <th>Personal</th>
+                                {MAIN_SKILLS.map(skill => (
+                                    <th key={skill} className="normal-case tracking-normal">{SKILL_LABELS[skill]}</th>
+                                ))}
+                                <th className="text-right">Todas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loading && (
+                                <tr><td colSpan={MAIN_SKILLS.length + 2} className="table-empty"><div className="loading-spinner w-6 h-6 mx-auto" /></td></tr>
                             )}
-                        </div>
-                    ))
-                )}
-            </div>
+                            {!loading && filtered.length === 0 && (
+                                <tr>
+                                    <td colSpan={MAIN_SKILLS.length + 2} className="table-empty">
+                                        No se encontró personal. Agrega personal desde la sección Personal del menú.
+                                    </td>
+                                </tr>
+                            )}
+                            {!loading && filtered.map(staff => {
+                                const expanded = expandedStaff === staff.id;
+                                return (
+                                    <React.Fragment key={staff.id}>
+                                        <tr className={changedIds.has(staff.id) ? "bg-amber-50/60" : undefined}>
+                                            <td className="min-w-[15rem]">
+                                                <div className="flex items-center gap-3">
+                                                    <span className="w-9 h-9 rounded-full bg-primary-100 text-primary-800 font-semibold flex items-center justify-center shrink-0">
+                                                        {staff.nombre.charAt(0).toUpperCase()}
+                                                    </span>
+                                                    <div className="min-w-0">
+                                                        <p className="font-medium text-slate-900 truncate">{staff.nombre}</p>
+                                                        <p className="text-xs text-slate-500 truncate">{staff.rolBase} · {staff.areas.join(", ") || "Sin área"}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            {MAIN_SKILLS.map(skill => (
+                                                <td key={skill} className="whitespace-nowrap">
+                                                    <NivelBadge
+                                                        nivel={getSkillLevel(staff, skill)}
+                                                        skillLabel={`${staff.nombre}, ${SKILL_LABELS[skill]}`}
+                                                        onClick={() => cycleNivel(staff.id, skill)}
+                                                    />
+                                                </td>
+                                            ))}
+                                            <td className="text-right">
+                                                <button
+                                                    className="row-action"
+                                                    onClick={() => setExpandedStaff(expanded ? null : staff.id)}
+                                                    aria-expanded={expanded}
+                                                    aria-label={`${expanded ? "Ocultar" : "Ver"} todas las habilidades de ${staff.nombre}`}
+                                                    title="Todas las habilidades"
+                                                >
+                                                    <ChevronDown size={18} className={`transition-transform ${expanded ? "rotate-180" : ""}`} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {expanded && (
+                                            <tr className="hover:bg-transparent">
+                                                <td colSpan={MAIN_SKILLS.length + 2} className="bg-slate-50">
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 py-1">
+                                                        {ALL_SKILLS.map(skill => (
+                                                            <div key={skill} className="bg-white rounded-xl p-3 border border-slate-200">
+                                                                <p className="text-xs text-slate-700 font-semibold mb-2">{SKILL_LABELS[skill]}</p>
+                                                                <NivelSelector
+                                                                    nivelActual={getSkillLevel(staff, skill)}
+                                                                    onSelect={(nivel) => setNivel(staff.id, skill, nivel)}
+                                                                />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </React.Fragment>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
 
-            {/* Legend */}
-            <div className="card p-4">
-                <h4 className="font-semibold text-gray-700 mb-3">Leyenda</h4>
-                <div className="flex flex-wrap gap-4">
-                    <div className="flex items-center gap-2">
-                        <NivelBadge nivel="ok" />
-                        <span className="text-sm text-gray-600">Listo para trabajar</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <NivelBadge nivel="reforzar" />
-                        <span className="text-sm text-gray-600">Necesita supervisión</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <NivelBadge nivel="capacitar" />
-                        <span className="text-sm text-gray-600">Requiere capacitación</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <NivelBadge nivel="sin_dato" />
-                        <span className="text-sm text-gray-600">Sin evaluar</span>
-                    </div>
+                <div className="table-footer">
+                    {filtered.length} de {stats.total} personas · Click en un nivel para cambiarlo; se guarda con Guardar cambios.
                 </div>
             </div>
         </div>

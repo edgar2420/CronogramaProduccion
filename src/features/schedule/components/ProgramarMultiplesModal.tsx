@@ -1,5 +1,6 @@
 ﻿import React, { useEffect, useMemo, useState } from "react";
 import type { Turno } from "@/features/schedule/types";
+import { X } from "lucide-react";
 
 type OutRow = {
   fecha: string;
@@ -110,7 +111,7 @@ const ProgramarMultiplesModal: React.FC<Props> = ({
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl">
         <div className="px-5 py-4 border-b flex items-center justify-between">
           <h3 className="text-lg font-bold">Programar múltiples órdenes</h3>
-          <button className="text-gray-500 hover:text-black" onClick={onClose}>✕</button>
+          <button className="row-action" onClick={onClose} aria-label="Cerrar"><X size={18} /></button>
         </div>
 
         <div className="p-5 space-y-3">

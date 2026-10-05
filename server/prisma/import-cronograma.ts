@@ -15,7 +15,7 @@ import { parsearCronograma } from "../src/infrastructure/import/cronogramaParser
  *
  * Es idempotente: un lote ya importado se reconoce por su Nº de lote.
  * Las semanas ya terminadas se crean en estado "cerrado" (son histórico); la
- * semana en curso y las futuras, en "publicado".
+ * semana en curso y las futuras, en "borrador".
  *
  *   npx tsx prisma/import-cronograma.ts
  */
@@ -134,15 +134,16 @@ async function main() {
       fin.setUTCDate(fin.getUTCDate() + 6);
 
       // Solo lo que ya terminó es histórico. La semana en curso y las futuras
-      // vienen de una planilla que la planta ya está usando: quedan
-      // publicadas, para que se puedan seguir reprogramando en el tablero.
+      // quedan en borrador: así se les pueden agregar órdenes (una semana
+      // publicada ya no las acepta, ver CreateOrdenUseCase) y se publican
+      // desde el sistema cuando el plan esté listo.
       const yaTermino = fin.getTime() < inicioDeHoyUTC;
       const semana = await prisma.semana.upsert({
         where: { areaId_fechaInicio: { areaId: area.id, fechaInicio: inicio } },
         update: {},
         create: yaTermino
           ? { areaId: area.id, fechaInicio: inicio, fechaFin: fin, estado: "cerrado", closedAt: new Date() }
-          : { areaId: area.id, fechaInicio: inicio, fechaFin: fin, estado: "publicado", publishedAt: new Date() },
+          : { areaId: area.id, fechaInicio: inicio, fechaFin: fin, estado: "borrador" },
       });
 
       const c = cumplidoPorLote.get(fila.numeroLote);

@@ -62,6 +62,20 @@ export const getProducts = async (filter: ListProductsFilter = {}): Promise<List
     return request<ListProductsResult>(`/products${query ? `?${query}` : ""}`);
 };
 
+/**
+ * Todo el catálogo que cumple el filtro, recorriendo las páginas: el API
+ * devuelve como máximo 200 por página.
+ */
+export const getAllProducts = async (filter: Omit<ListProductsFilter, "page" | "pageSize"> = {}): Promise<Product[]> => {
+    const pageSize = 200;
+    const items: Product[] = [];
+    for (let page = 1; ; page++) {
+        const result = await getProducts({ ...filter, page, pageSize });
+        items.push(...result.items);
+        if (result.items.length < pageSize || items.length >= result.total) return items;
+    }
+};
+
 export const getProduct = async (id: string): Promise<Product> => {
     return request<Product>(`/products/${id}`);
 };

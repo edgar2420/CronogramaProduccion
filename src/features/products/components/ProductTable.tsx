@@ -1,7 +1,7 @@
-﻿import React, { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import type { Product } from "../types";
 import type { Area } from "@/services/api/areas.api";
-import { Pencil, Ban, History, Search } from "lucide-react";
+import { Pencil, Ban, History, Search, PackageSearch } from "lucide-react";
 
 type Props = {
   data: Product[];
@@ -15,7 +15,7 @@ const ProductTable: React.FC<Props> = ({ data, areas, onEdit, onDeactivate, onHi
   const [q, setQ] = useState("");
   const [areaFilter, setAreaFilter] = useState("TODAS");
 
-  const areaNameById = useMemo(() => new Map(areas.map((a) => [a.id, a.name])), [areas]);
+  const areaById = useMemo(() => new Map(areas.map((a) => [a.id, a])), [areas]);
 
   const filtered = useMemo(() => {
     const t = q.trim().toLowerCase();
@@ -27,105 +27,98 @@ const ProductTable: React.FC<Props> = ({ data, areas, onEdit, onDeactivate, onHi
   }, [q, areaFilter, data]);
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5">
-      <div className="flex flex-col sm:flex-row gap-3 mb-5">
-        <div className="relative flex-1">
+    <div className="table-shell">
+      <div className="table-toolbar">
+        <label className="table-search">
+          <span className="sr-only">Buscar producto</span>
+          <Search size={18} />
           <input
-            className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Buscar producto por nombre o código..."
+            placeholder="Buscar por nombre o código…"
             value={q}
             onChange={(e) => setQ(e.target.value)}
           />
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-        </div>
-        <select
-          className="px-3 py-2 rounded-lg border border-gray-300 text-sm"
-          value={areaFilter}
-          onChange={(e) => setAreaFilter(e.target.value)}
-        >
-          <option value="TODAS">Todas las áreas</option>
-          {areas.map((a) => (
-            <option key={a.id} value={a.id}>
-              {a.name}
-            </option>
-          ))}
-        </select>
+        </label>
+        <label>
+          <span className="sr-only">Filtrar por área</span>
+          <select className="table-select w-full sm:w-auto" value={areaFilter} onChange={(e) => setAreaFilter(e.target.value)}>
+            <option value="TODAS">Todas las áreas</option>
+            {areas.map((a) => (
+              <option key={a.id} value={a.id}>{a.name}</option>
+            ))}
+          </select>
+        </label>
       </div>
 
-      <div className="overflow-auto rounded-lg">
-        <table className="w-full border-collapse text-sm">
+      <div className="table-scroll">
+        <table className="data-table">
           <thead>
-            <tr className="bg-gray-50 border-b text-gray-700">
-              <th className="py-3 px-4 font-medium text-left">Código</th>
-              <th className="py-3 px-4 font-medium text-left">Nombre</th>
-              <th className="py-3 px-4 font-medium text-left">Vol.</th>
-              <th className="py-3 px-4 font-medium text-left">Envase</th>
-              <th className="py-3 px-4 font-medium text-left">Área</th>
-              <th className="py-3 px-4 font-medium text-left">Versión</th>
-              <th className="py-3 px-4 font-medium text-left">Estado</th>
-              <th className="py-3 px-4 font-medium text-center w-40">Acciones</th>
+            <tr>
+              <th>Código</th>
+              <th>Producto</th>
+              <th>Vol.</th>
+              <th>Envase</th>
+              <th>Área</th>
+              <th>Versión</th>
+              <th>Estado</th>
+              <th className="text-right">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {filtered.map((p, i) => (
-              <tr
-                key={p.id}
-                className={`border-b transition hover:bg-blue-50/40 ${i % 2 === 0 ? "bg-white" : "bg-gray-50/40"}`}
-              >
-                <td className="py-3 px-4 font-mono text-xs text-gray-600">{p.codigo}</td>
-                <td className="py-3 px-4 font-medium text-gray-800">{p.nombre}</td>
-                <td className="py-3 px-4 text-gray-600">{p.vol ?? "—"}</td>
-                <td className="py-3 px-4 text-gray-600">{p.envase ?? "—"}</td>
-                <td className="py-3 px-4 text-gray-600">{areaNameById.get(p.areaId) ?? p.areaId}</td>
-                <td className="py-3 px-4 text-gray-500">v{p.version}</td>
-                <td className="py-3 px-4">
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                      p.active ? "bg-green-100 text-green-700" : "bg-gray-300 text-gray-700"
-                    }`}
-                  >
-                    {p.active ? "Activo" : "Inactivo"}
-                  </span>
-                </td>
-                <td className="py-3 px-4 text-center">
-                  <div className="flex justify-center gap-2">
-                    <button
-                      className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition"
-                      onClick={() => onEdit(p)}
-                      title="Editar (crea una nueva versión)"
-                    >
-                      <Pencil size={16} />
-                    </button>
-                    <button
-                      className="p-2 rounded-lg bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
-                      onClick={() => onHistory(p)}
-                      title="Ver historial de versiones"
-                    >
-                      <History size={16} />
-                    </button>
-                    {p.active && (
-                      <button
-                        className="p-2 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition"
-                        onClick={() => onDeactivate(p)}
-                        title="Desactivar"
-                      >
-                        <Ban size={16} />
+            {filtered.map((p) => {
+              const area = areaById.get(p.areaId);
+              return (
+                <tr key={p.id}>
+                  <td className="font-mono text-xs text-slate-500 whitespace-nowrap">{p.codigo}</td>
+                  <td className="font-medium text-slate-900 min-w-[14rem]">{p.nombre}</td>
+                  <td className="whitespace-nowrap">{p.vol ?? "—"}</td>
+                  <td className="whitespace-nowrap">{p.envase ?? "—"}</td>
+                  <td className="whitespace-nowrap">
+                    <span className="inline-flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: area?.colorHex ?? "#94a3b8" }} />
+                      {area?.name ?? p.areaId}
+                    </span>
+                  </td>
+                  <td className="text-slate-500 tabular-nums">v{p.version}</td>
+                  <td>
+                    <span className={`status-pill ${p.active ? "status-active" : "status-inactive"}`}>
+                      {p.active ? "Activo" : "Inactivo"}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="flex justify-end gap-1">
+                      <button className="row-action" onClick={() => onEdit(p)} aria-label={`Editar ${p.nombre}`} title="Editar (crea una nueva versión)">
+                        <Pencil size={16} />
                       </button>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))}
+                      <button className="row-action" onClick={() => onHistory(p)} aria-label={`Historial de ${p.nombre}`} title="Historial de versiones">
+                        <History size={16} />
+                      </button>
+                      {p.active && (
+                        <button className="row-action row-action-danger" onClick={() => onDeactivate(p)} aria-label={`Desactivar ${p.nombre}`} title="Desactivar">
+                          <Ban size={16} />
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
 
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={8} className="py-6 text-center text-gray-500">
-                  No hay resultados
+                <td colSpan={8} className="table-empty">
+                  <PackageSearch size={28} className="mx-auto mb-2 text-slate-300" />
+                  {data.length === 0 ? "Todavía no hay productos." : "Ningún producto coincide con la búsqueda."}
                 </td>
               </tr>
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className="table-footer">
+        {filtered.length === data.length
+          ? `${data.length} productos`
+          : `Mostrando ${filtered.length} de ${data.length} productos`}
       </div>
     </div>
   );

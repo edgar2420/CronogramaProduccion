@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Layers, Plus, Pencil, Trash2, Save, X } from "lucide-react";
+import { Layers, Plus, Pencil, Trash2, Save, X, Power } from "lucide-react";
 import * as areasApi from "@/services/api/areas.api";
 import type { Area } from "@/services/api/areas.api";
 
@@ -156,66 +156,70 @@ const AreasPage: React.FC = () => {
             )}
 
             {/* Areas List */}
-            <div className="card">
-                <div className="overflow-auto">
-                    <table className="w-full text-sm">
+            <div className="table-shell">
+                <div className="table-scroll">
+                    <table className="data-table">
                         <thead>
-                            <tr className="text-left text-gray-600 bg-gray-50">
-                                <th className="py-3 px-4 font-semibold">Área</th>
-                                <th className="py-3 px-4 font-semibold">Código</th>
-                                <th className="py-3 px-4 font-semibold">Estado</th>
-                                <th className="py-3 px-4 font-semibold w-40">Acciones</th>
+                            <tr>
+                                <th>Área</th>
+                                <th>Código</th>
+                                <th>Estado</th>
+                                <th className="text-right">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             {loading && (
                                 <tr>
-                                    <td colSpan={4} className="py-8 text-center">
+                                    <td colSpan={4} className="table-empty">
                                         <div className="loading-spinner w-6 h-6 mx-auto" />
                                     </td>
                                 </tr>
                             )}
                             {!loading && areas.map(area => (
-                                <tr key={area.id} className="border-t hover:bg-gray-50 transition-colors">
-                                    <td className="py-3 px-4">
+                                <tr key={area.id}>
+                                    <td className="min-w-[14rem]">
                                         {editingId === area.id ? (
                                             <input
-                                                className="input py-1"
+                                                className="input py-1.5"
+                                                aria-label="Nombre del área"
                                                 value={form.name}
                                                 onChange={e => setForm({ ...form, name: e.target.value })}
                                             />
                                         ) : (
                                             <div className="flex items-center gap-3">
-                                                <div
-                                                    className="w-4 h-4 rounded"
-                                                    style={{ backgroundColor: area.colorHex ?? "#9ca3af" }}
+                                                <span
+                                                    className="w-3 h-3 rounded-full shrink-0"
+                                                    style={{ backgroundColor: area.colorHex ?? "#94a3b8" }}
                                                 />
-                                                <span className="font-medium">{area.name}</span>
+                                                <span className="font-medium text-slate-900">{area.name}</span>
                                             </div>
                                         )}
                                     </td>
-                                    <td className="py-3 px-4 font-mono text-xs text-gray-500">{area.code}</td>
-                                    <td className="py-3 px-4">
-                                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${area.active ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
-                                            {area.active ? "✓ Activo" : "✕ Inactivo"}
+                                    <td className="font-mono text-xs text-slate-500 whitespace-nowrap">{area.code}</td>
+                                    <td>
+                                        <span className={`status-pill ${area.active ? "status-active" : "status-inactive"}`}>
+                                            {area.active ? "Activa" : "Inactiva"}
                                         </span>
                                     </td>
-                                    <td className="py-3 px-4">
-                                        <div className="flex gap-2">
+                                    <td>
+                                        <div className="flex justify-end gap-1">
                                             {editingId === area.id ? (
                                                 <>
-                                                    <button className="btn-icon hover:bg-green-100" onClick={handleSave}><Save size={16} className="text-green-600" /></button>
-                                                    <button className="btn-icon hover:bg-gray-200" onClick={cancelEdit}><X size={16} /></button>
+                                                    <button className="row-action text-emerald-700" onClick={handleSave} aria-label={`Guardar ${area.name}`} title="Guardar"><Save size={16} /></button>
+                                                    <button className="row-action" onClick={cancelEdit} aria-label="Cancelar edición" title="Cancelar"><X size={16} /></button>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <button className="btn-icon hover:bg-gray-200" onClick={() => startEdit(area)}><Pencil size={16} /></button>
-                                                    <button className="btn-icon hover:bg-amber-100" onClick={() => toggleActive(area)}>
-                                                        <span className={`text-xs font-bold ${area.active ? 'text-amber-600' : 'text-green-600'}`}>
-                                                            {area.active ? 'OFF' : 'ON'}
-                                                        </span>
+                                                    <button className="row-action" onClick={() => startEdit(area)} aria-label={`Editar ${area.name}`} title="Editar"><Pencil size={16} /></button>
+                                                    <button
+                                                        className="row-action"
+                                                        onClick={() => toggleActive(area)}
+                                                        aria-label={`${area.active ? "Desactivar" : "Activar"} ${area.name}`}
+                                                        title={area.active ? "Desactivar" : "Activar"}
+                                                    >
+                                                        <Power size={16} className={area.active ? "text-amber-600" : "text-emerald-600"} />
                                                     </button>
-                                                    <button className="btn-icon hover:bg-red-100" onClick={() => deactivateArea(area)}><Trash2 size={16} className="text-red-600" /></button>
+                                                    <button className="row-action row-action-danger" onClick={() => deactivateArea(area)} aria-label={`Eliminar ${area.name}`} title="Eliminar"><Trash2 size={16} /></button>
                                                 </>
                                             )}
                                         </div>
@@ -224,8 +228,8 @@ const AreasPage: React.FC = () => {
                             ))}
                             {!loading && areas.length === 0 && (
                                 <tr>
-                                    <td colSpan={4} className="empty-state">
-                                        <Layers size={32} className="mb-2 text-gray-300" />
+                                    <td colSpan={4} className="table-empty">
+                                        <Layers size={28} className="mx-auto mb-2 text-slate-300" />
                                         No hay áreas registradas todavía. Crea la primera con "Nueva Área".
                                     </td>
                                 </tr>
@@ -233,6 +237,9 @@ const AreasPage: React.FC = () => {
                         </tbody>
                     </table>
                 </div>
+                {!loading && areas.length > 0 && (
+                    <div className="table-footer">{areas.length} áreas</div>
+                )}
             </div>
         </div>
     );

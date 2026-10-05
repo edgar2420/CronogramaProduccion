@@ -341,7 +341,7 @@ export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catal
         {/* FOOTER */}
         <div className="px-6 py-4 border-t-2 bg-gradient-to-br from-gray-50 to-gray-100 flex justify-between items-center">
           <p className="text-sm text-gray-600">
-            {canSave ? "✓ Listo para guardar" : "Complete todos los campos"}
+            {canSave ? "Listo para guardar" : "Complete todos los campos"}
           </p>
           <div className="flex gap-3">
             <button

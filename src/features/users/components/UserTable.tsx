@@ -1,6 +1,12 @@
-﻿import React, { useMemo, useState } from "react";
-import type { User } from "@/auth/types";
-import { Pencil, Trash2, Search, Power, Shield, User as UserIcon } from "lucide-react";
+import React, { useMemo, useState } from "react";
+import type { User, Role } from "@/auth/types";
+import { Pencil, Trash2, Search, Power, ShieldCheck, Shield, User as UserIcon, UserX } from "lucide-react";
+
+const ROLE_CONFIG: Record<Role, { label: string; className: string; Icon: typeof Shield }> = {
+  superadmin: { label: "Superadmin", className: "bg-primary-50 text-primary-800 ring-primary-200", Icon: ShieldCheck },
+  admin: { label: "Admin", className: "bg-sky-50 text-sky-800 ring-sky-200", Icon: Shield },
+  usuario: { label: "Usuario", className: "bg-slate-100 text-slate-700 ring-slate-200", Icon: UserIcon },
+};
 
 const UserTable: React.FC<{
   data: User[];
@@ -14,78 +20,93 @@ const UserTable: React.FC<{
     return t ? data.filter(u => u.username.toLowerCase().includes(t) || u.name.toLowerCase().includes(t)) : data;
   }, [q, data]);
 
-  const getRoleBadge = (role: string) => {
-    switch (role) {
-      case 'admin':
-        return <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-sky-100 text-sky-700 font-semibold"><Shield size={12} /> Admin</span>;
-      case 'supervisor':
-        return <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-blue-100 text-blue-700 font-semibold"><UserIcon size={12} /> Supervisor</span>;
-      default:
-        return <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-700 font-semibold"><UserIcon size={12} /> Operario</span>;
-    }
-  };
-
   return (
-    <div className="card p-4">
-      <div className="relative mb-4">
-        <input className="input pl-9" placeholder="Buscar por usuario o nombre..." value={q} onChange={e => setQ(e.target.value)} />
-        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+    <div className="table-shell">
+      <div className="table-toolbar">
+        <label className="table-search">
+          <span className="sr-only">Buscar usuario</span>
+          <Search size={18} />
+          <input placeholder="Buscar por usuario o nombre…" value={q} onChange={e => setQ(e.target.value)} />
+        </label>
       </div>
-      <div className="overflow-auto">
-        <table className="w-full text-sm">
+
+      <div className="table-scroll">
+        <table className="data-table">
           <thead>
-            <tr className="text-left text-gray-600 bg-gray-50">
-              <th className="py-3 px-2 font-semibold">Usuario</th>
-              <th className="py-3 px-2 font-semibold">Nombre</th>
-              <th className="py-3 px-2 font-semibold">Rol</th>
-              <th className="py-3 px-2 font-semibold">Estado</th>
-              <th className="py-3 px-2 font-semibold w-40">Acciones</th>
+            <tr>
+              <th>Usuario</th>
+              <th>Rol</th>
+              <th>Estado</th>
+              <th className="text-right">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {filtered.map(u => (
-              <tr key={u.id} className="border-t hover:bg-gray-50 transition-colors">
-                <td className="py-3 px-2 font-medium">{u.username}</td>
-                <td className="py-3 px-2">{u.name}</td>
-                <td className="py-3 px-2">{getRoleBadge(u.role)}</td>
-                <td className="py-3 px-2">
-                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ${u.active ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"}`}>
-                    {u.active ? "✓ Activo" : "✕ Inactivo"}
-                  </span>
-                </td>
-                <td className="py-3 px-2">
-                  <div className="flex gap-2">
-                    <button
-                      className="btn-icon hover:bg-gray-200"
-                      onClick={() => onEdit(u)}
-                      title="Editar"
-                    >
-                      <Pencil size={16} className="text-gray-600" />
-                    </button>
-                    <button
-                      className={`btn-icon ${u.active ? 'hover:bg-amber-100' : 'hover:bg-green-100'}`}
-                      onClick={() => onToggleActive?.(u.id, !u.active)}
-                      title={u.active ? "Desactivar usuario" : "Activar usuario"}
-                    >
-                      <Power size={16} className={u.active ? "text-amber-600" : "text-green-600"} />
-                    </button>
-                    <button
-                      className="btn-icon hover:bg-red-100"
-                      onClick={() => onDelete(u.id)}
-                      title="Eliminar"
-                    >
-                      <Trash2 size={16} className="text-red-600" />
-                    </button>
-                  </div>
+            {filtered.map(u => {
+              const role = ROLE_CONFIG[u.role] ?? ROLE_CONFIG.usuario;
+              return (
+                <tr key={u.id}>
+                  <td className="min-w-[14rem]">
+                    <div className="flex items-center gap-3">
+                      <span className="w-9 h-9 rounded-full bg-primary-100 text-primary-800 font-semibold flex items-center justify-center shrink-0">
+                        {(u.name || u.username).charAt(0).toUpperCase()}
+                      </span>
+                      <div className="min-w-0">
+                        <p className="font-medium text-slate-900 truncate">{u.name}</p>
+                        <p className="text-xs text-slate-500 truncate">@{u.username}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span className={`tag ${role.className}`}>
+                      <role.Icon size={12} />
+                      {role.label}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={`status-pill ${u.active ? "status-active" : "status-inactive"}`}>
+                      {u.active ? "Activo" : "Inactivo"}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="flex justify-end gap-1">
+                      <button className="row-action" onClick={() => onEdit(u)} aria-label={`Editar ${u.username}`} title="Editar">
+                        <Pencil size={16} />
+                      </button>
+                      {onToggleActive && (
+                        <button
+                          className="row-action"
+                          onClick={() => onToggleActive(u.id, !u.active)}
+                          aria-label={`${u.active ? "Desactivar" : "Activar"} ${u.username}`}
+                          title={u.active ? "Desactivar usuario" : "Activar usuario"}
+                        >
+                          <Power size={16} className={u.active ? "text-amber-600" : "text-emerald-600"} />
+                        </button>
+                      )}
+                      <button className="row-action row-action-danger" onClick={() => onDelete(u.id)} aria-label={`Eliminar ${u.username}`} title="Eliminar">
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+            {filtered.length === 0 && (
+              <tr>
+                <td colSpan={4} className="table-empty">
+                  <UserX size={28} className="mx-auto mb-2 text-slate-300" />
+                  {data.length === 0 ? "Todavía no hay usuarios." : "Ningún usuario coincide con la búsqueda."}
                 </td>
               </tr>
-            ))}
-            {filtered.length === 0 && <tr><td className="py-8 text-center text-gray-500" colSpan={5}>Sin resultados</td></tr>}
+            )}
           </tbody>
         </table>
+      </div>
+
+      <div className="table-footer">
+        {filtered.length === data.length ? `${data.length} ${data.length === 1 ? "usuario" : "usuarios"}` : `Mostrando ${filtered.length} de ${data.length} usuarios`}
       </div>
     </div>
   );
 };
-export default UserTable;
 
+export default UserTable;

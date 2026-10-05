@@ -232,6 +232,97 @@
     @apply bg-accent-100 text-accent-700;
   }
 
+  /* ── Tablas de datos ───────────────────────────────────────────────
+     Un solo estilo para todas las tablas (Productos, Personal, Usuarios,
+     Áreas, Capacitación): contenedor, barra de búsqueda/filtros, encabezado
+     fijo al hacer scroll, filas con separador suave y pie con el conteo. */
+  .table-shell {
+    @apply bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden;
+  }
+
+  .table-toolbar {
+    @apply flex flex-col sm:flex-row sm:items-center gap-3 px-4 py-3 border-b border-slate-200 bg-white;
+  }
+
+  .table-search {
+    @apply relative flex-1 min-w-0;
+  }
+
+  .table-search input {
+    @apply w-full h-10 pl-10 pr-3 rounded-xl border border-slate-300 bg-white text-sm placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-primary-300/40 focus:border-primary-500 transition;
+  }
+
+  .table-search svg {
+    @apply absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none;
+  }
+
+  .table-select {
+    @apply h-10 px-3 rounded-xl border border-slate-300 bg-white text-sm text-slate-700 focus:outline-none focus:ring-4 focus:ring-primary-300/40 focus:border-primary-500 cursor-pointer;
+  }
+
+  .table-scroll {
+    @apply overflow-auto max-h-[70vh];
+  }
+
+  .data-table {
+    @apply w-full text-sm border-separate border-spacing-0;
+  }
+
+  .data-table thead th {
+    @apply sticky top-0 z-10 bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 px-4 py-3 border-b border-slate-200 whitespace-nowrap;
+  }
+
+  .data-table tbody td {
+    @apply px-4 py-3 border-b border-slate-100 text-slate-700 align-middle;
+  }
+
+  .data-table tbody tr {
+    @apply transition-colors hover:bg-slate-50;
+  }
+
+  .data-table tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .table-footer {
+    @apply px-4 py-2.5 border-t border-slate-200 bg-slate-50 text-xs text-slate-500;
+  }
+
+  .table-empty {
+    @apply py-12 text-center text-sm text-slate-500;
+  }
+
+  /* Estado con punto de color + texto (el color nunca va solo). */
+  .status-pill {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ring-1 ring-inset whitespace-nowrap;
+  }
+
+  .status-pill::before {
+    content: "";
+    @apply w-1.5 h-1.5 rounded-full bg-current;
+  }
+
+  .status-active {
+    @apply bg-emerald-50 text-emerald-700 ring-emerald-200;
+  }
+
+  .status-inactive {
+    @apply bg-slate-100 text-slate-600 ring-slate-200;
+  }
+
+  .tag {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ring-1 ring-inset whitespace-nowrap;
+  }
+
+  /* Botón de acción de fila: 40px, con aria-label obligatorio en el uso. */
+  .row-action {
+    @apply inline-flex items-center justify-center w-10 h-10 rounded-xl text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400;
+  }
+
+  .row-action-danger {
+    @apply hover:bg-rose-50 hover:text-rose-700;
+  }
+
   /* Page Headers */
   .page-header {
     @apply mb-8;

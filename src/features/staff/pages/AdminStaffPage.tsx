@@ -3,7 +3,7 @@ import StaffTable from "../components/StaffTable";
 import StaffForm from "../components/StaffForm";
 import type { Staff } from "../types";
 import * as staffApi from "@/services/api/staff.api";
-import { Plus, ShieldCheck, AlertTriangle, GraduationCap, Filter, Users } from "lucide-react";
+import { Plus, ShieldCheck, AlertTriangle, GraduationCap, Filter, Users, Eye } from "lucide-react";
 
 /* ──────────────────────────────────────────────────────────────────────────
    ÁREAS (catálogo completo)
@@ -297,19 +297,19 @@ const CAP_DATA: FilaCap[] = [
    ────────────────────────────────────────────────────────────────────────── */
 function NivelBadge({ nivel }: { nivel: Nivel | undefined }) {
   if (!nivel) return null;
-  const map: Record<Nivel, string> = {
-    x: "bg-gradient-to-r from-emerald-100 to-emerald-50 text-emerald-700 border border-emerald-200",
-    reforzar: "bg-gradient-to-r from-amber-100 to-amber-50 text-amber-800 border border-amber-200",
-    capacitar: "bg-gradient-to-r from-sky-100 to-sky-50 text-sky-700 border border-sky-200",
-    revisar: "bg-gradient-to-r from-blue-100 to-blue-50 text-blue-800 border border-blue-200",
+  const map: Record<Nivel, { className: string; label: string; Icon: typeof ShieldCheck }> = {
+    x: { className: "bg-emerald-50 text-emerald-800 ring-emerald-200", label: "Capacitado", Icon: ShieldCheck },
+    reforzar: { className: "bg-amber-50 text-amber-800 ring-amber-200", label: "Reforzar", Icon: AlertTriangle },
+    capacitar: { className: "bg-sky-50 text-sky-800 ring-sky-200", label: "Capacitar", Icon: GraduationCap },
+    revisar: { className: "bg-blue-50 text-blue-800 ring-blue-200", label: "Revisar", Icon: Eye },
   };
-  const label: Record<Nivel, string> = {
-    x: "✓ Capacitado",
-    reforzar: "⚠ Reforzar",
-    capacitar: "📚 Capacitar",
-    revisar: "👁 Revisar",
-  };
-  return <span className={`px-3 py-1 rounded-lg text-xs font-semibold ${map[nivel]}`}>{label[nivel]}</span>;
+  const { className, label, Icon } = map[nivel];
+  return (
+    <span className={`tag ${className}`}>
+      <Icon size={12} />
+      {label}
+    </span>
+  );
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
@@ -416,75 +416,34 @@ const AdminStaffPage: React.FC = () => {
   }, [items]);
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
-      {/* Header + botones */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+    <div className="space-y-6">
+      {/* Header + botones: mismo patrón que Productos, Usuarios y Áreas. */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 mb-1">Gestión de Personal</h1>
-          <p className="text-sm text-slate-500">Administra tu equipo y consulta el mapa de capacitación</p>
+          <h1 className="page-title flex items-center gap-3">
+            <Users className="text-primary-600" size={28} />
+            Gestión de Personal
+          </h1>
+          <p className="page-subtitle">Personal disponible para asignación en los cronogramas</p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {/* Botón Nuevo Personal */}
-          <button
-            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-600 text-white rounded-xl hover:from-blue-700 hover:to-blue-700 transition-all duration-200 shadow-lg shadow-blue-200 hover:shadow-xl hover:shadow-blue-300 font-medium"
-            onClick={onCreate}
-          >
-            <Plus size={18} />
-            Nuevo Personal
-          </button>
-        </div>
+        <button className="btn-primary" onClick={onCreate}>
+          <Plus size={18} />
+          Nuevo Personal
+        </button>
       </div>
 
-      {/* Resumen del Personal */}
-      <div className="rounded-2xl border border-slate-200 bg-gradient-to-r from-blue-50 via-white to-blue-50 shadow-lg p-5">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-sky-500 flex items-center justify-center">
-            <Users size={20} className="text-white" />
-          </div>
-          <div>
-            <h2 className="text-lg font-bold text-slate-800">Personal registrado</h2>
-            <p className="text-xs text-slate-500">Este es el personal disponible para asignación en los cronogramas</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {/* Total */}
-          <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-            <div className="flex items-center gap-2 mb-1">
-              <Users size={16} className="text-blue-500" />
-              <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Total</span>
-            </div>
-            <p className="text-2xl font-bold text-blue-600">{staffSummary.total}</p>
-          </div>
-
-          {/* Activos */}
-          <div className="bg-white rounded-xl p-4 border border-emerald-200 shadow-sm">
-            <div className="flex items-center gap-2 mb-1">
-              <ShieldCheck size={16} className="text-emerald-500" />
-              <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Activos</span>
-            </div>
-            <p className="text-2xl font-bold text-emerald-600">{staffSummary.activos}</p>
-          </div>
-
-          {/* Por Rol */}
-          <div className="bg-white rounded-xl p-4 border border-amber-200 shadow-sm col-span-2 sm:col-span-2">
-            <div className="flex items-center gap-2 mb-2">
-              <GraduationCap size={16} className="text-amber-500" />
-              <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Por Rol</span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {Object.entries(staffSummary.porRol).map(([rol, count]) => (
-                <span key={rol} className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-amber-50 border border-amber-200 text-xs font-medium text-amber-700">
-                  {rol}: <strong>{count}</strong>
-                </span>
-              ))}
-              {Object.keys(staffSummary.porRol).length === 0 && (
-                <span className="text-sm text-slate-400">Sin personal registrado</span>
-              )}
-            </div>
-          </div>
-        </div>
-
+      {/* Resumen en una línea, en lugar de un bloque de tarjetas. */}
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-600">
+        <span><span className="font-semibold text-slate-900 tabular-nums">{staffSummary.total}</span> personas</span>
+        <span className="inline-flex items-center gap-1.5">
+          <ShieldCheck size={16} className="text-emerald-600" />
+          <span className="font-semibold text-slate-900 tabular-nums">{staffSummary.activos}</span> activas
+        </span>
+        {Object.entries(staffSummary.porRol).map(([rol, count]) => (
+          <span key={rol} className="tag bg-white text-slate-700 ring-slate-200">
+            {rol} <span className="font-semibold tabular-nums">{count}</span>
+          </span>
+        ))}
       </div>
 
       {/* Tu tabla de edición usual */}
@@ -674,32 +633,40 @@ const AdminStaffPage: React.FC = () => {
             </svg>
             Detalle de capacitación
           </h3>
-          <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
-            <table className="min-w-[900px] w-full text-sm">
-              <thead>
-                <tr className="bg-slate-100 text-slate-600 border-b border-slate-200">
-                  <th className="py-3 px-4 text-left font-semibold">Personal</th>
-                  <th className="py-3 px-4 text-left font-semibold">Área</th>
-                  <th className="py-3 px-4 text-left font-semibold">Rol seleccionado</th>
-                  <th className="py-3 px-4 text-left font-semibold">Estado</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filasFiltradas.map((f) => {
-                  const nivel = f.roles[rolFiltro];
-                  return (
-                    <tr key={`${f.nombre}-${rolFiltro}`} className="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
-                      <td className="py-3 px-4 font-medium text-slate-700">{f.nombre}</td>
-                      <td className="py-3 px-4 text-slate-600">{f.area}</td>
-                      <td className="py-3 px-4 text-slate-600">{rolFiltro}</td>
-                      <td className="py-3 px-4">
-                        <NivelBadge nivel={nivel} />
-                      </td>
+          <div className="table-shell">
+            <div className="table-scroll">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Personal</th>
+                    <th>Área</th>
+                    <th>Rol seleccionado</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filasFiltradas.map((f) => {
+                    const nivel = f.roles[rolFiltro];
+                    return (
+                      <tr key={`${f.nombre}-${rolFiltro}`}>
+                        <td className="font-medium text-slate-900 min-w-[14rem]">{f.nombre}</td>
+                        <td className="whitespace-nowrap">{f.area}</td>
+                        <td className="whitespace-nowrap">{rolFiltro}</td>
+                        <td>
+                          {nivel ? <NivelBadge nivel={nivel} /> : <span className="text-slate-400">—</span>}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  {filasFiltradas.length === 0 && (
+                    <tr>
+                      <td colSpan={4} className="table-empty">Sin registros para este filtro.</td>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                  )}
+                </tbody>
+              </table>
+            </div>
+            <div className="table-footer">{filasFiltradas.length} registros</div>
           </div>
         </div>
       </div>

@@ -9,7 +9,6 @@ import RegisterRealModal from "@/features/schedule/components/RegisterRealModal"
 import AssignStaffModal from "@/features/schedule/components/AssignStaffModal";
 import OrderInfoModal from "@/features/schedule/components/OrderInfoModal";
 import ProgramarOrdenModal from "@/features/schedule/components/ProgramarOrdenModal";
-import StatsCard from "@/features/schedule/components/StatsCard";
 import FloatingCalendar from "@/components/ui/FloatingCalendar";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import dayjs from "dayjs";
@@ -27,10 +26,6 @@ import {
   Calendar,
   ChevronLeft,
   ChevronRight,
-  Pill,
-  TrendingUp,
-  Users,
-  CheckCircle2
 } from "lucide-react";
 
 function startOfWeek(date: Date) {
@@ -185,13 +180,12 @@ const DashboardPage: React.FC = () => {
     let cancelled = false;
     (async () => {
       try {
-        // El API filtra por el UUID del área (no por su código) y pagina de a
-        // 200 como máximo; ningún área tiene tantos productos activos.
+        // El API filtra por el UUID del área (no por su código).
         const areaUuid = await resolveAreaUuid(areaId);
-        const result = await productsApi.getProducts({ areaId: areaUuid, activeOnly: true, pageSize: 200 });
+        const items = await productsApi.getAllProducts({ areaId: areaUuid, activeOnly: true });
         if (cancelled) return;
         setProducts(
-          result.items.map((p) => ({ id: p.id, codigo: p.codigo, nombre: p.nombre, vol: p.vol ?? undefined, envase: p.envase ?? undefined }))
+          items.map((p) => ({ id: p.id, codigo: p.codigo, nombre: p.nombre, vol: p.vol ?? undefined, envase: p.envase ?? undefined }))
         );
         setCatalogAreaId(areaId);
       } catch (err) {
@@ -398,47 +392,40 @@ const DashboardPage: React.FC = () => {
     cerrado: { label: "Cerrada", className: "bg-slate-900/30 text-blue-100" },
   };
 
-  return (
-    <div className="space-y-6">
+  const fmtNum = (n: number) => n.toLocaleString("es", { maximumFractionDigits: 0 });
+  const navBtn = "w-10 h-10 rounded-lg flex items-center justify-center hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white transition-colors";
 
-      {/* Encabezado con degradado de marca: contexto de semana y acciones */}
-      <div className="gradient-brand rounded-2xl shadow-lg text-white p-6">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl lg:text-3xl font-bold">Programación Semanal</h1>
-            <p className="text-blue-100 mt-1">Control de producción por día, turno y orden</p>
+  return (
+    <div className="space-y-4">
+
+      {/* Encabezado: semana, estado y números clave en un solo bloque. */}
+      <header className="gradient-brand rounded-2xl shadow-md text-white px-5 py-4 sm:px-6">
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold leading-tight">Programación semanal</h1>
+            <p className="text-sm text-blue-100">{currentArea?.label ?? ""}</p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2">
             {/* Navegación de semanas: la acción más frecuente del cronograma. */}
-            <div className="flex items-center gap-1 bg-white/15 backdrop-blur-sm rounded-xl p-1">
-              <button
-                onClick={() => setCurrentDate(addDays(monday, -7))}
-                className="w-11 h-11 rounded-lg flex items-center justify-center hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white transition-colors"
-                aria-label="Semana anterior"
-                title="Semana anterior"
-              >
+            <div className="flex items-center gap-0.5 bg-white/15 rounded-xl p-1">
+              <button onClick={() => setCurrentDate(addDays(monday, -7))} className={navBtn} aria-label="Semana anterior" title="Semana anterior">
                 <ChevronLeft size={20} />
               </button>
-              <div className="flex items-center gap-2 px-2 min-w-[11rem] justify-center">
-                <Calendar size={18} className="shrink-0" />
+              <div className="flex items-center gap-2 px-2 min-w-[10.5rem] justify-center">
+                <Calendar size={16} className="shrink-0" />
                 <span className="font-semibold text-sm whitespace-nowrap">{rangoSemana}</span>
               </div>
-              <button
-                onClick={() => setCurrentDate(addDays(monday, 7))}
-                className="w-11 h-11 rounded-lg flex items-center justify-center hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white transition-colors"
-                aria-label="Semana siguiente"
-                title="Semana siguiente"
-              >
+              <button onClick={() => setCurrentDate(addDays(monday, 7))} className={navBtn} aria-label="Semana siguiente" title="Semana siguiente">
                 <ChevronRight size={20} />
               </button>
             </div>
             {!esSemanaActual && (
               <button
                 onClick={() => setCurrentDate(new Date())}
-                className="min-h-11 px-4 rounded-xl bg-white text-blue-800 font-semibold text-sm hover:bg-blue-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white transition-colors shadow-sm"
+                className="h-10 px-3 rounded-xl bg-white text-blue-800 font-semibold text-sm hover:bg-blue-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white transition-colors"
               >
-                Ir a esta semana
+                Hoy
               </button>
             )}
             <span className={`px-3 py-1.5 rounded-full text-xs font-bold ${estadoSemanaBadge[weekStatus]?.className ?? "bg-white/20 text-white"}`}>
@@ -447,7 +434,7 @@ const DashboardPage: React.FC = () => {
             {canEdit && weekStatus === "publicado" && (
               <button
                 onClick={handleClose}
-                className="px-4 py-2.5 rounded-xl bg-white text-blue-800 font-semibold text-sm hover:bg-blue-50 transition-colors shadow-sm"
+                className="h-10 px-3 rounded-xl bg-white text-blue-800 font-semibold text-sm hover:bg-blue-50 transition-colors"
                 title="Cierra la semana. Solo se puede si no quedan órdenes en borrador."
               >
                 Cerrar semana
@@ -456,113 +443,90 @@ const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Barra de cumplimiento real vs planificado */}
-        <div className="mt-5">
-          <div className="flex items-center justify-between text-xs font-semibold text-blue-100 mb-1.5">
-            <span>Cumplimiento de la semana</span>
-            <span>{cumplimiento}% · {stats.totalReal.toLocaleString()} de {stats.totalPlanned.toLocaleString()} unid.</span>
+        {/* Números de la semana: reemplazan las 4 tarjetas grandes. */}
+        <dl className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-3 text-sm">
+          <div>
+            <dt className="text-blue-100 text-xs">Órdenes</dt>
+            <dd className="text-lg font-bold tabular-nums">
+              {stats.totalOrders}
+              <span className="text-xs font-medium text-blue-100"> · {stats.completedOrders} con real</span>
+            </dd>
           </div>
-          <div className="h-2.5 bg-white/20 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-white/90 rounded-full transition-all duration-500"
-              style={{ width: `${Math.min(cumplimiento, 100)}%` }}
-            />
+          <div>
+            <dt className="text-blue-100 text-xs">Planificado</dt>
+            <dd className="text-lg font-bold tabular-nums">{fmtNum(stats.totalPlanned)}</dd>
           </div>
-        </div>
-      </div>
+          <div>
+            <dt className="text-blue-100 text-xs">Real</dt>
+            <dd className="text-lg font-bold tabular-nums">{fmtNum(stats.totalReal)}</dd>
+          </div>
+          <div>
+            <dt className="text-blue-100 text-xs">Cumplimiento</dt>
+            <dd className="flex items-center gap-2">
+              <span className="text-lg font-bold tabular-nums">{cumplimiento}%</span>
+              <span className="flex-1 h-2 bg-white/20 rounded-full overflow-hidden" aria-hidden="true">
+                <span className="block h-full bg-white/90 rounded-full transition-all duration-500" style={{ width: `${Math.min(cumplimiento, 100)}%` }} />
+              </span>
+            </dd>
+          </div>
+        </dl>
+      </header>
 
       {loadError && (
-        <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3">{loadError}</div>
+        <div role="alert" className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-4 py-3">{loadError}</div>
       )}
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatsCard
-          title="Total Órdenes"
-          value={stats.totalOrders}
-          icon={Pill}
-          color="primary"
-        />
-        <StatsCard
-          title="Órdenes Completadas"
-          value={stats.completedOrders}
-          icon={CheckCircle2}
-          color="success"
-        />
-        <StatsCard
-          title="Producción Planificada"
-          value={stats.totalPlanned.toLocaleString()}
-          icon={TrendingUp}
-          color="accent"
-        />
-        <StatsCard
-          title="Producción Real"
-          value={stats.totalReal.toLocaleString()}
-          icon={Users}
-          color={stats.totalReal >= stats.totalPlanned ? "success" : "gray"}
-        />
-      </div>
-
-      {/* Area Selector */}
-      <div className="card p-6">
-        <div className="mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-1">Área de Producción</h2>
-          <p className="text-sm text-gray-600">Elige el área para visualizar y gestionar sus órdenes</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-          {AREAS.map(a => {
-            const isActive = a.id === areaId;
-            return (
-              <button
-                key={a.id}
-                onClick={() => setAreaId(a.id)}
-                className={`
-                  flex items-center gap-3 p-4 rounded-xl border-2 text-left
-                  transition-all duration-200
-                  ${isActive
-                    ? `${a.color} ring-2 ring-offset-2 ring-primary-500 shadow-sm`
-                    : 'bg-white border-gray-200 hover:border-primary-300 hover:bg-primary-50/40'
-                  }
-                `}
-              >
-                <span
-                  className="w-2.5 h-2.5 rounded-full shrink-0"
-                  style={{ backgroundColor: a.dot }}
-                />
-                <p className={`font-semibold text-sm ${isActive ? "text-blue-900" : "text-gray-700"}`}>
-                  {a.label}
-                </p>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Orders Board */}
-      <div className="card p-3 sm:p-4">
-        {loading ? (
-          <div className="flex items-center justify-center py-16">
-            <div className="loading-spinner w-8 h-8" />
+      {/* Área + tablero en un solo bloque. */}
+      <section className="bg-white rounded-2xl border border-slate-200 shadow-sm">
+        <div className="border-b border-slate-200 px-3 sm:px-4">
+          <div role="tablist" aria-label="Área de producción" className="flex gap-1 overflow-x-auto hide-scrollbar -mb-px">
+            {AREAS.map(a => {
+              const isActive = a.id === areaId;
+              return (
+                <button
+                  key={a.id}
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setAreaId(a.id)}
+                  className={`shrink-0 flex items-center gap-2 h-12 px-3 border-b-2 text-sm font-medium whitespace-nowrap transition-colors focus:outline-none focus-visible:bg-slate-50 ${
+                    isActive
+                      ? "border-primary-600 text-primary-700"
+                      : "border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300"
+                  }`}
+                >
+                  <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: a.dot }} />
+                  {a.label.replace(/^Área /, "")}
+                </button>
+              );
+            })}
           </div>
-        ) : (
-          <OrdersBoard
-            days={days}
-            canEdit={canEdit}
-            canMove={weekStatus !== "cerrado"}
-            onMove={moveOrder}
-            getOrders={(dayKey) => {
-              const orders = currentWeek?.ordenes.filter(o => o.fecha === dayKey) ?? [];
-              // Non-admin users only see orders that are not in 'borrador' state
-              return canEdit ? orders : orders.filter(o => o.estado !== 'borrador');
-            }}
-            onAdd={handleQuickAdd}
-            onInfo={o => setInfoOrder(o)}
-            onRegister={o => setRegCtx(o)}
-            onAssign={o => setAssignCtx(o)}
-            onDelete={o => setDeleteCtx(o)}
-          />
-        )}
-      </div>
+        </div>
+
+        <div className="p-3 sm:p-4">
+          {loading ? (
+            <div className="flex items-center justify-center py-16">
+              <div className="loading-spinner w-8 h-8" />
+            </div>
+          ) : (
+            <OrdersBoard
+              days={days}
+              canEdit={canEdit}
+              weekStatus={weekStatus}
+              onMove={moveOrder}
+              getOrders={(dayKey) => {
+                const orders = currentWeek?.ordenes.filter(o => o.fecha === dayKey) ?? [];
+                // Non-admin users only see orders that are not in 'borrador' state
+                return canEdit ? orders : orders.filter(o => o.estado !== 'borrador');
+              }}
+              onAdd={handleQuickAdd}
+              onInfo={o => setInfoOrder(o)}
+              onRegister={o => setRegCtx(o)}
+              onAssign={o => setAssignCtx(o)}
+              onDelete={o => setDeleteCtx(o)}
+            />
+          )}
+        </div>
+      </section>
 
       {/* Modals */}
       {quickCtx && (

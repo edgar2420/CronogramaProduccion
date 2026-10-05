@@ -18,7 +18,7 @@ import {
   type DragStartEvent,
 } from "@dnd-kit/core";
 
-import { Plus, Trash2, Users, ClipboardCheck, Sun, SunMedium, Moon, GripVertical, CalendarX2, Lock } from "lucide-react";
+import { Plus, Trash2, Users, ClipboardCheck, Sun, SunMedium, Moon, GripVertical, Lock } from "lucide-react";
 
 // Cada turno se reconoce por un color propio (borde de la tarjeta + etiqueta)
 // y siempre también por su nombre: el color nunca es la única señal.
@@ -62,18 +62,22 @@ type CardHandlers = {
 type Props = CardHandlers & {
   days: Date[];
   canEdit: boolean;
-  /** false cuando la semana está cerrada: se ve, pero no se reprograma. */
-  canMove: boolean;
+  /**
+   * borrador: se agregan y reprograman órdenes. publicado: solo se
+   * reprograman (el backend no acepta órdenes nuevas). cerrado: solo lectura.
+   */
+  weekStatus: "borrador" | "publicado" | "cerrado";
   getOrders: (dayKey: string) => Orden[];
   onAdd: (dayKey: string) => void;
   onMove: (o: Orden, fecha: string, turno: Turno) => void;
 };
 
 export default function OrdersBoard({
-  days, canEdit, canMove, getOrders,
+  days, canEdit, weekStatus, getOrders,
   onAdd, onMove, onInfo, onRegister, onAssign, onDelete
 }: Props) {
-  const dragEnabled = canEdit && canMove;
+  const dragEnabled = canEdit && weekStatus !== "cerrado";
+  const canAdd = canEdit && weekStatus === "borrador";
   const [dragging, setDragging] = useState<Orden | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const todayKey = dayjs().format("YYYY-MM-DD");
@@ -121,16 +125,12 @@ export default function OrdersBoard({
       // layout: hay que volver a medir las zonas, no usar las del inicio.
       measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
     >
-      {dragEnabled && (
+      {canEdit && (
         <p className="text-xs text-slate-500 mb-3 flex items-center gap-1.5">
-          <GripVertical size={14} />
-          Arrastra una orden a otro día o turno para reprogramarla.
-        </p>
-      )}
-      {canEdit && !canMove && (
-        <p className="text-xs text-slate-600 mb-3 flex items-center gap-1.5">
-          <Lock size={14} />
-          Semana cerrada: es histórico y sus órdenes ya no se pueden reprogramar.
+          {weekStatus === "cerrado" ? <Lock size={14} /> : <GripVertical size={14} />}
+          {weekStatus === "borrador" && "Arrastra una orden a otro día o turno para reprogramarla."}
+          {weekStatus === "publicado" && "Semana publicada: puedes reprogramar arrastrando, pero ya no se agregan órdenes nuevas."}
+          {weekStatus === "cerrado" && "Semana cerrada: es histórico y sus órdenes ya no se pueden reprogramar."}
         </p>
       )}
 
@@ -146,30 +146,35 @@ export default function OrdersBoard({
                 key={fecha}
                 data-today={isToday}
                 aria-label={dayjs(d).format("dddd D [de] MMMM")}
-                className={`snap-start flex flex-col gap-3 rounded-2xl p-2 ${isToday ? "bg-primary-50 ring-2 ring-primary-300" : "bg-slate-50"}`}
+                className="snap-start flex flex-col gap-2 rounded-2xl bg-slate-50 p-2 min-h-[8rem]"
               >
-                <header className="flex items-center justify-between gap-2 bg-white rounded-xl px-3 py-2 shadow-sm border border-slate-200">
-                  <div className="min-w-0">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      {dayjs(d).format("ddd")}
-                    </p>
-                    <p className="text-slate-900">
-                      <span className="text-2xl font-bold">{dayjs(d).format("D")}</span>{" "}
-                      <span className="text-sm text-slate-500">{dayjs(d).format("MMM")}</span>
-                    </p>
-                    <p className="text-xs text-slate-500">
-                      {isToday && <span className="font-semibold text-primary-700">Hoy · </span>}
-                      {ordenes.length === 0 ? "Sin órdenes" : `${ordenes.length} ${ordenes.length === 1 ? "orden" : "órdenes"}`}
-                    </p>
+                {/* Hoy se distingue solo en la cabecera (número resaltado y
+                    "Hoy"), sin pintar toda la columna como si estuviera
+                    seleccionada. */}
+                <header className="flex items-center justify-between gap-2 px-1.5 pt-1 pb-1.5">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span
+                      className={`w-9 h-9 shrink-0 rounded-full flex items-center justify-center text-base font-bold tabular-nums ${isToday ? "bg-primary-600 text-white" : "text-slate-900"}`}
+                    >
+                      {dayjs(d).format("D")}
+                    </span>
+                    <div className="min-w-0 leading-tight">
+                      <p className={`text-xs font-semibold uppercase tracking-wide ${isToday ? "text-primary-700" : "text-slate-500"}`}>
+                        {isToday ? "Hoy" : dayjs(d).format("ddd")}
+                      </p>
+                      <p className="text-xs text-slate-500 truncate">
+                        {ordenes.length === 0 ? "Sin órdenes" : `${ordenes.length} ${ordenes.length === 1 ? "orden" : "órdenes"}`}
+                      </p>
+                    </div>
                   </div>
-                  {canEdit && (
+                  {canAdd && (
                     <button
                       onClick={() => onAdd(fecha)}
-                      className="shrink-0 w-11 h-11 rounded-xl bg-primary-600 text-white flex items-center justify-center shadow-sm hover:bg-primary-700 active:bg-primary-800 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-300 transition-colors"
+                      className="shrink-0 w-10 h-10 rounded-xl text-primary-700 bg-white border border-slate-200 flex items-center justify-center hover:bg-primary-600 hover:text-white hover:border-primary-600 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-300 transition-colors"
                       aria-label={`Nueva orden el ${dayjs(d).format("dddd D [de] MMMM")}`}
                       title="Nueva orden"
                     >
-                      <Plus size={20} />
+                      <Plus size={18} />
                     </button>
                   )}
                 </header>
@@ -187,12 +192,6 @@ export default function OrdersBoard({
                   />
                 ))}
 
-                {ordenes.length === 0 && !dragging && (
-                  <div className="h-20 rounded-xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                    <CalendarX2 size={20} className="mb-1" />
-                    <span className="text-xs">Sin órdenes</span>
-                  </div>
-                )}
               </section>
             )
           })}
@@ -299,8 +298,8 @@ function OrderCard({ orden: o, canEdit, onInfo, onRegister, onAssign, onDelete }
   ].filter(Boolean) as { key: string; label: string; Icon: typeof Users; onClick: () => void; className: string }[];
 
   return (
-    <article className={`@container bg-white rounded-xl border border-slate-200 border-l-4 ${turno.border} shadow-sm hover:shadow-md transition-shadow ${cancelada ? "opacity-75" : ""}`}>
-      <div className="p-3 space-y-2">
+    <article className={`@container bg-white rounded-xl border border-slate-200 border-l-4 ${turno.border} shadow-xs hover:shadow-md hover:border-slate-300 transition ${cancelada ? "opacity-75" : ""}`}>
+      <div className="px-2.5 pt-2.5 pb-2 space-y-1.5">
         {/* El nombre abre el detalle: es el área de click más grande de la tarjeta. */}
         <button
           type="button"
@@ -311,7 +310,7 @@ function OrderCard({ orden: o, canEdit, onInfo, onRegister, onAssign, onDelete }
           {o.productoNombre}
         </button>
 
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1">
           <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ring-1 ring-inset ${turno.chip}`}>
             <turno.Icon size={12} />
             {turno.label}
@@ -355,7 +354,7 @@ function OrderCard({ orden: o, canEdit, onInfo, onRegister, onAssign, onDelete }
               key={key}
               type="button"
               onClick={onClick}
-              className={`min-h-11 flex flex-col items-center justify-center gap-0.5 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-400 ${i > 0 ? "border-l border-slate-100" : ""} ${i === 0 ? "rounded-bl-xl" : ""} ${i === acciones.length - 1 ? "rounded-br-xl" : ""} ${className}`}
+              className={`min-h-10 flex items-center justify-center gap-1 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-400 ${i > 0 ? "border-l border-slate-100" : ""} ${i === 0 ? "rounded-bl-xl" : ""} ${i === acciones.length - 1 ? "rounded-br-xl" : ""} ${className}`}
               aria-label={`${label} — ${o.productoNombre}`}
               title={label}
             >

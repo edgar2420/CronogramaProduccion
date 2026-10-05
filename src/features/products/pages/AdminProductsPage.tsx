@@ -24,10 +24,10 @@ const AdminProductsPage: React.FC = () => {
     setError(null);
     try {
       const [productsResult, areasResult] = await Promise.all([
-        productsApi.getProducts({ pageSize: 500 }),
+        productsApi.getAllProducts(),
         areasApi.getAreas(),
       ]);
-      setItems(productsResult.items);
+      setItems(productsResult);
       setAreas(areasResult);
     } catch (err) {
       setError(err instanceof Error ? err.message : "No se pudo cargar el catálogo de productos");
