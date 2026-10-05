@@ -18,7 +18,7 @@ import {
   type DragStartEvent,
 } from "@dnd-kit/core";
 
-import { Plus, Trash2, Users, ClipboardCheck, Sun, SunMedium, Moon, GripVertical, CalendarX2 } from "lucide-react";
+import { Plus, Trash2, Users, ClipboardCheck, Sun, SunMedium, Moon, GripVertical, CalendarX2, Lock } from "lucide-react";
 
 // Cada turno se reconoce por un color propio (borde de la tarjeta + etiqueta)
 // y siempre también por su nombre: el color nunca es la única señal.
@@ -125,6 +125,12 @@ export default function OrdersBoard({
         <p className="text-xs text-slate-500 mb-3 flex items-center gap-1.5">
           <GripVertical size={14} />
           Arrastra una orden a otro día o turno para reprogramarla.
+        </p>
+      )}
+      {canEdit && !canMove && (
+        <p className="text-xs text-slate-600 mb-3 flex items-center gap-1.5">
+          <Lock size={14} />
+          Semana cerrada: es histórico y sus órdenes ya no se pueden reprogramar.
         </p>
       )}
 

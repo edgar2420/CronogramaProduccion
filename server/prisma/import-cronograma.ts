@@ -14,7 +14,8 @@ import { parsearCronograma } from "../src/infrastructure/import/cronogramaParser
  * cual vienen de Google Sheets (tabla markdown, celdas `[merged]` incluidas).
  *
  * Es idempotente: un lote ya importado se reconoce por su Nº de lote.
- * Las semanas importadas se crean en estado "cerrado" (son histórico).
+ * Las semanas ya terminadas se crean en estado "cerrado" (son histórico); la
+ * semana en curso y las futuras, en "publicado".
  *
  *   npx tsx prisma/import-cronograma.ts
  */
@@ -22,6 +23,9 @@ import { parsearCronograma } from "../src/infrastructure/import/cronogramaParser
 const prisma = new PrismaClient();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CRONOGRAMA_DIR = path.join(__dirname, "seed-data", "cronograma");
+
+const hoy = new Date();
+const inicioDeHoyUTC = Date.UTC(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
 
 function lunesDeLaSemana(fecha: Date): Date {
   const d = new Date(fecha);
@@ -129,10 +133,16 @@ async function main() {
       const fin = new Date(inicio);
       fin.setUTCDate(fin.getUTCDate() + 6);
 
+      // Solo lo que ya terminó es histórico. La semana en curso y las futuras
+      // vienen de una planilla que la planta ya está usando: quedan
+      // publicadas, para que se puedan seguir reprogramando en el tablero.
+      const yaTermino = fin.getTime() < inicioDeHoyUTC;
       const semana = await prisma.semana.upsert({
         where: { areaId_fechaInicio: { areaId: area.id, fechaInicio: inicio } },
         update: {},
-        create: { areaId: area.id, fechaInicio: inicio, fechaFin: fin, estado: "cerrado" },
+        create: yaTermino
+          ? { areaId: area.id, fechaInicio: inicio, fechaFin: fin, estado: "cerrado", closedAt: new Date() }
+          : { areaId: area.id, fechaInicio: inicio, fechaFin: fin, estado: "publicado", publishedAt: new Date() },
       });
 
       const c = cumplidoPorLote.get(fila.numeroLote);
