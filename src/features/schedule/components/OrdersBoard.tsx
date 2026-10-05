@@ -135,7 +135,7 @@ export default function OrdersBoard({
       )}
 
       <div ref={scrollRef} className="overflow-x-auto snap-x snap-mandatory -mx-2 px-2 pb-2">
-        <div className="grid grid-flow-col auto-cols-[minmax(140px,1fr)] gap-3">
+        <div className="grid grid-flow-col auto-cols-[minmax(136px,1fr)] gap-4">
           {days.map(d => {
             const fecha = d.toISOString().slice(0, 10);
             const ordenes = getOrders(fecha);
@@ -146,7 +146,7 @@ export default function OrdersBoard({
                 key={fecha}
                 data-today={isToday}
                 aria-label={dayjs(d).format("dddd D [de] MMMM")}
-                className="snap-start flex flex-col gap-2 rounded-2xl bg-slate-50 p-2 min-h-[8rem]"
+                className="snap-start flex flex-col gap-3 rounded-2xl bg-slate-50 p-2.5 min-h-[9rem]"
               >
                 {/* Hoy se distingue solo en la cabecera (número resaltado y
                     "Hoy"), sin pintar toda la columna como si estuviera
@@ -229,7 +229,7 @@ function TurnLane({ fecha, turno, ordenes, canEdit, dragEnabled, draggingId, han
   return (
     <div
       ref={setNodeRef}
-      className={`flex flex-col gap-2 rounded-xl transition-colors duration-150 ${isDragging ? "p-1.5 -m-1.5" : ""} ${isOver ? "bg-primary-100 ring-2 ring-primary-400" : isDragging ? "bg-white/60" : ""}`}
+      className={`flex flex-col gap-3 rounded-xl transition-colors duration-150 ${isDragging ? "p-1.5 -m-1.5" : ""} ${isOver ? "bg-primary-100 ring-2 ring-primary-400" : isDragging ? "bg-white/60" : ""}`}
     >
       {isDragging && (
         <div className="flex items-center gap-1.5 px-1 text-xs font-semibold text-slate-600">
@@ -299,7 +299,7 @@ function OrderCard({ orden: o, canEdit, onInfo, onRegister, onAssign, onDelete }
 
   return (
     <article className={`@container bg-white rounded-xl border border-slate-200 border-l-4 ${turno.border} shadow-xs hover:shadow-md hover:border-slate-300 transition ${cancelada ? "opacity-75" : ""}`}>
-      <div className="px-2.5 pt-2.5 pb-2 space-y-1.5">
+      <div className="px-3 pt-3 pb-2.5 space-y-2">
         {/* El nombre abre el detalle: es el área de click más grande de la tarjeta. */}
         <button
           type="button"
@@ -310,7 +310,7 @@ function OrderCard({ orden: o, canEdit, onInfo, onRegister, onAssign, onDelete }
           {o.productoNombre}
         </button>
 
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1.5">
           <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ring-1 ring-inset ${turno.chip}`}>
             <turno.Icon size={12} />
             {turno.label}

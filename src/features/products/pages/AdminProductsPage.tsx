@@ -5,7 +5,8 @@ import type { Product } from "../types";
 import * as productsApi from "@/services/api/products.api";
 import * as areasApi from "@/services/api/areas.api";
 import type { Area } from "@/services/api/areas.api";
-import { Package, Plus, X } from "lucide-react";
+import { Package, Plus, PackagePlus, Pencil, Ban, History, AlertCircle, Loader2 } from "lucide-react";
+import Modal from "@/components/ui/Modal";
 
 const AdminProductsPage: React.FC = () => {
   const [items, setItems] = useState<Product[]>([]);
@@ -15,6 +16,11 @@ const AdminProductsPage: React.FC = () => {
 
   const [formMode, setFormMode] = useState<ProductFormMode | null>(null);
   const [editing, setEditing] = useState<Product | null>(null);
+
+  // Error y estado de guardado del modal: se muestran dentro del modal, no
+  // detrás de él.
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   const [historyOf, setHistoryOf] = useState<Product | null>(null);
   const [history, setHistory] = useState<Product[]>([]);
@@ -53,6 +59,7 @@ const AdminProductsPage: React.FC = () => {
     setFormMode("deactivate");
   }
   async function onHistory(item: Product) {
+    setHistory([]);
     setHistoryOf(item);
     try {
       setHistory(await productsApi.getProductHistory(item.id));
@@ -61,8 +68,15 @@ const AdminProductsPage: React.FC = () => {
     }
   }
 
+  function closeForm() {
+    setFormMode(null);
+    setEditing(null);
+    setFormError(null);
+  }
+
   async function handleSubmit(values: ProductFormValues) {
-    setError(null);
+    setFormError(null);
+    setSaving(true);
     try {
       if (formMode === "create") {
         await productsApi.createProduct({
@@ -84,11 +98,12 @@ const AdminProductsPage: React.FC = () => {
       } else if (formMode === "deactivate" && editing) {
         await productsApi.deactivateProduct(editing.id, values.changeReason);
       }
-      setFormMode(null);
-      setEditing(null);
+      closeForm();
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "No se pudo guardar el producto");
+      setFormError(err instanceof Error ? err.message : "No se pudo guardar el producto");
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -113,66 +128,84 @@ const AdminProductsPage: React.FC = () => {
         <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3">{error}</div>
       )}
 
-      {formMode && (
-        <div className="card p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold">
-              {formMode === "create" && "Nuevo producto"}
-              {formMode === "edit" && `Editar producto — ${editing?.nombre}`}
-              {formMode === "deactivate" && `Desactivar producto — ${editing?.nombre}`}
-            </h3>
+      <Modal
+        open={formMode !== null}
+        onClose={closeForm}
+        busy={saving}
+        size="lg"
+        icon={formMode === "create" ? <PackagePlus size={20} /> : formMode === "edit" ? <Pencil size={20} /> : <Ban size={20} />}
+        title={formMode === "create" ? "Nuevo producto" : formMode === "edit" ? "Editar producto" : "Desactivar producto"}
+        description={formMode === "create" ? "Queda disponible para programar órdenes en su área." : editing?.nombre}
+        footer={
+          <>
+            <button type="button" className="btn-secondary" onClick={closeForm} disabled={saving}>Cancelar</button>
+            <button type="submit" form="product-form" className={formMode === "deactivate" ? "btn-danger" : "btn-primary"} disabled={saving}>
+              {saving && <Loader2 size={16} className="animate-spin" />}
+              {formMode === "create" ? "Crear producto" : formMode === "edit" ? "Guardar nueva versión" : "Desactivar"}
+            </button>
+          </>
+        }
+      >
+        {formError && (
+          <div role="alert" className="form-error mb-5">
+            <AlertCircle size={16} className="mt-0.5 shrink-0" />
+            {formError}
           </div>
+        )}
+        {formMode && (
           <ProductForm
+            key={`${formMode}-${editing?.id ?? "nuevo"}`}
+            formId="product-form"
             mode={formMode}
             initial={editing}
             areas={areas}
             onSubmit={handleSubmit}
-            onCancel={() => {
-              setFormMode(null);
-              setEditing(null);
-            }}
           />
-        </div>
-      )}
+        )}
+      </Modal>
 
-      {historyOf && (
-        <div className="card p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold">Historial de versiones — {historyOf.nombre}</h3>
-            <button className="btn-icon" onClick={() => setHistoryOf(null)}>
-              <X size={16} />
-            </button>
-          </div>
-          <div className="overflow-auto">
-            <table className="w-full text-sm">
+      <Modal
+        open={historyOf !== null}
+        onClose={() => setHistoryOf(null)}
+        size="xl"
+        icon={<History size={20} />}
+        title="Historial de versiones"
+        description={historyOf?.nombre}
+      >
+        <div className="table-shell">
+          <div className="overflow-x-auto">
+            <table className="data-table">
               <thead>
-                <tr className="text-left text-gray-600 bg-gray-50">
-                  <th className="py-2 px-3">Versión</th>
-                  <th className="py-2 px-3">Nombre</th>
-                  <th className="py-2 px-3">Vol.</th>
-                  <th className="py-2 px-3">Envase</th>
-                  <th className="py-2 px-3">Vigente desde</th>
-                  <th className="py-2 px-3">Vigente hasta</th>
-                  <th className="py-2 px-3">Motivo del cambio</th>
+                <tr>
+                  <th>Versión</th>
+                  <th>Nombre</th>
+                  <th>Vol.</th>
+                  <th>Envase</th>
+                  <th>Vigente desde</th>
+                  <th>Vigente hasta</th>
+                  <th>Motivo del cambio</th>
                 </tr>
               </thead>
               <tbody>
                 {history.map((h) => (
-                  <tr key={h.id} className="border-t">
-                    <td className="py-2 px-3">v{h.version}</td>
-                    <td className="py-2 px-3">{h.nombre}</td>
-                    <td className="py-2 px-3">{h.vol ?? "—"}</td>
-                    <td className="py-2 px-3">{h.envase ?? "—"}</td>
-                    <td className="py-2 px-3">{new Date(h.validFrom).toLocaleString()}</td>
-                    <td className="py-2 px-3">{h.validTo ? new Date(h.validTo).toLocaleString() : "vigente"}</td>
-                    <td className="py-2 px-3">{h.changeReason ?? "—"}</td>
+                  <tr key={h.id}>
+                    <td className="tabular-nums">v{h.version}</td>
+                    <td className="font-medium text-slate-900">{h.nombre}</td>
+                    <td className="whitespace-nowrap">{h.vol ?? "—"}</td>
+                    <td>{h.envase ?? "—"}</td>
+                    <td className="whitespace-nowrap">{new Date(h.validFrom).toLocaleString("es")}</td>
+                    <td className="whitespace-nowrap">{h.validTo ? new Date(h.validTo).toLocaleString("es") : <span className="status-pill status-active">Vigente</span>}</td>
+                    <td>{h.changeReason ?? "—"}</td>
                   </tr>
                 ))}
+                {history.length === 0 && (
+                  <tr><td colSpan={7} className="table-empty">Cargando historial…</td></tr>
+                )}
               </tbody>
             </table>
           </div>
         </div>
-      )}
+      </Modal>
 
       {loading ? (
         <div className="card p-8 text-center text-gray-500">Cargando productos...</div>

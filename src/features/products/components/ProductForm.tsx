@@ -1,7 +1,7 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import type { Product } from "../types";
 import type { Area } from "@/services/api/areas.api";
-import { Save, X } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 
 export type ProductFormMode = "create" | "edit" | "deactivate";
 
@@ -16,14 +16,15 @@ export type ProductFormValues = {
 };
 
 type Props = {
+  /** id del <form>, para que los botones del pie del modal lo envíen. */
+  formId: string;
   mode: ProductFormMode;
   initial: Product | null;
   areas: Area[];
   onSubmit: (values: ProductFormValues) => void;
-  onCancel: () => void;
 };
 
-const ProductForm: React.FC<Props> = ({ mode, initial, areas, onSubmit, onCancel }) => {
+const ProductForm: React.FC<Props> = ({ formId, mode, initial, areas, onSubmit }) => {
   const [codigo, setCodigo] = useState(initial?.codigo ?? "");
   const [nombre, setNombre] = useState(initial?.nombre ?? "");
   const [vol, setVol] = useState(initial?.vol ?? "");
@@ -38,12 +39,12 @@ const ProductForm: React.FC<Props> = ({ mode, initial, areas, onSubmit, onCancel
     e.preventDefault();
     if (mode !== "deactivate") {
       if (!codigo.trim() || !nombre.trim() || !areaId) {
-        setError("Código, nombre y área son obligatorios");
+        setError("Código, nombre y área son obligatorios.");
         return;
       }
     }
     if (requiresReason && !changeReason.trim()) {
-      setError("Debes indicar el motivo del cambio (queda registrado en el historial)");
+      setError("Indica el motivo del cambio: queda registrado en el historial.");
       return;
     }
     setError(null);
@@ -51,92 +52,68 @@ const ProductForm: React.FC<Props> = ({ mode, initial, areas, onSubmit, onCancel
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form id={formId} onSubmit={handleSubmit} className="space-y-5" noValidate>
       {error && (
-        <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</div>
+        <div role="alert" className="form-error">
+          <AlertCircle size={16} className="mt-0.5 shrink-0" />
+          {error}
+        </div>
+      )}
+
+      {mode === "deactivate" && initial && (
+        <p className="text-sm text-slate-600">
+          <span className="font-semibold text-slate-900">{initial.nombre}</span> dejará de aparecer al programar
+          órdenes. Las órdenes y versiones anteriores no se borran.
+        </p>
       )}
 
       {mode !== "deactivate" && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="text-sm font-medium text-slate-700">Código</label>
-            <input
-              className="mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              value={codigo}
-              onChange={(e) => setCodigo(e.target.value)}
-              placeholder="Ej: 01"
-            />
+        <div className="form-grid">
+          <div className="field">
+            <label htmlFor="prod-codigo" className="label">Código</label>
+            <input id="prod-codigo" className="input" value={codigo} onChange={(e) => setCodigo(e.target.value)} placeholder="Ej. 01" />
           </div>
-          <div>
-            <label className="text-sm font-medium text-slate-700">Área</label>
-            <select
-              className="mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              value={areaId}
-              onChange={(e) => setAreaId(e.target.value)}
-            >
+          <div className="field">
+            <label htmlFor="prod-area" className="label">Área</label>
+            <select id="prod-area" className="select" value={areaId} onChange={(e) => setAreaId(e.target.value)}>
               {areas.map((a) => (
-                <option key={a.id} value={a.id}>
-                  {a.name}
-                </option>
+                <option key={a.id} value={a.id}>{a.name}</option>
               ))}
             </select>
           </div>
-          <div className="md:col-span-2">
-            <label className="text-sm font-medium text-slate-700">Nombre del producto</label>
-            <input
-              className="mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              placeholder="Ej: Solución Fisiológica 0,9%"
-            />
+          <div className="field sm:col-span-2">
+            <label htmlFor="prod-nombre" className="label">Nombre del producto</label>
+            <input id="prod-nombre" className="input" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Ej. Solución Fisiológica 0,9%" />
           </div>
-          <div>
-            <label className="text-sm font-medium text-slate-700">Volumen (opcional)</label>
-            <input
-              className="mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              value={vol}
-              onChange={(e) => setVol(e.target.value)}
-              placeholder="Ej: 1000 ml"
-            />
+          <div className="field">
+            <label htmlFor="prod-vol" className="label">Volumen <span className="label-optional">(opcional)</span></label>
+            <input id="prod-vol" className="input" value={vol} onChange={(e) => setVol(e.target.value)} placeholder="Ej. 1000 ml" />
           </div>
-          <div>
-            <label className="text-sm font-medium text-slate-700">Envase (opcional)</label>
-            <input
-              className="mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              value={envase}
-              onChange={(e) => setEnvase(e.target.value)}
-              placeholder="Ej: Frasco infusor de PEBD Flex"
-            />
+          <div className="field">
+            <label htmlFor="prod-envase" className="label">Envase <span className="label-optional">(opcional)</span></label>
+            <input id="prod-envase" className="input" value={envase} onChange={(e) => setEnvase(e.target.value)} placeholder="Ej. Frasco infusor de PEBD Flex" />
           </div>
         </div>
       )}
 
       {requiresReason && (
-        <div>
-          <label className="text-sm font-medium text-slate-700">
-            Motivo del cambio <span className="text-red-500">*</span>
-          </label>
+        <div className="field">
+          <label htmlFor="prod-motivo" className="label">Motivo del cambio</label>
           <textarea
-            className="mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            rows={2}
+            id="prod-motivo"
+            className="input min-h-20"
+            rows={3}
             value={changeReason}
             onChange={(e) => setChangeReason(e.target.value)}
-            placeholder="Ej: Corrección de volumen según ficha técnica actualizada"
+            placeholder="Ej. Corrección de volumen según ficha técnica actualizada"
           />
-          <p className="text-xs text-slate-500 mt-1">
-            Este producto quedará como una nueva versión trazable; la versión anterior no se borra.
+          <p className="field-hint">
+            {mode === "edit"
+              ? "Se guarda como una nueva versión trazable; la versión anterior no se borra."
+              : "Queda registrado en el historial del producto."}
           </p>
         </div>
       )}
-
-      <div className="flex justify-end gap-2 pt-2">
-        <button type="button" className="btn-secondary" onClick={onCancel}>
-          <X size={16} /> Cancelar
-        </button>
-        <button type="submit" className="btn-primary">
-          <Save size={16} /> {mode === "deactivate" ? "Confirmar desactivación" : "Guardar"}
-        </button>
-      </div>
     </form>
   );
 };

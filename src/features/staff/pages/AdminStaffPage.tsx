@@ -3,7 +3,8 @@ import StaffTable from "../components/StaffTable";
 import StaffForm from "../components/StaffForm";
 import type { Staff } from "../types";
 import * as staffApi from "@/services/api/staff.api";
-import { Plus, ShieldCheck, AlertTriangle, GraduationCap, Filter, Users, Eye } from "lucide-react";
+import { Plus, ShieldCheck, AlertTriangle, GraduationCap, Filter, Users, Eye, Pencil, UserPlus, AlertCircle, Loader2 } from "lucide-react";
+import Modal from "@/components/ui/Modal";
 
 /* ──────────────────────────────────────────────────────────────────────────
    ÁREAS (catálogo completo)
@@ -321,6 +322,8 @@ const AdminStaffPage: React.FC = () => {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [editing, setEditing] = useState<Staff | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   // filtros del mapa
   const [areaFiltro, setAreaFiltro] = useState<string>("TODAS");
@@ -362,7 +365,15 @@ const AdminStaffPage: React.FC = () => {
     }
   }
 
+  function closeForm() {
+    setShowForm(false);
+    setEditing(null);
+    setFormError(null);
+  }
+
   async function handleSubmit(data: Omit<Staff, "id">) {
+    setFormError(null);
+    setSaving(true);
     try {
       if (editing) {
         await staffApi.updateStaff(editing.id, {
@@ -376,11 +387,12 @@ const AdminStaffPage: React.FC = () => {
       } else {
         await staffApi.createStaff({ nombre: data.nombre, rolBase: data.rolBase, areaIds: data.areas });
       }
-      setShowForm(false);
-      setEditing(null);
+      closeForm();
       await refresh();
     } catch (err) {
-      alert(err instanceof Error ? err.message : "No se pudo guardar el personal");
+      setFormError(err instanceof Error ? err.message : "No se pudo guardar el personal");
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -447,34 +459,46 @@ const AdminStaffPage: React.FC = () => {
       </div>
 
       {/* Tu tabla de edición usual */}
-      {!showForm && loading && (
+      {loading && (
         <div className="card p-10 flex items-center justify-center">
           <div className="loading-spinner w-8 h-8" />
         </div>
       )}
-      {!showForm && !loading && loadError && (
+      {!loading && loadError && (
         <div className="card p-6 text-sm text-red-700 bg-red-50 border border-red-200">{loadError}</div>
       )}
-      {!showForm && !loading && !loadError && (
+      {!loading && !loadError && (
         <StaffTable data={items} onEdit={onEdit} onDelete={onDelete} />
       )}
 
-      {showForm && (
-        <div className="rounded-2xl border border-slate-200 bg-white shadow-xl p-8 backdrop-blur-sm">
-          <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center">
-              <Plus size={20} className="text-white" />
-            </div>
-            <div>
-              <h2 className="text-xl font-bold text-slate-800">
-                {editing ? "Editar personal" : "Nuevo personal"}
-              </h2>
-              <p className="text-sm text-slate-500">
-                {editing ? "Actualiza la información del empleado" : "Añade un nuevo miembro al equipo"}
-              </p>
-            </div>
+      <Modal
+        open={showForm}
+        onClose={closeForm}
+        busy={saving}
+        size="lg"
+        icon={editing ? <Pencil size={20} /> : <UserPlus size={20} />}
+        title={editing ? "Editar personal" : "Nuevo personal"}
+        description={editing ? editing.nombre : "Queda disponible para asignarlo a órdenes del cronograma."}
+        footer={
+          <>
+            <button type="button" className="btn-secondary" onClick={closeForm} disabled={saving}>Cancelar</button>
+            <button type="submit" form="staff-form" className="btn-primary" disabled={saving}>
+              {saving && <Loader2 size={16} className="animate-spin" />}
+              {editing ? "Guardar cambios" : "Crear personal"}
+            </button>
+          </>
+        }
+      >
+        {formError && (
+          <div role="alert" className="form-error mb-5">
+            <AlertCircle size={16} className="mt-0.5 shrink-0" />
+            {formError}
           </div>
+        )}
+        {showForm && (
           <StaffForm
+            key={editing?.id ?? "nuevo"}
+            formId="staff-form"
             initial={editing}
             areasDisponibles={[
               { id: "PGV", label: "PGV" },
@@ -485,13 +509,9 @@ const AdminStaffPage: React.FC = () => {
               { id: "Equipos", label: "Equipos de suero" },
             ]}
             onSubmit={handleSubmit}
-            onCancel={() => {
-              setShowForm(false);
-              setEditing(null);
-            }}
           />
-        </div>
-      )}
+        )}
+      </Modal>
 
       {/* ───────────────────────────────────────────────
           MAPA DE CAPACITACIÓN (solo lectura)

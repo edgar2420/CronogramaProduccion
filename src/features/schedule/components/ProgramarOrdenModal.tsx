@@ -1,11 +1,10 @@
-﻿import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useId, useMemo, useRef, useState } from "react";
+import dayjs from "dayjs";
+import "dayjs/locale/es";
 import type { Turno } from "@/features/schedule/types";
 import type { ItemCatalogo } from "@/features/schedule/catalogoProductos";
-import {
-  X, Clock, TrendingUp,
-  Sun, SunMedium, Moon, CheckCircle2, Sparkles,
-  Pill, CalendarDays, Search, ChevronDown, FlaskConical, PackageOpen, Hash, FileText
-} from "lucide-react";
+import Modal from "@/components/ui/Modal";
+import { Sun, SunMedium, Moon, Pill, Search, CalendarPlus, AlertCircle, X } from "lucide-react";
 
 type Props = {
   open: boolean;
@@ -24,344 +23,228 @@ type Props = {
   }) => void;
 };
 
-const TURNOS: Turno[] = ["mañana", "tarde", "noche"];
+// Mismos colores de turno que el tablero (borde de la tarjeta + etiqueta).
+const TURNOS: { value: Turno; label: string; Icon: typeof Sun; on: string }[] = [
+  { value: "mañana", label: "Mañana", Icon: Sun, on: "bg-amber-50 border-amber-400 text-amber-900" },
+  { value: "tarde", label: "Tarde", Icon: SunMedium, on: "bg-orange-50 border-orange-500 text-orange-900" },
+  { value: "noche", label: "Noche", Icon: Moon, on: "bg-purple-50 border-purple-500 text-purple-900" },
+];
 
-// Turno configuration
-const TURNO_CONFIG: Record<Turno, { gradient: string; icon: React.ReactNode; label: string; color: string }> = {
-  mañana: {
-    gradient: "from-sky-400 via-sky-500 to-cyan-600",
-    icon: <Sun size={16} />,
-    label: "Mañana",
-    color: "amber"
-  },
-  tarde: {
-    gradient: "from-blue-500 via-blue-600 to-blue-700",
-    icon: <SunMedium size={16} />,
-    label: "Tarde",
-    color: "orange"
-  },
-  noche: {
-    gradient: "from-blue-800 via-blue-900 to-slate-900",
-    icon: <Moon size={16} />,
-    label: "Noche",
-    color: "purple"
-  },
-};
+const FORM_ID = "programar-orden";
 
 export default function ProgramarOrdenModal({ open, onClose, fecha, turno, catalogo, onSave }: Props) {
-
-  const [selectedDate, setSelectedDate] = useState(fecha);
   const [selectedTurno, setSelectedTurno] = useState<Turno>(turno);
   const [productoId, setProductoId] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [query, setQuery] = useState("");
   const [planificadoStr, setPlanificadoStr] = useState("");
   const [opCode, setOpCode] = useState("");
   const [numeroLote, setNumeroLote] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const cantidadRef = useRef<HTMLInputElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const producto = catalogo?.find(p => p.id === productoId);
-  const canSave = producto && Number(planificadoStr) > 0;
-
-  // Filter products based on search query
-  const filteredProducts = catalogo.filter(p =>
-    p.nombre.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const listId = useId();
 
   useEffect(() => {
-    if (open) {
-      setSelectedDate(fecha);
-      setSelectedTurno(turno);
-      setProductoId("");
-      setSearchQuery("");
-      setShowDropdown(false);
-      setPlanificadoStr("");
-      setOpCode("");
-      setNumeroLote("");
-    }
-  }, [open]);
+    if (!open) return;
+    setSelectedTurno(turno);
+    setProductoId("");
+    setQuery("");
+    setPlanificadoStr("");
+    setOpCode("");
+    setNumeroLote("");
+    setError(null);
+  }, [open, turno]);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setShowDropdown(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const producto = catalogo.find(p => p.id === productoId);
+  const fechaLarga = dayjs(fecha).locale("es").format("dddd D [de] MMMM YYYY");
 
-  useEffect(() => {
-    if (productoId && inputRef.current) {
-      inputRef.current.focus();
-      inputRef.current.select();
-    }
-  }, [productoId]);
+  const resultados = useMemo(() => {
+    const t = query.trim().toLowerCase();
+    return t ? catalogo.filter(p => p.nombre.toLowerCase().includes(t) || p.codigo?.toLowerCase().includes(t)) : catalogo;
+  }, [catalogo, query]);
 
-  if (!open) return null;
+  useEffect(() => setActiveIdx(0), [query]);
 
-  const guardar = () => {
-    if (!canSave) return;
+  const elegir = (p: ItemCatalogo) => {
+    setProductoId(p.id);
+    setQuery("");
+    setError(null);
+    // El siguiente dato obligatorio es la cantidad.
+    requestAnimationFrame(() => cantidadRef.current?.focus());
+  };
+
+  const onSearchKey = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowDown") { e.preventDefault(); setActiveIdx(i => Math.min(i + 1, resultados.length - 1)); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); setActiveIdx(i => Math.max(i - 1, 0)); }
+    else if (e.key === "Enter" && resultados[activeIdx]) { e.preventDefault(); elegir(resultados[activeIdx]); }
+  };
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!producto) return setError("Elige el producto a fabricar.");
+    const plan = Number(planificadoStr);
+    if (!plan || plan <= 0) return setError("Indica la cantidad planificada (mayor a 0).");
     onSave({
-      fecha: selectedDate,
+      fecha,
       turno: selectedTurno,
-      productoId: producto!.id,
-      productoNombre: producto!.nombre,
-      planificado: Number(planificadoStr),
+      productoId: producto.id,
+      productoNombre: producto.nombre,
+      planificado: plan,
       opCode: opCode.trim() || undefined,
       numeroLote: numeroLote.trim() || undefined,
     });
     onClose();
   };
 
-  const turnoConfig = TURNO_CONFIG[selectedTurno];
-
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50 p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden transform transition-all animate-in zoom-in-95 duration-200">
+    <Modal
+      open={open}
+      onClose={onClose}
+      size="lg"
+      icon={<CalendarPlus size={20} />}
+      title="Nueva orden de producción"
+      description={fechaLarga.charAt(0).toUpperCase() + fechaLarga.slice(1)}
+      footer={
+        <>
+          <button type="button" className="btn-secondary" onClick={onClose}>Cancelar</button>
+          <button type="submit" form={FORM_ID} className="btn-primary">Programar orden</button>
+        </>
+      }
+    >
+      <form id={FORM_ID} onSubmit={submit} className="space-y-6" noValidate>
+        {error && (
+          <div role="alert" className="form-error">
+            <AlertCircle size={16} className="mt-0.5 shrink-0" />
+            {error}
+          </div>
+        )}
 
-        {/* HEADER with gradient based on turno */}
-        <div className={`px-6 py-5 bg-gradient-to-r ${turnoConfig.gradient} text-white relative overflow-hidden`}>
-          <div className="absolute top-0 right-0 opacity-10">
-            <Sparkles size={120} />
+        <fieldset className="field">
+          <legend className="label mb-1.5">Turno</legend>
+          <div className="grid grid-cols-3 gap-2">
+            {TURNOS.map(({ value, label, Icon, on }) => (
+              <label
+                key={value}
+                className={`flex items-center justify-center gap-2 h-12 rounded-xl border-2 text-sm font-medium cursor-pointer transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary-400 ${
+                  selectedTurno === value ? on : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="turno"
+                  value={value}
+                  checked={selectedTurno === value}
+                  onChange={() => setSelectedTurno(value)}
+                  className="sr-only"
+                />
+                <Icon size={16} />
+                {label}
+              </label>
+            ))}
           </div>
-          <div className="relative flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                <Pill size={24} />
+        </fieldset>
+
+        <div className="field">
+          <label htmlFor="orden-producto" className="label">Producto</label>
+          {producto ? (
+            <div className="flex items-center gap-3 rounded-xl border border-primary-200 bg-primary-50 px-3 py-2.5">
+              <div className="w-9 h-9 rounded-lg bg-white text-primary-700 flex items-center justify-center shrink-0">
+                <Pill size={18} />
               </div>
-              <div>
-                <h2 className="text-xl font-bold">Nueva Orden de Producción</h2>
-                <div className="flex items-center gap-3 mt-1">
-                  <p className="text-sm opacity-90">Configure los detalles de la orden</p>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/20 rounded-lg text-xs font-semibold backdrop-blur-sm">
-                    <CalendarDays size={12} />
-                    {new Date(selectedDate).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}
-                  </span>
-                </div>
+              <div className="min-w-0 flex-1">
+                <p className="font-medium text-slate-900 truncate">{producto.nombre}</p>
+                <p className="text-xs text-slate-600 truncate">
+                  {[producto.vol, producto.envase].filter(Boolean).join(" · ") || "Sin volumen ni envase registrados"}
+                </p>
               </div>
+              <button
+                type="button"
+                className="row-action"
+                aria-label="Cambiar producto"
+                title="Cambiar producto"
+                onClick={() => { setProductoId(""); requestAnimationFrame(() => searchRef.current?.focus()); }}
+              >
+                <X size={16} />
+              </button>
             </div>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-white/20 rounded-xl transition-colors"
-              title="Cerrar"
-            >
-              <X size={24} />
-            </button>
-          </div>
+          ) : (
+            <div className="rounded-xl border border-slate-300 focus-within:border-primary-500 focus-within:ring-4 focus-within:ring-primary-300/40 overflow-hidden">
+              <div className="relative">
+                <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                <input
+                  id="orden-producto"
+                  ref={searchRef}
+                  data-autofocus
+                  role="combobox"
+                  aria-expanded="true"
+                  aria-controls={listId}
+                  aria-activedescendant={resultados[activeIdx] ? `${listId}-${activeIdx}` : undefined}
+                  autoComplete="off"
+                  value={query}
+                  onChange={e => setQuery(e.target.value)}
+                  onKeyDown={onSearchKey}
+                  placeholder={`Buscar entre ${catalogo.length} productos del área…`}
+                  className="w-full h-11 pl-10 pr-3 text-sm focus:outline-none"
+                />
+              </div>
+              <ul id={listId} role="listbox" aria-label="Productos" className="max-h-56 overflow-y-auto border-t border-slate-200">
+                {resultados.map((p, i) => (
+                  <li
+                    key={p.id}
+                    id={`${listId}-${i}`}
+                    role="option"
+                    aria-selected={i === activeIdx}
+                    onMouseDown={e => e.preventDefault()}
+                    onClick={() => elegir(p)}
+                    onMouseEnter={() => setActiveIdx(i)}
+                    className={`px-3 py-2.5 cursor-pointer border-b border-slate-100 last:border-b-0 ${i === activeIdx ? "bg-primary-50" : ""}`}
+                  >
+                    <p className="text-sm font-medium text-slate-900">{p.nombre}</p>
+                    {(p.vol || p.envase) && (
+                      <p className="text-xs text-slate-500">{[p.vol, p.envase].filter(Boolean).join(" · ")}</p>
+                    )}
+                  </li>
+                ))}
+                {resultados.length === 0 && (
+                  <li className="px-3 py-6 text-center text-sm text-slate-500">Ningún producto coincide con "{query}".</li>
+                )}
+              </ul>
+            </div>
+          )}
         </div>
 
-        {/* BODY */}
-        <div className="p-6 space-y-5">
-
-          {/* Turno Section */}
-          <div className="space-y-2">
-            <label className="flex items-center gap-2 font-semibold text-gray-700 text-sm">
-              <Clock size={16} className="text-blue-600" />
-              Seleccione el Turno
-            </label>
-            <div className="grid grid-cols-3 gap-3 mt-1">
-              {TURNOS.map(t => {
-                const config = TURNO_CONFIG[t];
-                const isSelected = selectedTurno === t;
-                return (
-                  <button
-                    key={t}
-                    onClick={() => setSelectedTurno(t)}
-                    className={`px-4 py-4 rounded-xl font-medium text-sm transition-all flex flex-col items-center gap-2 ${isSelected
-                      ? `bg-gradient-to-br ${config.gradient} text-white shadow-lg scale-105`
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200 border-2 border-gray-200"
-                      }`}
-                  >
-                    {config.icon}
-                    <span className="text-sm font-semibold">{config.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Producto Section */}
-          <div className="space-y-2" ref={dropdownRef}>
-            <label className="flex items-center gap-2 font-semibold text-gray-700 text-sm">
-              <Pill size={16} className="text-blue-600" />
-              Producto
-            </label>
-
-            {/* Searchable Input */}
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <input
-                ref={searchRef}
-                type="text"
-                value={producto ? producto.nombre : searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setProductoId("");
-                  setShowDropdown(true);
-                }}
-                onFocus={() => setShowDropdown(true)}
-                placeholder="Buscar producto..."
-                className="w-full border-2 border-gray-200 rounded-xl pl-11 pr-10 py-3 mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
-              />
-              <ChevronDown
-                className={`absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 transition-transform ${showDropdown ? 'rotate-180' : ''}`}
-                size={18}
-              />
-
-              {/* Dropdown List */}
-              {showDropdown && filteredProducts.length > 0 && (
-                <div className="absolute z-10 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl max-h-60 overflow-y-auto">
-                  {filteredProducts.map((p) => (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClick={() => {
-                        setProductoId(p.id);
-                        setSearchQuery(p.nombre);
-                        setShowDropdown(false);
-                      }}
-                      className="w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0 flex items-center gap-3 group"
-                    >
-                      <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
-                        <Pill size={16} className="text-blue-600" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-semibold text-gray-800 group-hover:text-blue-700">{p.nombre}</p>
-                        <div className="flex gap-2 mt-1">
-                          {p.vol && <span className="text-xs text-gray-500">Vol: {p.vol}</span>}
-                          {p.envase && <span className="text-xs text-gray-500">• Envase: {p.envase}</span>}
-                        </div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* No results message */}
-              {showDropdown && searchQuery && filteredProducts.length === 0 && (
-                <div className="absolute z-10 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl p-4 text-center">
-                  <p className="text-gray-500 text-sm">No se encontraron productos</p>
-                </div>
-              )}
-            </div>
-
-            {/* Product Info Card */}
-            {producto && (
-              <div className="bg-gradient-to-br from-blue-50 to-blue-50 border-2 border-blue-200 rounded-xl p-4 mt-3 animate-in slide-in-from-top-2 duration-300">
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-blue-500 rounded-lg text-white">
-                    <Pill size={20} />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-bold text-gray-800 mb-2">{producto.nombre}</h4>
-                    <div className="flex gap-2 flex-wrap">
-                      {producto.vol && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-blue-300 rounded-lg text-blue-700 text-xs font-semibold shadow-sm">
-                          <FlaskConical size={12} />
-                          Vol: {producto.vol}
-                        </span>
-                      )}
-                      {producto.envase && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-blue-300 rounded-lg text-blue-700 text-xs font-semibold shadow-sm">
-                          <PackageOpen size={12} />
-                          Envase: {producto.envase}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Registro de fabricación (opcional) */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-2">
-              <label className="flex items-center gap-2 font-semibold text-gray-700 text-sm">
-                <FileText size={16} className="text-blue-600" />
-                O.P. <span className="text-gray-400 font-normal text-xs">(opcional)</span>
-              </label>
-              <input
-                type="text"
-                value={opCode}
-                onChange={e => setOpCode(e.target.value)}
-                placeholder="Ej. 1005"
-                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="flex items-center gap-2 font-semibold text-gray-700 text-sm">
-                <Hash size={16} className="text-blue-600" />
-                Nº de Lote <span className="text-gray-400 font-normal text-xs">(opcional)</span>
-              </label>
-              <input
-                type="text"
-                value={numeroLote}
-                onChange={e => setNumeroLote(e.target.value)}
-                placeholder="Ej. 1020266"
-                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-              />
-            </div>
-          </div>
-
-          {/* Planificado Section */}
-          <div className="space-y-2">
-            <label className="flex items-center gap-2 font-semibold text-gray-700 text-sm">
-              <TrendingUp size={16} className="text-blue-600" />
-              Cantidad Planificada (unidades)
-            </label>
+        <div className="form-grid">
+          <div className="field sm:col-span-2">
+            <label htmlFor="orden-cantidad" className="label">Cantidad planificada</label>
             <div className="relative">
               <input
-                ref={inputRef}
-                type="text"
+                id="orden-cantidad"
+                ref={cantidadRef}
+                inputMode="numeric"
+                className="input pr-20 text-base font-semibold tabular-nums"
                 value={planificadoStr}
                 onChange={e => setPlanificadoStr(e.target.value.replace(/\D/g, ""))}
                 placeholder="Ej. 15000"
-                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-lg font-semibold"
               />
-              {planificadoStr && (
-                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600">
-                  <CheckCircle2 size={20} />
-                </div>
-              )}
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-500 pointer-events-none">unidades</span>
             </div>
             {planificadoStr && (
-              <p className="text-sm text-gray-600 mt-1 flex items-center gap-1">
-                <TrendingUp size={14} className="text-emerald-600" />
-                {Number(planificadoStr).toLocaleString()} unidades programadas
-              </p>
+              <p className="field-hint">{Number(planificadoStr).toLocaleString("es")} unidades</p>
             )}
           </div>
-        </div>
 
-        {/* FOOTER */}
-        <div className="px-6 py-4 border-t-2 bg-gradient-to-br from-gray-50 to-gray-100 flex justify-between items-center">
-          <p className="text-sm text-gray-600">
-            {canSave ? "Listo para guardar" : "Complete todos los campos"}
-          </p>
-          <div className="flex gap-3">
-            <button
-              onClick={onClose}
-              className="px-5 py-2.5 bg-white border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-medium transition-all hover:shadow-md">
-              Cancelar
-            </button>
-            <button
-              onClick={guardar}
-              disabled={!canSave}
-              className={`px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 ${canSave
-                ? `bg-gradient-to-r ${turnoConfig.gradient} text-white hover:shadow-lg hover:scale-105 active:scale-95`
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}>
-              <CheckCircle2 size={18} />
-              Guardar Orden
-            </button>
+          <div className="field">
+            <label htmlFor="orden-op" className="label">O.P. <span className="label-optional">(opcional)</span></label>
+            <input id="orden-op" className="input" value={opCode} onChange={e => setOpCode(e.target.value)} placeholder="Ej. 1005" />
+          </div>
+
+          <div className="field">
+            <label htmlFor="orden-lote" className="label">Nº de lote <span className="label-optional">(opcional)</span></label>
+            <input id="orden-lote" className="input" value={numeroLote} onChange={e => setNumeroLote(e.target.value)} placeholder="Ej. 1020266" />
           </div>
         </div>
-      </div>
-    </div>
+      </form>
+    </Modal>
   );
 }

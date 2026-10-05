@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Layers, Plus, Pencil, Trash2, Save, X, Power } from "lucide-react";
+import { Layers, Plus, Pencil, Trash2, Power, AlertCircle, Loader2, Check } from "lucide-react";
+import Modal from "@/components/ui/Modal";
 import * as areasApi from "@/services/api/areas.api";
 import type { Area } from "@/services/api/areas.api";
 
@@ -21,6 +22,8 @@ const AreasPage: React.FC = () => {
     const [editingId, setEditingId] = useState<string | null>(null);
     const [form, setForm] = useState({ code: "", name: "", colorHex: COLORS[0].hex });
     const [isNew, setIsNew] = useState(false);
+    const [saving, setSaving] = useState(false);
+    const [formError, setFormError] = useState<string | null>(null);
 
     async function refresh() {
         setLoading(true);
@@ -53,9 +56,17 @@ const AreasPage: React.FC = () => {
     const cancelEdit = () => {
         setEditingId(null);
         setIsNew(false);
+        setFormError(null);
     };
 
-    async function handleSave() {
+    async function handleSave(e?: React.FormEvent) {
+        e?.preventDefault();
+        if (!form.name.trim()) {
+            setFormError("El nombre del área es obligatorio.");
+            return;
+        }
+        setFormError(null);
+        setSaving(true);
         if (!form.name.trim()) return;
         try {
             if (isNew) {
@@ -69,7 +80,9 @@ const AreasPage: React.FC = () => {
             cancelEdit();
             await refresh();
         } catch (err) {
-            alert(err instanceof Error ? err.message : "No se pudo guardar el área");
+            setFormError(err instanceof Error ? err.message : "No se pudo guardar el área");
+        } finally {
+            setSaving(false);
         }
     }
 
@@ -109,51 +122,81 @@ const AreasPage: React.FC = () => {
                 <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3">{error}</div>
             )}
 
-            {/* New Area Form */}
-            {isNew && (
-                <div className="card p-6">
-                    <h3 className="font-semibold mb-4">Nueva Área</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label className="label">Nombre del Área</label>
+            <Modal
+                open={isNew || editingId !== null}
+                onClose={cancelEdit}
+                busy={saving}
+                icon={isNew ? <Plus size={20} /> : <Pencil size={20} />}
+                title={isNew ? "Nueva área" : "Editar área"}
+                description={isNew ? "Las áreas agrupan productos, personal y el cronograma." : form.name}
+                footer={
+                    <>
+                        <button type="button" className="btn-secondary" onClick={cancelEdit} disabled={saving}>Cancelar</button>
+                        <button type="submit" form="area-form" className="btn-primary" disabled={saving}>
+                            {saving && <Loader2 size={16} className="animate-spin" />}
+                            {isNew ? "Crear área" : "Guardar cambios"}
+                        </button>
+                    </>
+                }
+            >
+                <form id="area-form" onSubmit={handleSave} className="space-y-6" noValidate>
+                    {formError && (
+                        <div role="alert" className="form-error">
+                            <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                            {formError}
+                        </div>
+                    )}
+                    <div className="form-grid">
+                        <div className={`field ${isNew ? "" : "sm:col-span-2"}`}>
+                            <label htmlFor="area-nombre" className="label">Nombre del área</label>
                             <input
+                                id="area-nombre"
                                 className="input"
                                 value={form.name}
                                 onChange={e => setForm({ ...form, name: e.target.value })}
-                                placeholder="Ej: Área de Envasado"
+                                placeholder="Ej. Área de Envasado"
                             />
                         </div>
-                        <div>
-                            <label className="label">Código (opcional, se genera del nombre)</label>
-                            <input
-                                className="input"
-                                value={form.code}
-                                onChange={e => setForm({ ...form, code: e.target.value })}
-                                placeholder="Ej: ENVASADO"
-                            />
-                        </div>
-                        <div className="md:col-span-2">
-                            <label className="label">Color</label>
-                            <div className="flex flex-wrap gap-2">
-                                {COLORS.map(c => (
+                        {isNew && (
+                            <div className="field">
+                                <label htmlFor="area-codigo" className="label">Código <span className="label-optional">(opcional)</span></label>
+                                <input
+                                    id="area-codigo"
+                                    className="input font-mono"
+                                    value={form.code}
+                                    onChange={e => setForm({ ...form, code: e.target.value })}
+                                    placeholder="Se genera del nombre"
+                                />
+                                <p className="field-hint">
+                                    Quedará como <span className="font-mono text-slate-700">{(form.code.trim() ? form.code.trim().toUpperCase().replace(/\s+/g, "_").replace(/[^A-Z0-9_]/g, "") : form.name.toUpperCase().replace(/\s+/g, "_").replace(/[^A-Z0-9_]/g, "")) || "—"}</span>. No se puede cambiar después.
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                    <fieldset className="field">
+                        <legend className="label mb-1.5">Color</legend>
+                        <div className="flex flex-wrap gap-2">
+                            {COLORS.map(c => {
+                                const selected = form.colorHex === c.hex;
+                                return (
                                     <button
                                         key={c.hex}
                                         type="button"
+                                        aria-label={c.label}
+                                        aria-pressed={selected}
                                         title={c.label}
                                         onClick={() => setForm({ ...form, colorHex: c.hex })}
                                         style={{ backgroundColor: c.hex }}
-                                        className={`w-8 h-8 rounded-lg border-2 border-white ${form.colorHex === c.hex ? 'ring-2 ring-primary-500 ring-offset-2' : ''}`}
-                                    />
-                                ))}
-                            </div>
+                                        className={`w-10 h-10 rounded-xl flex items-center justify-center text-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 ${selected ? "ring-2 ring-offset-2 ring-slate-900" : "hover:scale-105"}`}
+                                    >
+                                        {selected && <Check size={18} />}
+                                    </button>
+                                );
+                            })}
                         </div>
-                    </div>
-                    <div className="flex justify-end gap-2 mt-4">
-                        <button className="btn-secondary" onClick={cancelEdit}><X size={16} /> Cancelar</button>
-                        <button className="btn-primary" onClick={handleSave}><Save size={16} /> Guardar</button>
-                    </div>
-                </div>
-            )}
+                    </fieldset>
+                </form>
+            </Modal>
 
             {/* Areas List */}
             <div className="table-shell">
@@ -178,22 +221,13 @@ const AreasPage: React.FC = () => {
                             {!loading && areas.map(area => (
                                 <tr key={area.id}>
                                     <td className="min-w-[14rem]">
-                                        {editingId === area.id ? (
-                                            <input
-                                                className="input py-1.5"
-                                                aria-label="Nombre del área"
-                                                value={form.name}
-                                                onChange={e => setForm({ ...form, name: e.target.value })}
+                                        <div className="flex items-center gap-3">
+                                            <span
+                                                className="w-3 h-3 rounded-full shrink-0"
+                                                style={{ backgroundColor: area.colorHex ?? "#94a3b8" }}
                                             />
-                                        ) : (
-                                            <div className="flex items-center gap-3">
-                                                <span
-                                                    className="w-3 h-3 rounded-full shrink-0"
-                                                    style={{ backgroundColor: area.colorHex ?? "#94a3b8" }}
-                                                />
-                                                <span className="font-medium text-slate-900">{area.name}</span>
-                                            </div>
-                                        )}
+                                            <span className="font-medium text-slate-900">{area.name}</span>
+                                        </div>
                                     </td>
                                     <td className="font-mono text-xs text-slate-500 whitespace-nowrap">{area.code}</td>
                                     <td>
@@ -203,12 +237,6 @@ const AreasPage: React.FC = () => {
                                     </td>
                                     <td>
                                         <div className="flex justify-end gap-1">
-                                            {editingId === area.id ? (
-                                                <>
-                                                    <button className="row-action text-emerald-700" onClick={handleSave} aria-label={`Guardar ${area.name}`} title="Guardar"><Save size={16} /></button>
-                                                    <button className="row-action" onClick={cancelEdit} aria-label="Cancelar edición" title="Cancelar"><X size={16} /></button>
-                                                </>
-                                            ) : (
                                                 <>
                                                     <button className="row-action" onClick={() => startEdit(area)} aria-label={`Editar ${area.name}`} title="Editar"><Pencil size={16} /></button>
                                                     <button
@@ -221,7 +249,6 @@ const AreasPage: React.FC = () => {
                                                     </button>
                                                     <button className="row-action row-action-danger" onClick={() => deactivateArea(area)} aria-label={`Eliminar ${area.name}`} title="Eliminar"><Trash2 size={16} /></button>
                                                 </>
-                                            )}
                                         </div>
                                     </td>
                                 </tr>

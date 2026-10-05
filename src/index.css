@@ -232,6 +232,40 @@
     @apply bg-accent-100 text-accent-700;
   }
 
+  /* ── Formularios (dentro de Modal) ────────────────────────────────── */
+  .form-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-5;
+  }
+
+  .field {
+    @apply flex flex-col gap-1.5 min-w-0;
+  }
+
+  .field > .label {
+    @apply mb-0;
+  }
+
+  .field-hint {
+    @apply text-xs text-slate-500;
+  }
+
+  .label-optional {
+    @apply font-normal text-slate-400;
+  }
+
+  .form-error {
+    @apply flex items-start gap-2 text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2.5;
+  }
+
+  /* Opción tipo "chip" (checkbox o radio) con el input real adentro. */
+  .choice {
+    @apply inline-flex items-center gap-2 min-h-10 px-3 rounded-xl border border-slate-300 bg-white text-sm text-slate-700 cursor-pointer transition-colors hover:bg-slate-50 has-[:checked]:bg-primary-50 has-[:checked]:border-primary-400 has-[:checked]:text-primary-800 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary-400;
+  }
+
+  .choice input {
+    @apply accent-primary-600 w-4 h-4;
+  }
+
   /* ── Tablas de datos ───────────────────────────────────────────────
      Un solo estilo para todas las tablas (Productos, Personal, Usuarios,
      Áreas, Capacitación): contenedor, barra de búsqueda/filtros, encabezado
