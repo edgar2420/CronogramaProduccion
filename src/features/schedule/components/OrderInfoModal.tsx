@@ -211,17 +211,17 @@ export default function OrderInfoModal({ open, order, catalogo = [], canEdit = f
 
             <div className="grid grid-cols-3 gap-4 mb-4">
               <div className="bg-white rounded-lg p-4 text-center shadow-sm">
-                <p className="text-[10px] uppercase tracking-wider text-gray-500 font-bold mb-1">Planificado</p>
+                <p className="text-xs uppercase tracking-wider text-gray-500 font-bold mb-1">Planificado</p>
                 <p className="text-2xl font-black text-gray-900">{order.planificado.toLocaleString()}</p>
               </div>
               <div className="bg-white rounded-lg p-4 text-center shadow-sm">
-                <p className="text-[10px] uppercase tracking-wider text-gray-500 font-bold mb-1">Real</p>
+                <p className="text-xs uppercase tracking-wider text-gray-500 font-bold mb-1">Real</p>
                 <p className={`text-2xl font-black ${order.real ? 'text-emerald-600' : 'text-gray-400'}`}>
                   {order.real?.toLocaleString() ?? "—"}
                 </p>
               </div>
               <div className="bg-white rounded-lg p-4 text-center shadow-sm">
-                <p className="text-[10px] uppercase tracking-wider text-gray-500 font-bold mb-1">Diferencia</p>
+                <p className="text-xs uppercase tracking-wider text-gray-500 font-bold mb-1">Diferencia</p>
                 <p className={`text-2xl font-black ${order.real
                   ? order.real >= order.planificado ? 'text-emerald-600' : 'text-rose-500'
                   : 'text-gray-400'
@@ -514,7 +514,7 @@ function InfoCard({ icon, label, value, color }: { icon: React.ReactNode; label:
     <div className={`p-4 rounded-xl ${colorClasses}`}>
       <div className="flex items-center gap-2 mb-1">
         {icon}
-        <span className="text-[10px] uppercase tracking-wider font-bold opacity-80">{label}</span>
+        <span className="text-xs uppercase tracking-wider font-bold opacity-80">{label}</span>
       </div>
       <p className="font-bold text-gray-900 text-sm">{value}</p>
     </div>

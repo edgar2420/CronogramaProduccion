@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import type { Orden, Turno } from "@/features/schedule/types";
+import React, { useEffect, useRef, useState } from "react";
+import type { Orden, Turno, EstadoOrden } from "@/features/schedule/types";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 dayjs.locale("es");
@@ -18,18 +18,29 @@ import {
   type DragStartEvent,
 } from "@dnd-kit/core";
 
-import { Plus, Trash2, Users, Info, ClipboardCheck, Pill, Sun, SunMedium, Moon, FileEdit, CheckCircle2, PlayCircle, XCircle, GripVertical } from "lucide-react";
+import { Plus, Trash2, Users, ClipboardCheck, Sun, SunMedium, Moon, GripVertical, CalendarX2 } from "lucide-react";
 
-const TURN_CONFIG = {
-  mañana: { bg: "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)", badge: "#F59E0B", text: "#78350F", icon: <Sun size={14} /> },
-  tarde: { bg: "linear-gradient(135deg, #FED7AA 0%, #FDBA74 100%)", badge: "#EA580C", text: "#7C2D12", icon: <SunMedium size={14} /> },
-  noche: { bg: "linear-gradient(135deg, #E9D5FF 0%, #D8B4FE 100%)", badge: "#9333EA", text: "#581C87", icon: <Moon size={14} /> }
+// Cada turno se reconoce por un color propio (borde de la tarjeta + etiqueta)
+// y siempre también por su nombre: el color nunca es la única señal.
+const TURN_CONFIG: Record<Turno, { border: string; chip: string; label: string; Icon: typeof Sun }> = {
+  mañana: { border: "border-l-amber-400", chip: "bg-amber-50 text-amber-800 ring-amber-200", label: "Mañana", Icon: Sun },
+  tarde: { border: "border-l-orange-500", chip: "bg-orange-50 text-orange-800 ring-orange-200", label: "Tarde", Icon: SunMedium },
+  noche: { border: "border-l-purple-500", chip: "bg-purple-50 text-purple-800 ring-purple-200", label: "Noche", Icon: Moon },
+};
+
+const ESTADO_CONFIG: Record<EstadoOrden, { chip: string; label: string }> = {
+  borrador: { chip: "bg-slate-100 text-slate-700 ring-slate-200", label: "Borrador" },
+  en_proceso: { chip: "bg-blue-50 text-blue-800 ring-blue-200", label: "En proceso" },
+  terminada: { chip: "bg-green-50 text-green-800 ring-green-200", label: "Terminada" },
+  cancelada: { chip: "bg-rose-50 text-rose-800 ring-rose-200", label: "Cancelada" },
 };
 
 const TURNOS: Turno[] = ["mañana", "tarde", "noche"];
 
+const fmtNum = (n: number) => n.toLocaleString("es", { maximumFractionDigits: 2 });
+
 // Un lote terminado o cancelado ya es historia de la planta: no se reprograma
-// arrastrándolo. Se sigue pudiendo abrir con "Info".
+// arrastrándolo. Se sigue pudiendo abrir para ver su detalle.
 function isMovable(o: Orden) {
   return o.estado !== "terminada" && o.estado !== "cancelada";
 }
@@ -64,6 +75,8 @@ export default function OrdersBoard({
 }: Props) {
   const dragEnabled = canEdit && canMove;
   const [dragging, setDragging] = useState<Orden | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const todayKey = dayjs().format("YYYY-MM-DD");
 
   // La distancia mínima deja que un click en los botones de la tarjeta siga
   // siendo un click; en táctil, mantener presionado inicia el arrastre para
@@ -72,6 +85,16 @@ export default function OrdersBoard({
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 6 } })
   );
+
+  // En pantallas angostas (tablet) el tablero se desplaza de lado: al abrir
+  // una semana que incluye hoy, arranca mostrando el día de hoy.
+  const weekKey = days[0]?.toISOString();
+  useEffect(() => {
+    const container = scrollRef.current;
+    const today = container?.querySelector<HTMLElement>("[data-today='true']");
+    if (!container || !today) return;
+    container.scrollLeft = today.offsetLeft - container.offsetLeft;
+  }, [weekKey]);
 
   const handlers: CardHandlers = { onInfo, onRegister, onAssign, onDelete };
 
@@ -98,48 +121,52 @@ export default function OrdersBoard({
       // layout: hay que volver a medir las zonas, no usar las del inicio.
       measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
     >
-      <div className="overflow-x-auto bg-gradient-to-br from-slate-50 to-blue-50 p-8">
-        {dragEnabled && (
-          <p className="text-xs text-gray-500 mb-4 flex items-center gap-1.5">
-            <GripVertical size={14} />
-            Arrastra una orden a otro día o turno para reprogramarla.
-          </p>
-        )}
+      {dragEnabled && (
+        <p className="text-xs text-slate-500 mb-3 flex items-center gap-1.5">
+          <GripVertical size={14} />
+          Arrastra una orden a otro día o turno para reprogramarla.
+        </p>
+      )}
 
-        <div className="grid min-w-[1400px] grid-cols-7 gap-4 text-center mb-8">
-          {days.map(d => (
-            <div key={d.toISOString()} className="bg-white rounded-xl shadow-sm p-4 border border-blue-100">
-              <p className="uppercase tracking-wider text-gray-500 text-[10px] font-bold mb-1">
-                {dayjs(d).format("dddd")}
-              </p>
-              <p className="text-2xl font-black text-blue-900">
-                {dayjs(d).format("DD")}
-              </p>
-              <p className="text-xs text-gray-500 font-medium">
-                {dayjs(d).format("MMM")}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <div className="grid min-w-[1400px] grid-cols-7 gap-4">
+      <div ref={scrollRef} className="overflow-x-auto snap-x snap-mandatory -mx-2 px-2 pb-2">
+        <div className="grid grid-flow-col auto-cols-[minmax(140px,1fr)] gap-3">
           {days.map(d => {
             const fecha = d.toISOString().slice(0, 10);
             const ordenes = getOrders(fecha);
+            const isToday = fecha === todayKey;
 
             return (
-              <div key={fecha} className="flex flex-col gap-3">
-                {canEdit && (
-                  <button
-                    onClick={() => onAdd(fecha)}
-                    className="h-[80px] flex items-center justify-center gap-3 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl hover:from-primary-600 hover:to-primary-800 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 text-white font-bold shadow-lg group"
-                  >
-                    <div className="bg-white/20 p-2 rounded-full group-hover:bg-white/30 transition-all">
-                      <Plus size={18} />
-                    </div>
-                    <span className="text-sm font-semibold">Nueva Orden</span>
-                  </button>
-                )}
+              <section
+                key={fecha}
+                data-today={isToday}
+                aria-label={dayjs(d).format("dddd D [de] MMMM")}
+                className={`snap-start flex flex-col gap-3 rounded-2xl p-2 ${isToday ? "bg-primary-50 ring-2 ring-primary-300" : "bg-slate-50"}`}
+              >
+                <header className="flex items-center justify-between gap-2 bg-white rounded-xl px-3 py-2 shadow-sm border border-slate-200">
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      {dayjs(d).format("ddd")}
+                    </p>
+                    <p className="text-slate-900">
+                      <span className="text-2xl font-bold">{dayjs(d).format("D")}</span>{" "}
+                      <span className="text-sm text-slate-500">{dayjs(d).format("MMM")}</span>
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      {isToday && <span className="font-semibold text-primary-700">Hoy · </span>}
+                      {ordenes.length === 0 ? "Sin órdenes" : `${ordenes.length} ${ordenes.length === 1 ? "orden" : "órdenes"}`}
+                    </p>
+                  </div>
+                  {canEdit && (
+                    <button
+                      onClick={() => onAdd(fecha)}
+                      className="shrink-0 w-11 h-11 rounded-xl bg-primary-600 text-white flex items-center justify-center shadow-sm hover:bg-primary-700 active:bg-primary-800 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-300 transition-colors"
+                      aria-label={`Nueva orden el ${dayjs(d).format("dddd D [de] MMMM")}`}
+                      title="Nueva orden"
+                    >
+                      <Plus size={20} />
+                    </button>
+                  )}
+                </header>
 
                 {TURNOS.map(turno => (
                   <TurnLane
@@ -155,12 +182,12 @@ export default function OrdersBoard({
                 ))}
 
                 {ordenes.length === 0 && !dragging && (
-                  <div className="h-[280px] rounded-2xl border-2 border-dashed border-gray-200 bg-white/50 flex flex-col items-center justify-center text-gray-400">
-                    <Pill size={32} className="mb-2 opacity-30" />
-                    <span className="text-xs font-medium">Sin órdenes</span>
+                  <div className="h-20 rounded-xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-slate-400">
+                    <CalendarX2 size={20} className="mb-1" />
+                    <span className="text-xs">Sin órdenes</span>
                   </div>
                 )}
-              </div>
+              </section>
             )
           })}
         </div>
@@ -168,7 +195,7 @@ export default function OrdersBoard({
 
       <DragOverlay dropAnimation={null}>
         {dragging && (
-          <div className="rotate-2 scale-105 shadow-2xl rounded-2xl cursor-grabbing">
+          <div className="rotate-2 shadow-2xl rounded-xl cursor-grabbing">
             <OrderCard orden={dragging} canEdit={canEdit} {...handlers} />
           </div>
         )}
@@ -188,7 +215,7 @@ function TurnLane({ fecha, turno, ordenes, canEdit, dragEnabled, draggingId, han
   handlers: CardHandlers;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: laneId(fecha, turno), disabled: !dragEnabled });
-  const c = TURN_CONFIG[turno];
+  const { Icon, label } = TURN_CONFIG[turno];
   const isDragging = draggingId !== null;
 
   // Fuera de un arrastre, un carril vacío no ocupa espacio.
@@ -197,15 +224,12 @@ function TurnLane({ fecha, turno, ordenes, canEdit, dragEnabled, draggingId, han
   return (
     <div
       ref={setNodeRef}
-      className={`flex flex-col gap-3 rounded-2xl transition-colors duration-150 ${isDragging ? "p-1.5 -m-1.5" : ""} ${isOver ? "bg-blue-100/80 ring-2 ring-blue-400" : isDragging ? "bg-white/40" : ""}`}
+      className={`flex flex-col gap-2 rounded-xl transition-colors duration-150 ${isDragging ? "p-1.5 -m-1.5" : ""} ${isOver ? "bg-primary-100 ring-2 ring-primary-400" : isDragging ? "bg-white/60" : ""}`}
     >
       {isDragging && (
-        <div
-          className="flex items-center gap-1.5 px-2 text-[10px] font-bold uppercase tracking-wide"
-          style={{ color: c.badge }}
-        >
-          {React.cloneElement(c.icon, { size: 11 })}
-          {turno}
+        <div className="flex items-center gap-1.5 px-1 text-xs font-semibold text-slate-600">
+          <Icon size={12} />
+          {label}
         </div>
       )}
 
@@ -221,7 +245,7 @@ function TurnLane({ fecha, turno, ordenes, canEdit, dragEnabled, draggingId, han
       ))}
 
       {ordenes.length === 0 && (
-        <div className={`h-16 rounded-xl border-2 border-dashed flex items-center justify-center text-[11px] font-medium ${isOver ? "border-blue-400 text-blue-600" : "border-gray-300 text-gray-400"}`}>
+        <div className={`h-14 rounded-lg border-2 border-dashed flex items-center justify-center text-xs font-medium ${isOver ? "border-primary-400 text-primary-700" : "border-slate-300 text-slate-400"}`}>
           Soltar aquí
         </div>
       )}
@@ -248,8 +272,7 @@ function DraggableCard({ orden, canEdit, disabled, ghost, handlers }: {
       ref={setNodeRef}
       {...attributes}
       {...listeners}
-      className={`${disabled ? "" : "cursor-grab"} ${ghost ? "opacity-30" : ""}`}
-      title={disabled ? undefined : "Arrastra para mover a otro día o turno"}
+      className={`rounded-xl ${disabled ? "" : "cursor-grab"} ${ghost ? "opacity-30" : ""}`}
     >
       <OrderCard orden={orden} canEdit={canEdit} {...handlers} />
     </div>
@@ -258,120 +281,86 @@ function DraggableCard({ orden, canEdit, disabled, ghost, handlers }: {
 
 
 function OrderCard({ orden: o, canEdit, onInfo, onRegister, onAssign, onDelete }: CardHandlers & { orden: Orden, canEdit: boolean }) {
-  const c = TURN_CONFIG[o.turno];
+  const turno = TURN_CONFIG[o.turno];
+  const estado = ESTADO_CONFIG[o.estado] ?? ESTADO_CONFIG.borrador;
+  const cancelada = o.estado === "cancelada";
   const progreso = o.real ? Math.min((o.real / o.planificado) * 100, 100) : 0;
 
-  // Estado badges
-  const estadoConfig = {
-    borrador: { bg: 'bg-amber-500', icon: <FileEdit size={9} />, label: 'BORRADOR' },
-    en_proceso: { bg: 'bg-blue-500', icon: <PlayCircle size={9} />, label: 'EN PROCESO' },
-    terminada: { bg: 'bg-green-600', icon: <CheckCircle2 size={9} />, label: 'TERMINADA' },
-    cancelada: { bg: 'bg-rose-600', icon: <XCircle size={9} />, label: 'CANCELADA' },
-  };
-  const estadoCfg = estadoConfig[o.estado] ?? estadoConfig.borrador;
-
-  const cancelada = o.estado === "cancelada";
+  const acciones = [
+    !cancelada && { key: "reg", label: "Registrar", Icon: ClipboardCheck, onClick: () => onRegister(o), className: "text-emerald-700 hover:bg-emerald-50" },
+    canEdit && { key: "asig", label: "Asignar", Icon: Users, onClick: () => onAssign(o), className: "text-primary-700 hover:bg-primary-50" },
+    canEdit && { key: "del", label: "Eliminar", Icon: Trash2, onClick: () => onDelete(o), className: "text-rose-700 hover:bg-rose-50" },
+  ].filter(Boolean) as { key: string; label: string; Icon: typeof Users; onClick: () => void; className: string }[];
 
   return (
-    <div
-      style={{ background: c.bg }}
-      className={`h-[280px] rounded-2xl p-4 shadow-md border border-white/50 hover:shadow-xl transition-all duration-300 flex flex-col backdrop-blur-sm relative group ${cancelada ? "opacity-70 grayscale-[35%]" : ""}`}
-    >
+    <article className={`@container bg-white rounded-xl border border-slate-200 border-l-4 ${turno.border} shadow-sm hover:shadow-md transition-shadow ${cancelada ? "opacity-75" : ""}`}>
+      <div className="p-3 space-y-2">
+        {/* El nombre abre el detalle: es el área de click más grande de la tarjeta. */}
+        <button
+          type="button"
+          onClick={() => onInfo(o)}
+          className={`block w-full text-left text-sm font-semibold leading-snug text-slate-900 line-clamp-2 break-words hyphens-auto rounded hover:text-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 ${cancelada ? "line-through decoration-slate-400" : ""}`}
+          title={`${o.productoNombre} — ver detalle`}
+        >
+          {o.productoNombre}
+        </button>
 
-      <div className="flex items-start justify-between mb-3 gap-2">
-
-        <div className="relative flex-shrink-0">
-          <div className="bg-white/80 p-2 rounded-lg shadow-sm cursor-help">
-            <Pill size={18} />
-          </div>
-
-          {/* Tooltip con nombre del producto al pasar el mouse */}
-          <div className="absolute left-0 top-full mt-2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm font-medium shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20 whitespace-nowrap pointer-events-none">
-            {o.productoNombre}
-            <div className="absolute -top-1 left-4 w-2 h-2 bg-gray-900 transform rotate-45"></div>
-          </div>
+        <div className="flex flex-wrap gap-1.5">
+          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ring-1 ring-inset ${turno.chip}`}>
+            <turno.Icon size={12} />
+            {turno.label}
+          </span>
+          <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium ring-1 ring-inset ${estado.chip}`}>
+            {estado.label}
+          </span>
         </div>
 
-        {/* Nombre del producto siempre visible (truncado) */}
-        <div className="flex-1 min-w-0 mx-2">
-          <p className="text-xs font-bold truncate" style={{ color: c.text }} title={o.productoNombre}>
-            {o.productoNombre}
+        {(o.numeroLote || o.opCode) && (
+          <p className="text-xs text-slate-500 truncate" title={[o.numeroLote && `Lote ${o.numeroLote}`, o.opCode && `O.P. ${o.opCode}`].filter(Boolean).join(" · ")}>
+            {o.numeroLote && <>Lote <span className="font-medium text-slate-700">{o.numeroLote}</span></>}
+            {o.numeroLote && o.opCode && " · "}
+            {o.opCode && <>O.P. <span className="font-medium text-slate-700">{o.opCode}</span></>}
           </p>
-        </div>
-
-
-        <div className="flex flex-col gap-1.5 items-end flex-shrink-0">
-
-          <span
-            className={`flex items-center gap-1 px-2 py-0.5 rounded-md text-[8px] font-bold shadow-sm border border-white/30 ${estadoCfg.bg} text-white`}
-          >
-            {estadoCfg.icon}
-            <span>{estadoCfg.label}</span>
-          </span>
-
-          <span
-            className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[8px] font-bold shadow-sm border border-white/30"
-            style={{ background: c.badge, color: 'white' }}
-          >
-            {React.cloneElement(c.icon, { size: 10 })}
-            <span>{o.turno.toUpperCase()}</span>
-          </span>
-        </div>
-      </div>
-
-      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-3 mb-3 shadow-sm border border-white/50">
-        <div className="grid grid-cols-2 gap-2.5 text-xs mb-2">
-          <div>
-            <p className="text-gray-500 font-medium text-[9px] uppercase tracking-wide mb-0.5">Planificado</p>
-            <p className="text-lg font-black text-gray-900">{o.planificado}</p>
-          </div>
-          <div>
-            <p className="text-gray-500 font-medium text-[9px] uppercase tracking-wide mb-0.5">Real</p>
-            <p className="text-lg font-black text-gray-900">{o.real ?? "-"}</p>
-          </div>
-        </div>
-
-        <div>
-          <div className="flex justify-between items-center mb-1.5">
-            <span className="text-[10px] font-bold text-gray-600">Progreso</span>
-            <span className="text-xs font-black text-gray-900">{progreso.toFixed(0)}%</span>
-          </div>
-          <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden shadow-inner">
-            <div
-              className="h-full bg-gradient-to-r from-emerald-400 to-emerald-600 transition-all duration-500 shadow-sm"
-              style={{ width: `${progreso}%` }}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-2 mt-auto">
-        <ActionBtn icon={<Info size={12} />} color="slate" onClick={() => onInfo(o)} label="Info" />
-        {!cancelada && (
-          <ActionBtn icon={<ClipboardCheck size={12} />} color="emerald" onClick={() => onRegister(o)} label="Registrar" />
         )}
-        {canEdit && <ActionBtn icon={<Users size={12} />} color="blue" onClick={() => onAssign(o)} label="Asignar" />}
-        {canEdit && <ActionBtn icon={<Trash2 size={12} />} color="rose" onClick={() => onDelete(o)} label="Eliminar" />}
+
+        <div className="flex items-baseline justify-between gap-2 text-xs text-slate-500">
+          <span>Plan <span className="text-sm font-semibold text-slate-900 tabular-nums">{fmtNum(o.planificado)}</span></span>
+          <span>Real <span className="text-sm font-semibold text-slate-900 tabular-nums">{o.real != null ? fmtNum(o.real) : "—"}</span></span>
+        </div>
+
+        {o.real != null && (
+          <div
+            className="h-1.5 bg-slate-100 rounded-full overflow-hidden"
+            role="progressbar"
+            aria-valuenow={Math.round(progreso)}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-label="Cumplimiento"
+          >
+            <div className="h-full bg-emerald-500" style={{ width: `${progreso}%` }} />
+          </div>
+        )}
       </div>
 
-    </div>
-  );
-}
-
-
-function ActionBtn({ icon, color, onClick, label }: { icon: any, color: string, onClick: () => void, label: string }) {
-
-  const styles = {
-    blue: "bg-blue-500 hover:bg-blue-600 text-white shadow-blue-200",
-    rose: "bg-rose-500 hover:bg-rose-600 text-white shadow-rose-200",
-    emerald: "bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-200",
-    slate: "bg-slate-600 hover:bg-slate-700 text-white shadow-slate-200"
-  }[color];
-
-  return (
-    <button onClick={onClick}
-      className={`flex items-center justify-center gap-1.5 px-2 py-2 rounded-xl transition-all font-bold text-[10px] shadow-md hover:shadow-lg hover:scale-105 active:scale-95 ${styles}`}>
-      {icon} <span className="truncate">{label}</span>
-    </button>
+      {acciones.length > 0 && (
+        <div className="grid border-t border-slate-100" style={{ gridTemplateColumns: `repeat(${acciones.length}, minmax(0, 1fr))` }}>
+          {acciones.map(({ key, label, Icon, onClick, className }, i) => (
+            <button
+              key={key}
+              type="button"
+              onClick={onClick}
+              className={`min-h-11 flex flex-col items-center justify-center gap-0.5 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-400 ${i > 0 ? "border-l border-slate-100" : ""} ${i === 0 ? "rounded-bl-xl" : ""} ${i === acciones.length - 1 ? "rounded-br-xl" : ""} ${className}`}
+              aria-label={`${label} — ${o.productoNombre}`}
+              title={label}
+            >
+              <Icon size={15} />
+              {/* En columnas angostas (laptop con la semana completa) queda solo el
+                  ícono; el nombre sigue en aria-label y en el title. */}
+              <span className="hidden @[11rem]:block">{label}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </article>
   );
 }

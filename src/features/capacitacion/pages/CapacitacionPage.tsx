@@ -58,7 +58,7 @@ const NivelBadge: React.FC<{ nivel: Nivel; onClick?: (e?: React.MouseEvent) => v
     return (
         <button
             onClick={onClick}
-            className={`flex items-center justify-center gap-1 px-2 py-1 rounded-lg border text-[10px] font-semibold transition-all hover:scale-105 whitespace-nowrap ${c.bg}`}
+            className={`flex items-center justify-center gap-1 px-2 py-1 rounded-lg border text-xs font-semibold transition-all hover:scale-105 whitespace-nowrap ${c.bg}`}
             title={`Click para cambiar nivel - Actual: ${c.label}`}
         >
             {c.icon}
@@ -92,7 +92,7 @@ const NivelSelector: React.FC<{
                     <button
                         key={idx}
                         onClick={() => onSelect(n.value)}
-                        className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-semibold transition-all ${isActive
+                        className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold transition-all ${isActive
                             ? `${n.colors} ring-2 ring-offset-1 ring-gray-400 scale-105`
                             : `${n.colors} opacity-50 hover:opacity-100`
                             }`}

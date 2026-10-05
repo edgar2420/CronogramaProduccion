@@ -11,6 +11,9 @@ import OrderInfoModal from "@/features/schedule/components/OrderInfoModal";
 import ProgramarOrdenModal from "@/features/schedule/components/ProgramarOrdenModal";
 import StatsCard from "@/features/schedule/components/StatsCard";
 import FloatingCalendar from "@/components/ui/FloatingCalendar";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import dayjs from "dayjs";
+import "dayjs/locale/es";
 import FloatingPublishButton from "@/features/schedule/components/FloatingPublishButton";
 
 import * as productsApi from "@/services/api/products.api";
@@ -22,6 +25,8 @@ import type { Turno as BackendTurno } from "@/services/api/ordenes.api";
 
 import {
   Calendar,
+  ChevronLeft,
+  ChevronRight,
   Pill,
   TrendingUp,
   Users,
@@ -77,6 +82,9 @@ const DashboardPage: React.FC = () => {
   const [weeks, setWeeks] = useState<Semana[]>([]);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [products, setProducts] = useState<ItemCatalogo[]>([]);
+  // Área a la que corresponde `products`: la semana se carga recién cuando el
+  // catálogo es del área que se está viendo (un área puede no tener productos).
+  const [catalogAreaId, setCatalogAreaId] = useState<string | null>(null);
   const [staffNames, setStaffNames] = useState<Map<string, string>>(new Map());
   const [loadError, setLoadError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -84,6 +92,11 @@ const DashboardPage: React.FC = () => {
   const monday = startOfWeek(currentDate);
   const weekId = weekIdOf(new Date(monday));
   const days = Array.from({ length: 7 }, (_, i) => addDays(monday, i));
+  const sunday = addDays(monday, 6);
+  const rangoSemana = monday.getMonth() === sunday.getMonth()
+    ? `${dayjs(monday).format("D")} – ${dayjs(sunday).format("D MMM YYYY")}`
+    : `${dayjs(monday).format("D MMM")} – ${dayjs(sunday).format("D MMM YYYY")}`;
+  const esSemanaActual = fmt(monday) === fmt(startOfWeek(new Date()));
 
   // id real de la Semana en el backend (UUID) para la semana/área que se ve
   // ahora mismo. weekId sigue siendo la etiqueta ISO usada como clave local.
@@ -172,24 +185,31 @@ const DashboardPage: React.FC = () => {
     let cancelled = false;
     (async () => {
       try {
-        const result = await productsApi.getProducts({ areaId, activeOnly: true, pageSize: 500 });
+        // El API filtra por el UUID del área (no por su código) y pagina de a
+        // 200 como máximo; ningún área tiene tantos productos activos.
+        const areaUuid = await resolveAreaUuid(areaId);
+        const result = await productsApi.getProducts({ areaId: areaUuid, activeOnly: true, pageSize: 200 });
         if (cancelled) return;
         setProducts(
           result.items.map((p) => ({ id: p.id, codigo: p.codigo, nombre: p.nombre, vol: p.vol ?? undefined, envase: p.envase ?? undefined }))
         );
+        setCatalogAreaId(areaId);
       } catch (err) {
-        if (!cancelled) setLoadError(err instanceof Error ? err.message : "No se pudo cargar el catálogo de productos");
+        if (!cancelled) {
+          setLoadError(err instanceof Error ? err.message : "No se pudo cargar el catálogo de productos");
+          setLoading(false);
+        }
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [areaId]);
+  }, [areaId, resolveAreaUuid]);
 
   // Semana + órdenes de la semana/área vista. Espera a tener el catálogo
   // cargado para poder resolver el nombre del producto de cada orden.
   useEffect(() => {
-    if (products.length === 0) return;
+    if (catalogAreaId !== areaId) return;
     let cancelled = false;
     setLoading(true);
     setLoadError(null);
@@ -204,7 +224,7 @@ const DashboardPage: React.FC = () => {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [areaId, weekId, products.length]);
+  }, [areaId, weekId, catalogAreaId]);
 
   const currentWeek = useMemo(() =>
     weeks.find(w => w.id === weekId && w.areaId === areaId) ?? null
@@ -263,12 +283,22 @@ const DashboardPage: React.FC = () => {
     }
   };
 
-  const delOrder = async (id: string) => {
+  // Eliminar siempre pasa por una confirmación: el botón está junto a
+  // "Asignar" en la tarjeta y un click de más no debería quitar una orden.
+  const [deleteCtx, setDeleteCtx] = useState<Orden | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const confirmDelete = async () => {
+    if (!deleteCtx) return;
+    setDeleting(true);
     try {
-      await ordenesApi.deleteOrden(id);
+      await ordenesApi.deleteOrden(deleteCtx.id);
       await refreshWeek();
+      setDeleteCtx(null);
     } catch (err) {
       alert(err instanceof Error ? err.message : "No se pudo eliminar la orden");
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -380,10 +410,37 @@ const DashboardPage: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2 bg-white/15 backdrop-blur-sm rounded-xl px-4 py-2.5">
-              <Calendar size={18} />
-              <span className="font-semibold text-sm">{fmt(monday)} — {fmt(addDays(monday, 6))}</span>
+            {/* Navegación de semanas: la acción más frecuente del cronograma. */}
+            <div className="flex items-center gap-1 bg-white/15 backdrop-blur-sm rounded-xl p-1">
+              <button
+                onClick={() => setCurrentDate(addDays(monday, -7))}
+                className="w-11 h-11 rounded-lg flex items-center justify-center hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white transition-colors"
+                aria-label="Semana anterior"
+                title="Semana anterior"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <div className="flex items-center gap-2 px-2 min-w-[11rem] justify-center">
+                <Calendar size={18} className="shrink-0" />
+                <span className="font-semibold text-sm whitespace-nowrap">{rangoSemana}</span>
+              </div>
+              <button
+                onClick={() => setCurrentDate(addDays(monday, 7))}
+                className="w-11 h-11 rounded-lg flex items-center justify-center hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white transition-colors"
+                aria-label="Semana siguiente"
+                title="Semana siguiente"
+              >
+                <ChevronRight size={20} />
+              </button>
             </div>
+            {!esSemanaActual && (
+              <button
+                onClick={() => setCurrentDate(new Date())}
+                className="min-h-11 px-4 rounded-xl bg-white text-blue-800 font-semibold text-sm hover:bg-blue-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white transition-colors shadow-sm"
+              >
+                Ir a esta semana
+              </button>
+            )}
             <span className={`px-3 py-1.5 rounded-full text-xs font-bold ${estadoSemanaBadge[weekStatus]?.className ?? "bg-white/20 text-white"}`}>
               {estadoSemanaBadge[weekStatus]?.label ?? weekStatus}
             </span>
@@ -482,7 +539,7 @@ const DashboardPage: React.FC = () => {
       </div>
 
       {/* Orders Board */}
-      <div className="card p-6">
+      <div className="card p-3 sm:p-4">
         {loading ? (
           <div className="flex items-center justify-center py-16">
             <div className="loading-spinner w-8 h-8" />
@@ -502,7 +559,7 @@ const DashboardPage: React.FC = () => {
             onInfo={o => setInfoOrder(o)}
             onRegister={o => setRegCtx(o)}
             onAssign={o => setAssignCtx(o)}
-            onDelete={o => delOrder(o.id)}
+            onDelete={o => setDeleteCtx(o)}
           />
         )}
       </div>
@@ -599,6 +656,30 @@ const DashboardPage: React.FC = () => {
           onPublish={handlePublish}
         />
       )}
+
+      <ConfirmDialog
+        open={deleteCtx !== null}
+        tone="danger"
+        title="¿Eliminar esta orden?"
+        confirmLabel="Eliminar orden"
+        busy={deleting}
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteCtx(null)}
+      >
+        {deleteCtx && (
+          <>
+            <p>
+              <span className="font-semibold text-slate-900">{deleteCtx.productoNombre}</span>
+              {" — "}{dayjs(deleteCtx.fecha).format("dddd D [de] MMMM")}, turno {deleteCtx.turno}
+              {deleteCtx.numeroLote && <>, lote {deleteCtx.numeroLote}</>}.
+            </p>
+            <p>La orden se quita del cronograma; queda registrada en la bitácora de auditoría.</p>
+            {deleteCtx.numeroLote && (
+              <p>Si el lote se programó pero no se fabricó, usa <span className="font-semibold">Cancelar este lote</span> en el detalle de la orden: así queda registrado el motivo.</p>
+            )}
+          </>
+        )}
+      </ConfirmDialog>
 
       {/* Floating Calendar */}
       <FloatingCalendar

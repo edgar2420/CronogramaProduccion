@@ -99,17 +99,17 @@ const RegisterRealModal: React.FC<Props> = ({ open, onClose, plan, producto, tur
           <div className="grid grid-cols-3 gap-3 mb-6">
             <div className="p-3 bg-blue-50 rounded-xl text-center">
               <Pill className="mx-auto text-blue-500 mb-1" size={20} />
-              <p className="text-[10px] uppercase tracking-wider text-blue-600 font-bold">Producto</p>
+              <p className="text-xs uppercase tracking-wider text-blue-600 font-bold">Producto</p>
               <p className="text-sm font-semibold text-gray-900 truncate" title={producto}>{producto}</p>
             </div>
             <div className="p-3 bg-sky-50 rounded-xl text-center">
               <Clock className="mx-auto text-sky-500 mb-1" size={20} />
-              <p className="text-[10px] uppercase tracking-wider text-sky-600 font-bold">Turno</p>
+              <p className="text-xs uppercase tracking-wider text-sky-600 font-bold">Turno</p>
               <p className="text-sm font-semibold text-gray-900 capitalize">{turno}</p>
             </div>
             <div className="p-3 bg-amber-50 rounded-xl text-center">
               <Target className="mx-auto text-amber-500 mb-1" size={20} />
-              <p className="text-[10px] uppercase tracking-wider text-amber-600 font-bold">Meta</p>
+              <p className="text-xs uppercase tracking-wider text-amber-600 font-bold">Meta</p>
               <p className="text-sm font-semibold text-gray-900">{plan.toLocaleString()}</p>
             </div>
           </div>

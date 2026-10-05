@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "@/auth/useAuth";
 import {
     LayoutDashboard,
     Users,
     UserCog,
-    Settings,
     LogOut,
+    X,
     ChevronLeft,
     ChevronRight,
     Calendar,
@@ -19,9 +19,15 @@ import {
 interface SidebarProps {
     collapsed?: boolean;
     onToggle?: () => void;
+    /** Solo en pantallas < lg: el menú es un panel que se abre encima del contenido. */
+    mobileOpen?: boolean;
+    onCloseMobile?: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ collapsed = false, onToggle }) => {
+const Sidebar: React.FC<SidebarProps> = ({ collapsed: collapsedDesktop = false, onToggle, mobileOpen = false, onCloseMobile }) => {
+    // Colapsar es una preferencia de escritorio; abierto en tablet/celular
+    // siempre se muestra completo, con los nombres de cada sección.
+    const collapsed = collapsedDesktop && !mobileOpen;
     const { user, logout } = useAuth();
     const navigate = useNavigate();
 
@@ -81,11 +87,14 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false, onToggle }) => {
         transition-all duration-300 ease-in-out
         flex flex-col
         shadow-2xl z-50
-        ${collapsed ? "w-[var(--sidebar-collapsed-width)]" : "w-[var(--sidebar-width)]"}
+        w-[var(--sidebar-width)] max-w-[85vw]
+        ${collapsed ? "lg:w-[var(--sidebar-collapsed-width)]" : ""}
+        ${mobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0
       `}
+            aria-label="Menú principal"
         >
             {/* Header */}
-            <div className="p-6 border-b border-gray-700/50">
+            <div className="p-6 pr-16 lg:pr-6 border-b border-gray-700/50">
                 <div className="flex items-center justify-between">
                     {!collapsed && (
                         <div className="flex items-center gap-3">
@@ -105,10 +114,19 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false, onToggle }) => {
                 </div>
             </div>
 
-            {/* Toggle Button */}
+            {/* Cerrar (solo tablet/celular) */}
+            <button
+                onClick={onCloseMobile}
+                className="lg:hidden absolute right-3 top-5 w-11 h-11 rounded-xl flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+                aria-label="Cerrar menú"
+            >
+                <X size={22} />
+            </button>
+
+            {/* Toggle Button (escritorio) */}
             <button
                 onClick={onToggle}
-                className="absolute -right-3 top-20 w-6 h-6 bg-primary-600 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-primary-700 transition-colors"
+                className="hidden lg:flex absolute -right-3 top-20 w-6 h-6 bg-primary-600 rounded-full items-center justify-center text-white shadow-lg hover:bg-primary-700 transition-colors"
                 aria-label={collapsed ? "Expandir sidebar" : "Colapsar sidebar"}
             >
                 {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
@@ -173,7 +191,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false, onToggle }) => {
                 </button>
                 {!collapsed && (
                     <div className="pt-3 border-t border-gray-700/30">
-                        <div className="flex items-center justify-between text-[10px] text-gray-500">
+                        <div className="flex items-center justify-between text-xs text-gray-500">
                             <span>v1.0.0</span>
                             <span className="flex items-center gap-1">
                                 <Heart size={10} className="text-primary-400" fill="currentColor" />

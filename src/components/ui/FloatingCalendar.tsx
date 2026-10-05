@@ -101,7 +101,7 @@ const FloatingCalendar: React.FC<FloatingCalendarProps> = ({
                                     <button
                                         key={i}
                                         onClick={() => setViewDate(dayjs().month(i))}
-                                        className={`px-2 py-1 text-[10px] font-semibold rounded-lg transition-all whitespace-nowrap ${isCurrentViewMonth
+                                        className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all whitespace-nowrap ${isCurrentViewMonth
                                             ? "bg-primary-500 text-white"
                                             : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                                             }`}
@@ -117,7 +117,7 @@ const FloatingCalendar: React.FC<FloatingCalendarProps> = ({
                             {weekDays.map((day) => (
                                 <div
                                     key={day}
-                                    className="text-center text-[10px] font-bold text-gray-400 uppercase py-1"
+                                    className="text-center text-xs font-bold text-gray-400 uppercase py-1"
                                 >
                                     {day}
                                 </div>
@@ -166,7 +166,7 @@ const FloatingCalendar: React.FC<FloatingCalendarProps> = ({
                             >
                                 Ir a hoy
                             </button>
-                            <span className="text-[10px] text-gray-400">
+                            <span className="text-xs text-gray-400">
                                 Semana seleccionada: {dayjs(selectedDate).format("DD MMM")}
                             </span>
                         </div>
