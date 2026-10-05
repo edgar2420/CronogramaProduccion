@@ -272,6 +272,32 @@ const DashboardPage: React.FC = () => {
     }
   };
 
+  // Reprogramación arrastrando una tarjeta en el tablero. Se mueve primero en
+  // pantalla para que el arrastre se sienta inmediato, y si el servidor la
+  // rechaza se recarga la semana para dejarla donde realmente está.
+  const moveOrder = async (orden: Orden, fecha: string, turno: Turno) => {
+    if (orden.asignados.length > 0 && orden.turno !== turno) {
+      const ok = confirm(
+        `Esta orden tiene ${orden.asignados.length} persona(s) asignada(s) al turno ${orden.turno}. ` +
+        `Al moverla al turno ${turno} las asignaciones se mantienen; revísalas después. ¿Continuar?`
+      );
+      if (!ok) return;
+    }
+
+    setWeeks((prev) => prev.map((w) =>
+      w.id === weekId && w.areaId === areaId
+        ? { ...w, ordenes: w.ordenes.map((o) => (o.id === orden.id ? { ...o, fecha, turno } : o)) }
+        : w
+    ));
+
+    try {
+      await ordenesApi.updateOrden(orden.id, { fecha, turno: turnoToBackend(turno) });
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "No se pudo mover la orden");
+      await refreshWeek().catch(() => undefined);
+    }
+  };
+
   const cancelOrder = async (id: string, motivo: string) => {
     try {
       await ordenesApi.cancelOrden(id, motivo);
@@ -465,6 +491,8 @@ const DashboardPage: React.FC = () => {
           <OrdersBoard
             days={days}
             canEdit={canEdit}
+            canMove={weekStatus !== "cerrado"}
+            onMove={moveOrder}
             getOrders={(dayKey) => {
               const orders = currentWeek?.ordenes.filter(o => o.fecha === dayKey) ?? [];
               // Non-admin users only see orders that are not in 'borrador' state
